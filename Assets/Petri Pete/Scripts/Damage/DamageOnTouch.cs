@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static DamageOnTouch;
 
 public class DamageOnTouch : MonoBehaviour
 {
+    public enum DamageStyles { Instant, OverTime, Delayed }
     public enum KnockbackStyles { NoKnockback, AddForce }
     public enum KnockbackDirections { BasedOnOwnerPosition, BasedOnSpeed }
 
@@ -15,16 +15,22 @@ public class DamageOnTouch : MonoBehaviour
     public bool PerfectImpact = false;
 
     [Header("DamageCaused")]
-    public int BaseDamageCaused = 10;
+    public int BaseDamage = 10;
     public int DamageCaused;
+    public DamageStyles DamageType = DamageStyles.Instant;
+    public float DamageOverTimeDuration = 5f;
+    public float DamageDelay = 1f;
     public KnockbackStyles DamageCausedKnockbackType = KnockbackStyles.AddForce;
     public KnockbackDirections DamageCausedKnockbackDirection;
     public Vector3 DamageCausedKnockbackForce = new Vector3(10, 2, 0);
     public float InvincibilityDuration = 0.5f;
 
     [Header("Damage Taken")]
+    /// Parameters that determine damage taken when this object collides with a target
     public int DamageTakenEveryTime = 0;
+    /// Damage taken when collision is damageable
     public int DamageTakenDamageable = 0;
+    /// Damage taken when collision is nondamageable
     public int DamageTakenNonDamageable = 0;
     public KnockbackStyles DamageTakenKnockbackType = KnockbackStyles.NoKnockback;
     public KnockbackDirections DamageTakenKnockbackDirection;
@@ -45,8 +51,8 @@ public class DamageOnTouch : MonoBehaviour
     protected List<GameObject> _ignoredGameObjects;
     protected Vector3 _collisionPoint;
     protected Vector3 _knockbackForceApplied;
-    protected SphereCollider _sphereCollider;
-    protected BoxCollider _boxCollider;
+    protected CircleCollider2D _circleCollider;
+    protected BoxCollider2D _boxCollider;
     protected Color _gizmosColor;
     protected Vector3 _gizmoSize;
     protected Vector3 _gizmoOffset;
@@ -65,13 +71,13 @@ public class DamageOnTouch : MonoBehaviour
         _ignoredGameObjects = new List<GameObject>();
         _health = GetComponent<Health>();
         _topDownController = GetComponent<TopDownController>();
-        _boxCollider = GetComponent<BoxCollider>();
-        _sphereCollider = GetComponent<SphereCollider>();
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _circleCollider = GetComponent<CircleCollider2D>();
 
         _gizmosColor = Color.red;
         _gizmosColor.a = 0.25f;
 
-        DamageCaused = BaseDamageCaused;
+        DamageCaused = BaseDamage;
     }
 
     protected virtual void Update()
@@ -179,6 +185,14 @@ public class DamageOnTouch : MonoBehaviour
     /// </summary>
     protected virtual void OnCollideWithDamageable(Health health)
     {
+        StartCoroutine(OnCollideWithDamageableCoroutine(health));
+    }
+
+    /// <summary>
+    /// Describes what happens when colliding with a damageable object
+    /// </summary>
+    protected virtual IEnumerator OnCollideWithDamageableCoroutine(Health health)
+    {
         // if what we're colliding with is a TopDownController, we apply a knockback force
         _colliderTopDownController = health.gameObject.GetComponent<TopDownController>();
         _colliderRigidBody = health.gameObject.GetComponent<Rigidbody>();
@@ -206,8 +220,23 @@ public class DamageOnTouch : MonoBehaviour
             }
         }
 
-        // we apply the damage to the thing we've collided with
-        _colliderHealth.Damage(DamageCaused, gameObject, InvincibilityDuration, InvincibilityDuration);
+        // we apply the damage to the thing we've collided with based on the damage style
+        switch (DamageType)
+        {
+            case DamageStyles.Instant:
+                _colliderHealth.Damage(DamageCaused, gameObject, InvincibilityDuration);
+                break;
+
+            case DamageStyles.OverTime:
+                _colliderHealth.DamageOverTime(DamageCaused, DamageOverTimeDuration, gameObject, InvincibilityDuration);
+                break;
+
+            case DamageStyles.Delayed:
+                yield return new WaitForSeconds(DamageDelay);
+                _colliderHealth.Damage(DamageCaused, gameObject, InvincibilityDuration);
+                break;
+        }
+
         if (DamageTakenEveryTime + DamageTakenDamageable > 0)
         {
             SelfDamage(DamageTakenEveryTime + DamageTakenDamageable);
@@ -232,7 +261,7 @@ public class DamageOnTouch : MonoBehaviour
     {
         if (_health != null)
         {
-            _health.Damage(damage, gameObject, 0f, DamageTakenInvincibilityDuration);
+            _health.Damage(damage, gameObject, DamageTakenInvincibilityDuration);
 
             if ((_health.CurrentHealth <= 0) && PerfectImpact)
             {
@@ -270,18 +299,6 @@ public class DamageOnTouch : MonoBehaviour
         _ignoredGameObjects.Remove(ignoredGameObject);
     }
 
-    public virtual void SetGizmoSize(Vector3 newGizmoSize)
-    {
-        _boxCollider = GetComponent<BoxCollider>();
-        _sphereCollider = GetComponent<SphereCollider>();
-        _gizmoSize = newGizmoSize;
-    }
-
-    public virtual void SetGizmoOffset(Vector3 newOffset)
-    {
-        _gizmoOffset = newOffset;
-    }
-
     #endregion
 
     /// <summary>
@@ -303,23 +320,23 @@ public class DamageOnTouch : MonoBehaviour
         {
             if (_boxCollider.enabled)
             {
-                JP_Debug.DrawGizmoCube(this.transform, _gizmoOffset, _boxCollider.size, false);
+                JP_Debug.DrawGizmoCube(this.transform, _boxCollider.offset, _boxCollider.size, false);
             }
             else
             {
-                JP_Debug.DrawGizmoCube(this.transform, _gizmoOffset, _boxCollider.size, true);
+                JP_Debug.DrawGizmoCube(this.transform, _boxCollider.offset, _boxCollider.size, true);
             }
         }
 
-        if (_sphereCollider != null)
+        if (_circleCollider != null)
         {
-            if (_sphereCollider.enabled)
+            if (_circleCollider.enabled)
             {
-                Gizmos.DrawSphere(this.transform.position + _gizmoOffset, _sphereCollider.radius);
+                Gizmos.DrawSphere(_circleCollider.offset, _circleCollider.radius);
             }
             else
             {
-                Gizmos.DrawWireSphere(this.transform.position + _gizmoOffset, _sphereCollider.radius);
+                Gizmos.DrawWireSphere(_circleCollider.offset, _circleCollider.radius);
             }
         }
     }

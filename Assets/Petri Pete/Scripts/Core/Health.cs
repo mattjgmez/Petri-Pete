@@ -19,6 +19,7 @@ public class Health : MonoBehaviour
 
     [Header("Damage")]
     public bool ImmuneToKnockback = false;
+    public float DamageOverTimeInterval = 0.5f;
 
     [Header("Death")]
     public bool DestroyOnDeath = true;
@@ -93,13 +94,28 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
+    /// Destroys the object, or tries to, depending on the character's settings
+    /// </summary>
+    protected virtual void DestroyObject()
+    {
+        if (!DestroyOnDeath)
+        {
+            return;
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    #region PUBLIC METHODS
+
+    /// <summary>
     /// Called when the object takes damage
     /// </summary>
     /// <param name="damage">The amount of health points that will get lost.</param>
     /// <param name="instigator">The object that caused the damage.</param>
     /// <param name="flickerDuration">The time (in seconds) the object should flicker after taking the damage.</param>
     /// <param name="invincibilityDuration">The duration of the short invincibility following the hit.</param>
-    public virtual void Damage(int damage, GameObject instigator, float flickerDuration, float invincibilityDuration)
+    public virtual void Damage(int damage, GameObject instigator, float invincibilityDuration)
     {
         // If the object is invulnerable, or we're already below zero, we do nothing and exit.
         if (Invulnerable || ((CurrentHealth <= 0) && (InitialHealth != 0)))
@@ -137,6 +153,11 @@ public class Health : MonoBehaviour
 
             Kill();
         }
+    }
+
+    public virtual void DamageOverTime(int damage, float duration, GameObject instigator, float invincibilityDuration)
+    {
+        StartCoroutine(DamageOverTimeCoroutine(damage, duration, instigator, invincibilityDuration));
     }
 
     /// <summary>
@@ -203,19 +224,6 @@ public class Health : MonoBehaviour
             // finally we destroy the object
             DestroyObject();
         }
-    }
-
-    /// <summary>
-    /// Destroys the object, or tries to, depending on the character's settings
-    /// </summary>
-    protected virtual void DestroyObject()
-    {
-        if (!DestroyOnDeath)
-        {
-            return;
-        }
-
-        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -299,6 +307,10 @@ public class Health : MonoBehaviour
         Invulnerable = false;
     }
 
+    #endregion
+
+    #region COROUTINES
+
     /// <summary>
     /// Makes the character able to take damage again after the specified delay.
     /// </summary>
@@ -308,6 +320,30 @@ public class Health : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Invulnerable = false;
     }
+
+    public virtual IEnumerator DamageOverTimeCoroutine(int damage, float duration, GameObject instigator, float invincibilityDuration)
+    {
+        int remainingDamage = damage;
+        int damagePerTick = Mathf.RoundToInt(damage / (duration / DamageOverTimeInterval));
+
+        float remainingDuration = duration;
+        float timer = 0f;
+
+        while (remainingDamage > 0 && remainingDamage > 0)
+        {
+            remainingDuration -= Time.deltaTime;
+            timer += Time.deltaTime;
+            if (timer >= DamageOverTimeInterval)
+            {
+                Damage(damagePerTick, instigator, invincibilityDuration);
+                remainingDamage -= damagePerTick;
+                timer = 0f;
+            }
+            yield return null;
+        }
+    }
+
+    #endregion
 
     protected virtual void OnEnable()
     {
