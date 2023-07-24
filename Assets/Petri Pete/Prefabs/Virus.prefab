@@ -192,7 +192,7 @@ MonoBehaviour:
   MaximumDurationInADirection: 2
   ObstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   ObstaclesDetectionDistance: 1
   ObstaclesCheckFrequency: 1
   MinimumRandomDirection: {x: -1, y: -1}
@@ -266,7 +266,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5382721566719477766}
   - component: {fileID: 5382721566719477817}
-  m_Layer: 0
+  - component: {fileID: 1076566472}
+  m_Layer: 9
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,3 +341,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &1076566472
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382721566719477767}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

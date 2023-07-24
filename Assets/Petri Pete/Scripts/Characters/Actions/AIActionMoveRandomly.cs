@@ -2,6 +2,7 @@ using JadePhoenix.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterMovement))]
@@ -47,7 +48,7 @@ public class AIActionMoveRandomly : AIAction
         if (Time.time - _lastObstacleDetectionTimestamp > ObstaclesCheckFrequency) { return; }
 
         // If there is an obstacle in the direction we want to move, get a new direction
-        RaycastHit2D hit = Physics2D.BoxCast(_collider.bounds.center, _collider.bounds.size, 0f, _direction.normalized, _direction.magnitude, ObstacleLayerMask);
+        RaycastHit2D hit = Physics2D.BoxCast(_collider.bounds.center, _collider.bounds.size, 0f, _direction.normalized, 2, ObstacleLayerMask);
         if (hit)
         {
             PickRandomDirection();
@@ -73,5 +74,15 @@ public class AIActionMoveRandomly : AIAction
         base.OnExitState();
 
         _characterMovement.SetMovement(Vector2.zero);
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        if (_collider != null)
+        {
+            JP_Debug.DebugBoxCast(_collider.bounds.center, _collider.bounds.size, _direction.normalized, 2, ObstacleLayerMask);
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere((Vector2)transform.position + _direction.normalized, 0.1f);
     }
 }

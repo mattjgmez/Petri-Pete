@@ -27,6 +27,7 @@ public class UIManager : Singleton<UIManager>
     {
         SetPauseScreen(false);
         SetDeathScreen(false);
+        SetVictoryScreen(false);
     }
 
     /// <summary>

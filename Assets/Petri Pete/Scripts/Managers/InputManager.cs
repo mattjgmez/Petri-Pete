@@ -21,6 +21,7 @@ public class InputManager : Singleton<InputManager>
     /// the minimum horizontal and vertical value you need to reach to trigger movement on a gamepad
     public Vector2 Threshold = new Vector2(0.1f, 0.4f);
 
+    public JP_Input.Button FireButton { get; protected set; }
     public JP_Input.Button PauseButton { get; protected set; }
     public Vector2 PrimaryMovement { get { return _primaryMovement; } }
 

@@ -229,16 +229,6 @@ public class Character : MonoBehaviour
     #region PUBLIC METHODS
 
     /// <summary>
-    /// Sets the player ID
-    /// </summary>
-    /// <param name="newPlayerID">New player ID.</param>
-    public virtual void SetPlayerID(string newPlayerID)
-    {
-        PlayerID = newPlayerID;
-        SetInputManager();
-    }
-
-    /// <summary>
     /// Called to toggle the player (at the end of a level for example. 
     /// It won't move and respond to input after this.
     /// </summary>
