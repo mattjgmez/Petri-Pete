@@ -21,13 +21,13 @@ namespace JadePhoenix.Tools
         /// A generic class that allows us to attach methods and functions.
         /// </summary>
         /// <param name="duration">The total duration of the timer.</param>
-        public Timer(float duration)
+        public Timer(float duration, Action onTimerStarted = null, Action onTimerCompleted = null)
         {
             Duration = duration;
             ElapsedTime = 0f;
             IsRunning = false;
-            this.OnTimerStarted = OnTimerStarted;
-            this.OnTimerCompleted = OnTimerCompleted;
+            this.OnTimerStarted = onTimerStarted;
+            this.OnTimerCompleted = onTimerCompleted;
         }
 
         /// <summary>
