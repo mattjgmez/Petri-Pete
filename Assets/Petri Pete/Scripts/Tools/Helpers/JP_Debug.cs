@@ -45,5 +45,30 @@ namespace JadePhoenix.Tools
             Physics.Raycast(rayOriginPoint, rayDirection, out hit, rayDistance, mask);
             return hit;
         }
+
+        /// <summary>
+        /// Performs a box cast and visualizes the results using Unity's Debug.DrawRay function.
+        /// </summary>
+        /// <param name="origin">The starting point of the box cast.</param>
+        /// <param name="halfExtents">Half the size of the box used in the cast.</param>
+        /// <param name="direction">The direction in which to cast the box.</param>
+        /// <param name="maxDistance">The maximum distance of the box cast.</param>
+        /// <param name="duration">The duration (in seconds) that the debug rays should be visible.</param>
+        public static void DebugBoxCast(Vector3 origin, Vector3 halfExtents, Vector3 direction, float maxDistance, LayerMask layerMask)
+        {
+            RaycastHit hit;
+            bool isHit = Physics.BoxCast(origin, halfExtents, direction, out hit, Quaternion.identity, maxDistance, layerMask);
+
+            if (isHit)
+            {
+                Debug.DrawRay(origin, direction * hit.distance, Color.green);
+                Debug.DrawRay(hit.point, hit.normal, Color.green);
+                Debug.DrawRay(hit.point, Vector3.up * 0.1f, Color.red);
+            }
+            else
+            {
+                Debug.DrawRay(origin, direction * maxDistance, Color.green);
+            }
+        }
     }
 }
