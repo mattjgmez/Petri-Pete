@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class WorldEvent : MonoBehaviour
 {
     public string Label;
+    public Color GizmoColor = Color.green;
     public abstract void PerformWorldEvent();
     public float Delay = 0.5f;
     public float MaxDistance = 45f;
@@ -32,5 +33,12 @@ public abstract class WorldEvent : MonoBehaviour
         }
 
         SpawnPosition = newPosition;
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.color = GizmoColor;
+        Gizmos.DrawWireSphere(transform.position, MaxDistance);
+        Gizmos.DrawSphere(SpawnPosition, 0.5f);
     }
 }
