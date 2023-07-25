@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace JadePhoenix.Tools
 {
@@ -50,25 +51,25 @@ namespace JadePhoenix.Tools
         /// Performs a box cast and visualizes the results using Unity's Debug.DrawRay function.
         /// </summary>
         /// <param name="origin">The starting point of the box cast.</param>
-        /// <param name="halfExtents">Half the size of the box used in the cast.</param>
+        /// <param name="size">The size of the box used in the cast.</param>
+        /// <param name="angle">The angle in degrees of the box used in the cast.</param>
         /// <param name="direction">The direction in which to cast the box.</param>
-        /// <param name="maxDistance">The maximum distance of the box cast.</param>
-        /// <param name="duration">The duration (in seconds) that the debug rays should be visible.</param>
-        public static void DebugBoxCast(Vector3 origin, Vector3 halfExtents, Vector3 direction, float maxDistance, LayerMask layerMask)
+        /// <param name="distance">The distance of the box cast.</param>
+        /// <param name="layerMask">The layer mask filter of the box cast.</param>
+        public static void DebugBoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance, LayerMask layerMask)
         {
-            RaycastHit hit;
-            bool isHit = Physics.BoxCast(origin, halfExtents, direction, out hit, Quaternion.identity, maxDistance, layerMask);
+            bool isHit = Physics2D.BoxCast(origin, size, angle, direction, distance, layerMask);
 
-            if (isHit)
-            {
-                Debug.DrawRay(origin, direction * hit.distance, Color.green);
-                Debug.DrawRay(hit.point, hit.normal, Color.green);
-                Debug.DrawRay(hit.point, Vector3.up * 0.1f, Color.red);
-            }
-            else
-            {
-                Debug.DrawRay(origin, direction * maxDistance, Color.green);
-            }
+            Gizmos.color = Color.green;
+            Gizmos.matrix = Matrix4x4.TRS(origin, Quaternion.identity, Vector3.one);
+            Gizmos.DrawWireCube(Vector2.zero, size);
+
+            Gizmos.matrix = Matrix4x4.TRS(origin + (direction.normalized * distance), Quaternion.identity, Vector3.one);
+            Gizmos.DrawWireCube(Vector2.zero, size);
+
+            Gizmos.color = isHit ? Color.red : Color.cyan;
+            Gizmos.matrix = Matrix4x4.TRS(origin, Quaternion.identity, Vector3.one);
+            Gizmos.DrawLine(Vector2.zero, direction.normalized * distance);
         }
     }
 }
