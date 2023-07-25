@@ -7,12 +7,13 @@ using UnityEngine.UI;
 /// </summary>
 public class ToggleFullscreenOnClick : MonoBehaviour
 {
+    public static bool IsFullscreened = false;
+
     protected RectTransform _rectTransform;
     protected Vector2 _originalSize;
     protected Vector2 _originalPosition;
     protected Vector2 _originalChildSize;
 
-    protected bool isFullSize = false;
 
     /// <summary>
     /// Performs the initial setup by finding the RectTransform component and storing original values.
@@ -40,7 +41,11 @@ public class ToggleFullscreenOnClick : MonoBehaviour
     /// </summary>
     public void ToggleSize()
     {
-        if (isFullSize)
+        if (DraggableWindow.WasDragged)
+        {
+            return;
+        }
+        if (IsFullscreened)
         {
             // Return to the original size and position
             _rectTransform.sizeDelta = _originalSize;
@@ -55,6 +60,8 @@ public class ToggleFullscreenOnClick : MonoBehaviour
             Canvas canvas = GetComponentInParent<Canvas>();
             if (canvas != null)
             {
+                _originalPosition = _rectTransform.anchoredPosition;
+
                 _rectTransform.sizeDelta = canvas.GetComponent<RectTransform>().sizeDelta;
                 _rectTransform.anchoredPosition = Vector2.zero;
                 _rectTransform.transform.SetAsLastSibling(); // Brings the UI element to the front.
@@ -66,7 +73,7 @@ public class ToggleFullscreenOnClick : MonoBehaviour
         }
 
         // Toggle the state
-        isFullSize = !isFullSize;
+        IsFullscreened = !IsFullscreened;
     }
 
     /// <summary>
