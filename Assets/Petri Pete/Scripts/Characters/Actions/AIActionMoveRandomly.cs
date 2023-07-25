@@ -45,13 +45,14 @@ public class AIActionMoveRandomly : AIAction
     protected virtual void CheckForObstacles()
     {
         // Check to see if enough time has passed since last check
-        if (Time.time - _lastObstacleDetectionTimestamp > ObstaclesCheckFrequency) { return; }
+        if (Time.time - _lastObstacleDetectionTimestamp < ObstaclesCheckFrequency) { return; }
 
         // If there is an obstacle in the direction we want to move, get a new direction
-        RaycastHit2D hit = Physics2D.BoxCast(_collider.bounds.center, _collider.bounds.size, 0f, _direction.normalized, 2, ObstacleLayerMask);
+        RaycastHit2D hit = Physics2D.BoxCast(_collider.bounds.center, _collider.bounds.size, 0f, _direction.normalized, ObstaclesDetectionDistance, ObstacleLayerMask);
         if (hit)
         {
-            PickRandomDirection();
+            //PickRandomDirection();
+            _direction *= -1;
         }
 
         _lastObstacleDetectionTimestamp = Time.time;
@@ -80,7 +81,7 @@ public class AIActionMoveRandomly : AIAction
     {
         if (_collider != null)
         {
-            JP_Debug.DebugBoxCast(_collider.bounds.center, _collider.bounds.size, _direction.normalized, 2, ObstacleLayerMask);
+            JP_Debug.DebugBoxCast2D(_collider.bounds.center, _collider.bounds.size, 0f, _direction.normalized, ObstaclesDetectionDistance, ObstacleLayerMask);
         }
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere((Vector2)transform.position + _direction.normalized, 0.1f);

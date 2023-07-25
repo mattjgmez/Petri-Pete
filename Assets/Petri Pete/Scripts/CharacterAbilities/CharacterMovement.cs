@@ -152,9 +152,9 @@ public class CharacterMovement : CharacterAbility
             }
         }
 
-        // Assign the x and z components of the lerped input to the movement vector
+        // Assign the x and  components of the lerped input to the movement vector
         _movementVector.x = _lerpedInput.x;
-        _movementVector.y = 0f;
+        _movementVector.y = 0;
         _movementVector.z = _lerpedInput.y;
 
         // Adjust the movement speed based on interpolation and movement speed multiplier

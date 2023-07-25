@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-
 public class TopDownController : MonoBehaviour
 {
     #region PUBLIC VARIABLES
@@ -32,6 +32,7 @@ public class TopDownController : MonoBehaviour
     protected Vector2 _originalColliderSize;
     protected Vector3 _originalColliderCenter;
     protected Vector3 _orientedMovement;
+    protected SpriteRenderer _spriteRenderer;
 
     protected virtual void Awake()
     {
@@ -45,7 +46,9 @@ public class TopDownController : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
         _originalColliderSize = _collider.size;
-        _originalColliderCenter = _collider.offset;
+        _originalColliderCenter = _collider.offset; 
+
+        _spriteRenderer = GetComponent<Character>().CharacterModel.GetComponent<SpriteRenderer>();
     }
 
     #region UPDATE METHODS
@@ -62,6 +65,11 @@ public class TopDownController : MonoBehaviour
         if (CurrentMovement != Vector3.zero)
         {
             CurrentDirection = CurrentMovement.normalized;
+
+            if (_spriteRenderer != null && CurrentDirection.x != 0)
+            {
+                _spriteRenderer.flipX = CurrentDirection.x < 0;
+            }
         }
     }
 

@@ -46,12 +46,12 @@ public class Health : MonoBehaviour
     public delegate void OnHealthChangeDelegate();
     public OnHealthChangeDelegate OnHealthChange;
 
+    public Character Character { get { return _character; } }
+
     protected Vector3 _initialPosition;
-    protected Renderer _renderer;
     protected Character _character;
     protected TopDownController _controller;
     protected Collider _collider;
-    protected CharacterController _characterController;
     protected bool _initialized = false;
 
     protected virtual void Start()
@@ -67,23 +67,7 @@ public class Health : MonoBehaviour
             Model.SetActive(true);
         }
 
-        if (gameObject.GetComponent<Renderer>() != null)
-        {
-            _renderer = GetComponent<Renderer>();
-        }
-        if (_character != null)
-        {
-            if (_character.CharacterModel != null)
-            {
-                if (_character.CharacterModel.GetComponentInChildren<Renderer>() != null)
-                {
-                    _renderer = _character.CharacterModel.GetComponentInChildren<Renderer>();
-                }
-            }
-        }
-
-        _controller = GetComponent<TopDownController>();
-        _characterController = GetComponent<CharacterController>();
+        _controller = _character.TopDownController;
         _collider = GetComponent<Collider>();
 
         _initialPosition = transform.position;
@@ -155,11 +139,6 @@ public class Health : MonoBehaviour
         }
     }
 
-    public virtual void DamageOverTime(int damage, float duration, GameObject instigator, float invincibilityDuration)
-    {
-        StartCoroutine(DamageOverTimeCoroutine(damage, duration, instigator, invincibilityDuration));
-    }
-
     /// <summary>
     /// Kills the character, instantiates death effects, handles points, etc
     /// </summary>
@@ -205,11 +184,6 @@ public class Health : MonoBehaviour
             //_characterController.SetKinematic(true);
         }
 
-        if (DisableControllerOnDeath && (_characterController != null))
-        {
-            _characterController.enabled = false;
-        }
-
         if (DisableModelOnDeath && (Model != null))
         {
             Model.SetActive(false);
@@ -239,10 +213,6 @@ public class Health : MonoBehaviour
         if (_collider != null)
         {
             _collider.enabled = true;
-        }
-        if (_characterController != null)
-        {
-            _characterController.enabled = true;
         }
         if (_controller != null)
         {
@@ -319,28 +289,6 @@ public class Health : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         Invulnerable = false;
-    }
-
-    public virtual IEnumerator DamageOverTimeCoroutine(int damage, float duration, GameObject instigator, float invincibilityDuration)
-    {
-        int remainingDamage = damage;
-        int damagePerTick = Mathf.RoundToInt(damage / (duration / DamageOverTimeInterval));
-
-        float remainingDuration = duration;
-        float timer = 0f;
-
-        while (remainingDamage > 0 && remainingDamage > 0)
-        {
-            remainingDuration -= Time.deltaTime;
-            timer += Time.deltaTime;
-            if (timer >= DamageOverTimeInterval)
-            {
-                Damage(damagePerTick, instigator, invincibilityDuration);
-                remainingDamage -= damagePerTick;
-                timer = 0f;
-            }
-            yield return null;
-        }
     }
 
     #endregion

@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 5382721564946750538}
   - component: {fileID: 5382721564946750539}
   - component: {fileID: 5382721564946750536}
-  - component: {fileID: 5382721564946750528}
+  - component: {fileID: 3908483309986502910}
   - component: {fileID: 5382721564946750531}
+  - component: {fileID: 7780968990288405858}
   m_Layer: 0
   m_Name: Virus
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5382721566719477766}
   m_Father: {fileID: 0}
@@ -55,7 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterType: 1
   PlayerID: 
-  CharacterModel: {fileID: 0}
+  CharacterModel: {fileID: 5382721566719477767}
   SendStateChangeEvents: 1
   SendStateUpdateEvents: 1
   CharacterAnimator: {fileID: 0}
@@ -80,7 +81,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &5382721564946750540
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -193,11 +194,11 @@ MonoBehaviour:
   ObstacleLayerMask:
     serializedVersion: 2
     m_Bits: 2048
-  ObstaclesDetectionDistance: 1
-  ObstaclesCheckFrequency: 1
+  ObstaclesDetectionDistance: 0.5
+  ObstaclesCheckFrequency: 0.1
   MinimumRandomDirection: {x: -1, y: -1}
   MaximumRandomDirection: {x: 1, y: 1}
---- !u!114 &5382721564946750528
+--- !u!114 &3908483309986502910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,16 +207,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5382721564946750537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79aa66b763fb44a429474df78fc1a7b7, type: 3}
+  m_Script: {fileID: 11500000, guid: ad819b921149fa545a9e487b833fa5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 1024
   PerfectImpact: 0
-  BaseDamage: 10
-  DamageCaused: 10
-  DamageType: 1
+  BaseDamage: 0
+  DamageCaused: 0
   DamageOverTimeDuration: 5
   DamageDelay: 1
   DamageCausedKnockbackType: 1
@@ -223,13 +223,16 @@ MonoBehaviour:
   DamageCausedKnockbackForce: {x: 400, y: 400, z: 0}
   InvincibilityDuration: 0.1
   DamageTakenEveryTime: 0
-  DamageTakenDamageable: 10
+  DamageTakenDamageable: 0
   DamageTakenNonDamageable: 0
   DamageTakenKnockbackType: 0
   DamageTakenKnockbackDirection: 0
   DamageTakenKnockbackForce: {x: 0, y: 0, z: 0}
   DamageTakenInvincibilityDuration: 0.5
-  Owner: {fileID: 0}
+  Owner: {fileID: 5382721564946750537}
+  OwnerCharacter: {fileID: 5382721564946750542}
+  Debuffs:
+  - {fileID: 7780968990288405858}
 --- !u!114 &5382721564946750531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +259,25 @@ MonoBehaviour:
   DisableControllerOnDeath: 1
   DisableModelOnDeath: 1
   DisableCollisionsOnDeath: 1
+--- !u!114 &7780968990288405858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382721564946750537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a6efe88d0c66a41bfa389bf35f9a92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duration: 5
+  Stackable: 0
+  TargetCharacter: {fileID: 0}
+  MinimumSpawn: 5
+  MaximumSpawn: 5
+  DamagePerTick: 2
+  VirusPrefab: {fileID: 5382721564946750537}
 --- !u!1 &5382721566719477767
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,8 +289,9 @@ GameObject:
   - component: {fileID: 5382721566719477766}
   - component: {fileID: 5382721566719477817}
   - component: {fileID: 1076566472}
+  - component: {fileID: 3520610957165522146}
   m_Layer: 9
-  m_Name: Circle
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,12 +353,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e2f66ffae9733e7449ef23a78a8195fb, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: bd149a341969bd249b739bb2a6333857, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10.14, y: 6.76}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -357,3 +380,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!95 &3520610957165522146
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382721566719477767}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb9b1ad2061c1414393bd6ea334d0e99, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0

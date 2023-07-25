@@ -2,6 +2,7 @@ using JadePhoenix.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -16,7 +17,8 @@ public class Character : MonoBehaviour
     public string PlayerID = "";
 
     public CharacterStates CharacterState { get; protected set; }
-    public CharacterAbility[] CharacterAbilities { get { return _characterAbilities; } }
+    public Health Health { get {  return _health; } }
+    public TopDownController TopDownController { get { return _controller; } }
 
     [Header("Model")]
     public GameObject CharacterModel;
@@ -37,9 +39,8 @@ public class Character : MonoBehaviour
 
     public GameObject CameraTarget;
 
-    protected CharacterAbility[] _characterAbilities;
+    protected List<CharacterAbility> _characterAbilities;
     protected Health _health;
-    protected bool _spawnDirectionForced = false;
     protected TopDownController _controller;
     protected AIBrain _aiBrain;
 
@@ -64,7 +65,7 @@ public class Character : MonoBehaviour
         SetInputManager();
 
         // Initialize components
-        _characterAbilities = GetComponents<CharacterAbility>();
+        _characterAbilities = new List<CharacterAbility>(GetComponents<CharacterAbility>());
         _controller = GetComponent<TopDownController>();
         _health = GetComponent<Health>();
         _aiBrain = GetComponent<AIBrain>();
@@ -141,7 +142,7 @@ public class Character : MonoBehaviour
         {
             return;
         }
-        for (int i = 0; i < _characterAbilities.Length; i++)
+        for (int i = 0; i < _characterAbilities.Count; i++)
         {
             _characterAbilities[i].SetInputManager(LinkedInputManager);
         }
@@ -239,17 +240,25 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// Retrieves the given CharacterAbility from the CharacterAbilities List.
+    /// </summary>
+    /// <typeparam name="T">The ability type to get.</typeparam>
+    public virtual T GetAbility<T>() where T : CharacterAbility
+    {
+        return _characterAbilities.FirstOrDefault(ability => ability is T) as T;
+    }
+
+    /// <summary>
     /// Called when the Character dies. 
     /// Calls every abilities' Reset() method, so you can restore settings to their original value if needed
     /// </summary>
     public virtual void Reset()
     {
-        _spawnDirectionForced = false;
         if (_characterAbilities == null)
         {
             return;
         }
-        if (_characterAbilities.Length == 0)
+        if (_characterAbilities.Count == 0)
         {
             return;
         }

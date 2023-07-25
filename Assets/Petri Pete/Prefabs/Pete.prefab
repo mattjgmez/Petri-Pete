@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 414275864718329692}
   - component: {fileID: 414275864718329695}
   - component: {fileID: 414275864718329693}
+  - component: {fileID: 3925761187026857475}
   m_Layer: 10
   m_Name: Pete
   m_TagString: Untagged
@@ -84,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterType: 0
   PlayerID: Player
-  CharacterModel: {fileID: 0}
+  CharacterModel: {fileID: 414275865277048884}
   SendStateChangeEvents: 1
   SendStateUpdateEvents: 1
   CharacterAnimator: {fileID: 0}
@@ -197,7 +198,7 @@ MonoBehaviour:
   CurrentHealth: 0
   Invulnerable: 0
   MaxHealth: 100
-  InitialHealth: 100
+  InitialHealth: 1
   ImmuneToKnockback: 0
   DamageOverTimeInterval: 0.5
   DestroyOnDeath: 1
@@ -207,6 +208,23 @@ MonoBehaviour:
   DisableControllerOnDeath: 1
   DisableModelOnDeath: 1
   DisableCollisionsOnDeath: 1
+--- !u!114 &3925761187026857475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414275864718329690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd8b6b13a784ca4b9f02f40454a0ab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityStartSfx: {fileID: 0}
+  AbilityInProgressSfx: {fileID: 0}
+  AbilityStopSfx: {fileID: 0}
+  ActiveDebuffs: []
+  DebuffTickInterval: 0.5
 --- !u!1 &414275865277048884
 GameObject:
   m_ObjectHideFlags: 0

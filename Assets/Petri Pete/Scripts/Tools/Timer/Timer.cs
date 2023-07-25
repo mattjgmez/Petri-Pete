@@ -26,14 +26,14 @@ namespace JadePhoenix.Tools
             Duration = duration;
             ElapsedTime = 0f;
             IsRunning = false;
-            this.OnTimerStarted = onTimerStarted;
-            this.OnTimerCompleted = onTimerCompleted;
+            OnTimerStarted = onTimerStarted;
+            OnTimerCompleted = onTimerCompleted;
         }
 
         /// <summary>
         /// Starts the timer.
         /// </summary>
-        public void StartTimer()
+        public virtual void StartTimer()
         {
             if (IsRunning) { return; }
 
@@ -45,7 +45,7 @@ namespace JadePhoenix.Tools
         /// <summary>
         /// Stops the timer.
         /// </summary>
-        public void StopTimer()
+        public virtual void StopTimer()
         {
             IsRunning = false;
         }
@@ -55,7 +55,7 @@ namespace JadePhoenix.Tools
         /// Disables the timer when it has reached the set Duration.
         /// This should be called during the Update method of the relevant class.
         /// </summary>
-        public void UpdateTimer()
+        public virtual void UpdateTimer()
         {
             if (!IsRunning) { return; }
 
@@ -71,7 +71,7 @@ namespace JadePhoenix.Tools
         /// <summary>
         /// Resets the timer to 0.
         /// </summary>
-        public void ResetTimer()
+        public virtual void ResetTimer()
         {
             ElapsedTime = 0f;
             IsRunning = false;
@@ -81,7 +81,7 @@ namespace JadePhoenix.Tools
         /// Sets the duration of the timer.
         /// </summary>
         /// <param name="duration">Time to set the duration to.</param>
-        public void SetDuration(float duration)
+        public virtual void SetDuration(float duration)
         {
             Duration = duration;
         }
@@ -90,7 +90,7 @@ namespace JadePhoenix.Tools
         /// Returns the normalized value of the timer's progress (0 to 1).
         /// </summary>
         /// <returns></returns>
-        public float GetNormalisedTime()
+        public virtual float GetNormalisedTime()
         {
             if (Duration <= 0f) { return 0f; }
 

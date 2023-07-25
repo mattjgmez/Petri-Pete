@@ -6,7 +6,6 @@ using System;
 
 public class DamageOnTouch : MonoBehaviour
 {
-    public enum DamageStyles { Instant, OverTime, Delayed }
     public enum KnockbackStyles { NoKnockback, AddForce }
     public enum KnockbackDirections { BasedOnOwnerPosition, BasedOnSpeed }
 
@@ -17,7 +16,6 @@ public class DamageOnTouch : MonoBehaviour
     [Header("DamageCaused")]
     public int BaseDamage = 10;
     public int DamageCaused;
-    public DamageStyles DamageType = DamageStyles.Instant;
     public float DamageOverTimeDuration = 5f;
     public float DamageDelay = 1f;
     public KnockbackStyles DamageCausedKnockbackType = KnockbackStyles.AddForce;
@@ -38,6 +36,7 @@ public class DamageOnTouch : MonoBehaviour
     public float DamageTakenInvincibilityDuration = 0.5f;
 
     public GameObject Owner;
+    public Character OwnerCharacter;
 
     protected Vector3 _lastPosition;
     protected Vector3 _velocity; 
@@ -68,6 +67,12 @@ public class DamageOnTouch : MonoBehaviour
 
     protected virtual void Initialization()
     {
+        if (Owner != null)
+        {
+            OwnerCharacter = Owner.GetComponent<Character>();
+            _health = OwnerCharacter.Health;
+            _topDownController = OwnerCharacter.TopDownController;
+        }
         _ignoredGameObjects = new List<GameObject>();
         _health = GetComponent<Health>();
         _topDownController = GetComponent<TopDownController>();
@@ -170,7 +175,7 @@ public class DamageOnTouch : MonoBehaviour
         {
             if (_colliderHealth.CurrentHealth > 0)
             {
-                OnCollideWithDamageable(_colliderHealth);
+                OnCollideWithDamageable();
             }
         }
         // if what we're colliding with can't be damaged
@@ -183,19 +188,11 @@ public class DamageOnTouch : MonoBehaviour
     /// <summary>
     /// Describes what happens when colliding with a damageable object
     /// </summary>
-    protected virtual void OnCollideWithDamageable(Health health)
-    {
-        StartCoroutine(OnCollideWithDamageableCoroutine(health));
-    }
-
-    /// <summary>
-    /// Describes what happens when colliding with a damageable object
-    /// </summary>
-    protected virtual IEnumerator OnCollideWithDamageableCoroutine(Health health)
+    protected virtual void OnCollideWithDamageable()
     {
         // if what we're colliding with is a TopDownController, we apply a knockback force
-        _colliderTopDownController = health.gameObject.GetComponent<TopDownController>();
-        _colliderRigidBody = health.gameObject.GetComponent<Rigidbody>();
+        _colliderTopDownController = _colliderHealth.Character.TopDownController;
+        _colliderRigidBody = _colliderHealth.gameObject.GetComponent<Rigidbody>();
 
         if ((_colliderTopDownController != null) && (DamageCausedKnockbackForce != Vector3.zero) && (!_colliderHealth.Invulnerable) && (!_colliderHealth.ImmuneToKnockback))
         {
@@ -209,7 +206,7 @@ public class DamageOnTouch : MonoBehaviour
             }
             if (DamageTakenKnockbackDirection == KnockbackDirections.BasedOnOwnerPosition)
             {
-                if (Owner == null) { Owner = this.gameObject; }
+                if (Owner.gameObject == null) { Owner = this.gameObject; }
                 Vector3 relativePosition = _colliderTopDownController.transform.position - Owner.transform.position;
                 _knockbackForce = Vector3.RotateTowards(DamageCausedKnockbackForce, relativePosition.normalized, 10f, 0f);
             }
@@ -220,22 +217,8 @@ public class DamageOnTouch : MonoBehaviour
             }
         }
 
-        // we apply the damage to the thing we've collided with based on the damage style
-        switch (DamageType)
-        {
-            case DamageStyles.Instant:
-                _colliderHealth.Damage(DamageCaused, gameObject, InvincibilityDuration);
-                break;
-
-            case DamageStyles.OverTime:
-                _colliderHealth.DamageOverTime(DamageCaused, DamageOverTimeDuration, gameObject, InvincibilityDuration);
-                break;
-
-            case DamageStyles.Delayed:
-                yield return new WaitForSeconds(DamageDelay);
-                _colliderHealth.Damage(DamageCaused, gameObject, InvincibilityDuration);
-                break;
-        }
+        // we apply the damage to the thing we've collided with
+        _colliderHealth.Damage(DamageCaused, gameObject, InvincibilityDuration);
 
         if (DamageTakenEveryTime + DamageTakenDamageable > 0)
         {
