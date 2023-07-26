@@ -198,7 +198,7 @@ MonoBehaviour:
   CurrentHealth: 0
   Invulnerable: 0
   MaxHealth: 100
-  InitialHealth: 1
+  InitialHealth: 100
   ImmuneToKnockback: 0
   DamageOverTimeInterval: 0.5
   DestroyOnDeath: 1
@@ -224,7 +224,6 @@ MonoBehaviour:
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
   ActiveDebuffs: []
-  DebuffTickInterval: 0.5
 --- !u!1 &414275865277048884
 GameObject:
   m_ObjectHideFlags: 0

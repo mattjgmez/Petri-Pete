@@ -7,6 +7,7 @@ namespace JadePhoenix.Tools
 {
     public class Timer
     {
+        public string Label { get; private set; }
         /// The total duration of the timer
         public float Duration { get; private set; }
         /// The elapsed time of the timer
@@ -30,12 +31,24 @@ namespace JadePhoenix.Tools
             OnTimerCompleted = onTimerCompleted;
         }
 
+        public Timer(string label, float duration, Action onTimerStarted = null, Action onTimerCompleted = null)
+        {
+            Label = label;
+            Duration = duration;
+            ElapsedTime = 0f;
+            IsRunning = false;
+            OnTimerStarted = onTimerStarted;
+            OnTimerCompleted = onTimerCompleted;
+        }
+
         /// <summary>
         /// Starts the timer.
         /// </summary>
         public virtual void StartTimer()
         {
             if (IsRunning) { return; }
+
+            //Debug.Log($"{this.GetType()}.StartTimer: Timer {Label} started.");
 
             IsRunning = true;
             ElapsedTime = 0f;
@@ -59,9 +72,13 @@ namespace JadePhoenix.Tools
         {
             if (!IsRunning) { return; }
 
+            //Debug.Log($"{this.GetType()}.UpdateTimer: Timer {Label} updating.");
+
             ElapsedTime += Time.deltaTime;
 
             if (ElapsedTime < Duration) { return; }
+
+            //Debug.Log($"{this.GetType()}.UpdateTimer: Timer {Label} ended.");
 
             ElapsedTime = Duration;
             IsRunning = false;

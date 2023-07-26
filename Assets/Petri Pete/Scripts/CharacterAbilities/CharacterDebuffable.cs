@@ -8,55 +8,54 @@ using UnityEngine;
 public class CharacterDebuffable : CharacterAbility
 {
     public List<Debuff> ActiveDebuffs = new List<Debuff>();
-    public float DebuffTickInterval = 0.5f;
-
-    protected Timer _tickTimer;
 
     protected override void Initialization()
     {
         base.Initialization();
-        _tickTimer = new Timer(DebuffTickInterval, null, TriggerDebuffs);
     }
 
-    public virtual void TriggerDebuffs()
+    public override void ProcessAbility()
     {
+        List<Debuff> debuffsToRemove = new List<Debuff>();
+
         foreach (Debuff debuff in ActiveDebuffs)
         {
-            debuff.ProcessDebuff();
-        }
-        _tickTimer.ResetTimer();
-        _tickTimer.StartTimer();
-    }
+            debuff.UpdateDebuff();
 
-    public virtual void AddActiveDebuff(Debuff debuffToAdd, Type debuffType)
-    {
-        // Check if the debuffToAdd is a subclass of Debuff
-        if (!debuffToAdd.GetType().IsSubclassOf(typeof(Debuff)))
-        {
-            Debug.LogError("Invalid debuff type provided.");
-            return;
-        }
-
-        // Check if the debuff is stackable
-        bool isStackable = debuffToAdd.Stackable;
-
-        // Find an existing debuff of the same type (if not stackable)
-        Debuff existingDebuff = null;
-        if (!isStackable)
-        {
-            existingDebuff = ActiveDebuffs.FirstOrDefault(debuff => debuff.GetType() == debuffType);
-
-            // If the debuff is not stackable and an instance already exists, refresh it
-            if (existingDebuff != null)
+            // If the debuff needs to be removed, add it to the removal list.
+            if (debuff.DebuffFinished)
             {
-                existingDebuff.RefreshDebuff();
-                return;
+                debuffsToRemove.Add(debuff);
             }
         }
 
-        // Create a new debuff instance based on the provided debuff type
-        Debuff newDebuff = (Debuff)Activator.CreateInstance(debuffType, new object[] { debuffToAdd, _character });
+        // Remove the debuffs that were marked for removal.
+        foreach (Debuff debuffToRemove in debuffsToRemove)
+        {
+            ActiveDebuffs.Remove(debuffToRemove);
+        }
+    }
 
-        ActiveDebuffs.Add(newDebuff);
+    public virtual void AddDebuffs(List<Debuff> debuffsToAdd)
+    {
+        foreach(Debuff debuff in debuffsToAdd)
+        {
+            if (!debuff.Stackable && ActiveDebuffs.Any(existingDebuff => debuff.GetType().IsAssignableFrom(existingDebuff.GetType())))
+            {
+                Debuff foundDebuff = ActiveDebuffs.FirstOrDefault(existingDebuff => debuff.GetType().IsAssignableFrom(existingDebuff.GetType()));
+                foundDebuff.RefreshDebuff();
+                continue;
+            }
+
+            Debuff newDebuff = debuff.Clone();
+            ActiveDebuffs.Add(newDebuff);
+            newDebuff.SetTargetCharacter(this);
+            newDebuff.Initialize();
+        }
+    }
+
+    public virtual void RemoveDebuff(Debuff debuffToRemove) 
+    {
+        ActiveDebuffs.Remove(debuffToRemove);
     }
 }

@@ -17,6 +17,7 @@ public class CharacterAbility : MonoBehaviour
 
     /// whether or not this ability has been initialized
     public bool AbilityInitialized { get { return _abilityInitialized; } }
+    public Character Character { get { return _character; } }
 
     protected Character _character;
     protected TopDownController _controller;

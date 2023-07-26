@@ -8,7 +8,7 @@ namespace JadePhoenix.Tools
     /// <summary>
     /// Animator extensions
     /// </summary>
-    public static class JP_AnimatorExtensions
+    public static class AnimatorExtensions
     {
         /// <summary>
 		/// Determines if an animator contains a certain parameter, based on a type and a name

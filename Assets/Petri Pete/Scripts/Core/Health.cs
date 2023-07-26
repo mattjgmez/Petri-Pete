@@ -151,7 +151,7 @@ public class Health : MonoBehaviour
 
             if (_character.CharacterType == Character.CharacterTypes.Player)
             {
-                GameManager.Instance.TriggerGameOver(false);
+                //GameManager.Instance.TriggerGameOver(false);
             }
         }
         CurrentHealth = 0;

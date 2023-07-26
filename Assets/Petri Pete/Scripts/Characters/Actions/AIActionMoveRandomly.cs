@@ -83,7 +83,7 @@ public class AIActionMoveRandomly : AIAction
         {
             JP_Debug.DebugBoxCast2D(_collider.bounds.center, _collider.bounds.size, 0f, _direction.normalized, ObstaclesDetectionDistance, ObstacleLayerMask);
         }
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere((Vector2)transform.position + _direction.normalized, 0.1f);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawSphere((Vector2)transform.position + _direction.normalized, 0.1f);
     }
 }

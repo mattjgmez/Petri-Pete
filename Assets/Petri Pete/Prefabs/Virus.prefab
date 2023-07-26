@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 5382721564946750536}
   - component: {fileID: 3908483309986502910}
   - component: {fileID: 5382721564946750531}
-  - component: {fileID: 7780968990288405858}
+  - component: {fileID: 4881874066449818399}
   m_Layer: 0
   m_Name: Virus
   m_TagString: Untagged
@@ -106,7 +106,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
 --- !u!114 &5382721564946750541
 MonoBehaviour:
@@ -223,7 +223,7 @@ MonoBehaviour:
   DamageCausedKnockbackForce: {x: 400, y: 400, z: 0}
   InvincibilityDuration: 0.1
   DamageTakenEveryTime: 0
-  DamageTakenDamageable: 0
+  DamageTakenDamageable: 100
   DamageTakenNonDamageable: 0
   DamageTakenKnockbackType: 0
   DamageTakenKnockbackDirection: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
   Owner: {fileID: 5382721564946750537}
   OwnerCharacter: {fileID: 5382721564946750542}
   Debuffs:
-  - {fileID: 7780968990288405858}
+  - {fileID: 11400000, guid: 78e0ecaaa08ea8247b460e0b16a2aab6, type: 2}
 --- !u!114 &5382721564946750531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,18 +248,18 @@ MonoBehaviour:
   Model: {fileID: 0}
   CurrentHealth: 0
   Invulnerable: 0
-  MaxHealth: 10
-  InitialHealth: 10
+  MaxHealth: 1
+  InitialHealth: 1
   ImmuneToKnockback: 0
   DamageOverTimeInterval: 0.5
   DestroyOnDeath: 1
-  DelayBeforeDestruction: 0
+  DelayBeforeDestruction: 1
   PointsWhenDestroyed: 0
   RespawnAtInitialLocation: 0
   DisableControllerOnDeath: 1
   DisableModelOnDeath: 1
   DisableCollisionsOnDeath: 1
---- !u!114 &7780968990288405858
+--- !u!114 &4881874066449818399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -268,16 +268,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5382721564946750537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5a6efe88d0c66a41bfa389bf35f9a92, type: 3}
+  m_Script: {fileID: 11500000, guid: f4f6e63861b41b14c8b3259c477bbdfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 5
-  Stackable: 0
-  TargetCharacter: {fileID: 0}
-  MinimumSpawn: 5
-  MaximumSpawn: 5
-  DamagePerTick: 2
-  VirusPrefab: {fileID: 5382721564946750537}
+  LifeTime: 0
 --- !u!1 &5382721566719477767
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5382721566719477767}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -377,9 +371,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.02}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
 --- !u!95 &3520610957165522146
 Animator:
   serializedVersion: 5
@@ -390,7 +384,7 @@ Animator:
   m_GameObject: {fileID: 5382721566719477767}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cb9b1ad2061c1414393bd6ea334d0e99, type: 2}
+  m_Controller: {fileID: 22100000, guid: 21a3cde3132e77d4b8d25710bca7d1d3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

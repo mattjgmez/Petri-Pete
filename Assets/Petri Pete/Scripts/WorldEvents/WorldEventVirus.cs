@@ -19,14 +19,12 @@ public class WorldEventVirus : WorldEvent
 
     private void SpawnViruses()
     {
-        GameObject container = new GameObject($"Container_{Label}");
-
         for (int i = 0; i < Random.Range(MinimumSpawn, MaximumSpawn); i++)
         {
             Vector2 randomOffset = new Vector2(Random.Range(MinimumSpawnOffset.x, MaximumSpawnOffset.x),
                                                Random.Range(MinimumSpawnOffset.y, MaximumSpawnOffset.y));
 
-            Instantiate(EventObject, SpawnPosition + randomOffset, Quaternion.identity, container.transform);
+            SpawnManager.Instance.SpawnAtPosition(SpawnPosition + randomOffset, EventObject.name);
         }
     }
 }

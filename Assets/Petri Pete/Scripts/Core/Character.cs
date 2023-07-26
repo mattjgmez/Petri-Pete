@@ -133,7 +133,7 @@ public class Character : MonoBehaviour
     protected virtual void InitializeAnimatorParameters()
     {
         if (Animator == null) { return; }
-        JP_AnimatorExtensions.AddAnimatorParameterIfExists(Animator, _idleAnimationParameterName, out _idleAnimationParameter, AnimatorControllerParameterType.Bool, AnimatorParameters);
+        AnimatorExtensions.AddAnimatorParameterIfExists(Animator, _idleAnimationParameterName, out _idleAnimationParameter, AnimatorControllerParameterType.Bool, AnimatorParameters);
     }
 
     protected virtual void UpdateAbilitiesInputManagers()
@@ -215,7 +215,7 @@ public class Character : MonoBehaviour
     {
         if (Animator != null)
         {
-            JP_AnimatorExtensions.UpdateAnimatorBool(Animator, _idleAnimationParameter, (MovementState.CurrentState == CharacterStates.MovementStates.Idle), AnimatorParameters);
+            AnimatorExtensions.UpdateAnimatorBool(Animator, _idleAnimationParameter, (MovementState.CurrentState == CharacterStates.MovementStates.Idle), AnimatorParameters);
 
             foreach (CharacterAbility ability in _characterAbilities)
             {

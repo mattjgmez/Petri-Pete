@@ -15,11 +15,7 @@ public class DamageAndDebuffOnTouch : DamageOnTouch
         CharacterDebuffable debuffTarget = _colliderHealth.Character.GetAbility<CharacterDebuffable>();
         if (debuffTarget != null)
         {
-            foreach (Debuff debuff in Debuffs)
-            {
-                Type debuffType = debuff.GetType();
-                debuffTarget.AddActiveDebuff(debuff, debuffType);
-            }
+            debuffTarget.AddDebuffs(Debuffs);
         }
     }
 }
