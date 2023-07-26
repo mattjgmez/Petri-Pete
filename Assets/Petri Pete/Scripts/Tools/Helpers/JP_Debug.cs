@@ -9,12 +9,17 @@ namespace JadePhoenix.Tools
     public class JP_Debug : MonoBehaviour
     {
         /// <summary>
-        /// Draws a cube at the specified position, offset, and of the specified size
+        /// Draws a Gizmo cube at a specific offset and size relative to a given transform.
         /// </summary>
+        /// <param name="transform">The transform representing the position and rotation of the Gizmo cube.</param>
+        /// <param name="offset">The offset from the transform's position to the center of the Gizmo cube.</param>
+        /// <param name="cubeSize">The size of the Gizmo cube along the three axes.</param>
+        /// <param name="wireOnly">If true, draws the Gizmo cube as wireframe; otherwise, draws it as solid.</param>
         public static void DrawGizmoCube(Transform transform, Vector3 offset, Vector3 cubeSize, bool wireOnly)
         {
-            Matrix4x4 rotationMatrix = transform.localToWorldMatrix;
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
             Gizmos.matrix = rotationMatrix;
+
             if (wireOnly)
             {
                 Gizmos.DrawWireCube(offset, cubeSize);
@@ -56,7 +61,7 @@ namespace JadePhoenix.Tools
         /// <param name="direction">The direction in which to cast the box.</param>
         /// <param name="distance">The distance of the box cast.</param>
         /// <param name="layerMask">The layer mask filter of the box cast.</param>
-        public static void DebugBoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance, LayerMask layerMask)
+        public static void DebugBoxCast2D(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance = Mathf.Infinity, int layerMask = Physics2D.DefaultRaycastLayers)
         {
             bool isHit = Physics2D.BoxCast(origin, size, angle, direction, distance, layerMask);
 
@@ -70,6 +75,39 @@ namespace JadePhoenix.Tools
             Gizmos.color = isHit ? Color.red : Color.cyan;
             Gizmos.matrix = Matrix4x4.TRS(origin, Quaternion.identity, Vector3.one);
             Gizmos.DrawLine(Vector2.zero, direction.normalized * distance);
+        }
+
+        /// <summary>
+        /// Debug visualizer for a 2D circle cast.
+        /// </summary>
+        /// <param name="origin">The center of the circle cast.</param>
+        /// <param name="radius">The radius of the circle cast.</param>
+        /// <param name="direction">The direction of the circle cast.</param>
+        /// <param name="distance">The distance of the circle cast.</param>
+        /// <param name="layerMask">The layer mask for collision checking.</param>
+        public static void DebugCircleCast2D(Vector2 origin, float radius, Vector2 direction, float distance = Mathf.Infinity, int layerMask = Physics2D.DefaultRaycastLayers)
+        {
+            Color gizmoColor = Color.red;
+
+            // Perform the circle cast
+            RaycastHit2D hit = Physics2D.CircleCast(origin, radius, direction, distance, layerMask);
+
+            if (hit.collider != null)
+            {
+                // If the circle cast hits something, change the Gizmo color to green
+                gizmoColor = Color.green;
+
+                // Visualize the hit point and normal
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(hit.point, 0.1f);
+
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(hit.point, hit.point + hit.normal);
+            }
+
+            // Draw the circle cast Gizmo
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawWireSphere(origin, radius);
         }
     }
 }
