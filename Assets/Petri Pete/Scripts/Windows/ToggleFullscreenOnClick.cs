@@ -8,12 +8,11 @@ using UnityEngine.UI;
 public class ToggleFullscreenOnClick : MonoBehaviour
 {
     public static bool IsFullscreened = false;
+    public Vector2 OriginalSize;
+    public Vector2 OriginalChildSize;
 
     protected RectTransform _rectTransform;
-    protected Vector2 _originalSize;
     protected Vector2 _originalPosition;
-    protected Vector2 _originalChildSize;
-
 
     /// <summary>
     /// Performs the initial setup by finding the RectTransform component and storing original values.
@@ -29,11 +28,11 @@ public class ToggleFullscreenOnClick : MonoBehaviour
     protected virtual void Initialization()
     {
         _rectTransform = GetComponent<RectTransform>();
-        _originalSize = _rectTransform.sizeDelta;
-        _originalPosition = _rectTransform.anchoredPosition;
+        OriginalSize = _rectTransform.sizeDelta;
+        _originalPosition = _rectTransform.localPosition;
 
         // Store the original size of the children
-        _originalChildSize = GetChildSize();
+        OriginalChildSize = GetChildSize();
     }
 
     /// <summary>
@@ -48,11 +47,11 @@ public class ToggleFullscreenOnClick : MonoBehaviour
         if (IsFullscreened)
         {
             // Return to the original size and position
-            _rectTransform.sizeDelta = _originalSize;
-            _rectTransform.anchoredPosition = _originalPosition;
+            _rectTransform.sizeDelta = OriginalSize;
+            _rectTransform.localPosition = _originalPosition;
 
             // Restore the original size of the children
-            SetChildSize(_originalChildSize);
+            SetChildSize(OriginalChildSize);
         }
         else
         {
@@ -60,10 +59,10 @@ public class ToggleFullscreenOnClick : MonoBehaviour
             Canvas canvas = GetComponentInParent<Canvas>();
             if (canvas != null)
             {
-                _originalPosition = _rectTransform.anchoredPosition;
+                _originalPosition = _rectTransform.localPosition;
 
                 _rectTransform.sizeDelta = canvas.GetComponent<RectTransform>().sizeDelta;
-                _rectTransform.anchoredPosition = Vector2.zero;
+                _rectTransform.localPosition = -canvas.transform.localPosition;
                 _rectTransform.transform.SetAsLastSibling(); // Brings the UI element to the front.
 
                 // Calculate the square size for children and apply it
@@ -90,7 +89,7 @@ public class ToggleFullscreenOnClick : MonoBehaviour
     /// Retrieves the size of the first child RectTransform found within the UI element.
     /// </summary>
     /// <returns>The size of the first child RectTransform.</returns>
-    protected virtual Vector2 GetChildSize()
+    public Vector2 GetChildSize()
     {
         Vector2 childSize = Vector2.zero;
         for (int i = 0; i < _rectTransform.childCount; i++)
