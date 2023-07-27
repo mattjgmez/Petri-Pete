@@ -120,9 +120,9 @@ GameObject:
   - component: {fileID: 6004537118144152557}
   - component: {fileID: -3396547785053632920}
   - component: {fileID: 6950013722263474430}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Plant_Leaf
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

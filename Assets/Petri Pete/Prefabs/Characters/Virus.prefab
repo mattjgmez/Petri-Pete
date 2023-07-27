@@ -155,6 +155,7 @@ MonoBehaviour:
   Acceleration: 1
   Deceleration: 1
   InterpolateMovementSpeed: 0
+  MovementSpeedMultiplier: 0
 --- !u!114 &5382721564946750539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetLayerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 9216
   PerfectImpact: 0
   BaseDamage: 0
   DamageCaused: 0

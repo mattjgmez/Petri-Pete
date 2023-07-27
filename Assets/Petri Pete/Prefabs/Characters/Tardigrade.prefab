@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 406390501
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 0.5952402, b: 0, a: 1}
@@ -112,6 +112,8 @@ GameObject:
   - component: {fileID: 1544142004190206152}
   - component: {fileID: 1544142004190206153}
   - component: {fileID: 1544142004190206154}
+  - component: {fileID: -3079650116469136196}
+  - component: {fileID: 1545367859449002898}
   m_Layer: 0
   m_Name: Tardigrade
   m_TagString: Untagged
@@ -242,10 +244,10 @@ MonoBehaviour:
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
   InputAuthorized: 1
-  WalkSpeed: 4
+  WalkSpeed: 2
   ShouldSetMovement: 1
   IdleThreshold: 0.05
-  Acceleration: 10
+  Acceleration: 2
   Deceleration: 10
   InterpolateMovementSpeed: 0
   MovementSpeedMultiplier: 0
@@ -307,7 +309,7 @@ MonoBehaviour:
   AbilityStopSfx: {fileID: 0}
   DrinkableLiquids: 02000000
   HealAmount: 3
-  DrinkDuration: 1
+  DrinkDuration: 1.5
   DetectionActive: 0
   CastOffset: {x: 0, y: 0}
   CastRadius: 0.1
@@ -336,6 +338,12 @@ MonoBehaviour:
     Transitions:
       array:
       - Decision: {fileID: 1544142004190206157}
+        TrueState: 
+        FalseState: 
+      - Decision: {fileID: 1544142004190206158}
+        TrueState: Move Toward Target
+        FalseState: 
+      - Decision: {fileID: 1544142004190206159}
         TrueState: Move Toward Target
         FalseState: 
   - StateName: Move Toward Target
@@ -344,8 +352,8 @@ MonoBehaviour:
       - {fileID: 1544142004190206162}
     Transitions:
       array:
-      - Decision: {fileID: 1544142004190206152}
-        TrueState: Seeking
+      - Decision: {fileID: 1544142004190206157}
+        TrueState: 
         FalseState: 
       - Decision: {fileID: 1544142004190206153}
         TrueState: Attack
@@ -353,40 +361,44 @@ MonoBehaviour:
       - Decision: {fileID: 1544142004190206154}
         TrueState: Drink
         FalseState: 
+      - Decision: {fileID: 1544142004190206152}
+        TrueState: Seeking
+        FalseState: 
   - StateName: Attack
     Actions:
-      array: []
+      array:
+      - {fileID: 1544142004190206162}
     Transitions:
       array:
       - Decision: {fileID: 1544142004190206157}
         TrueState: 
         FalseState: 
-      - Decision: {fileID: 1544142004190206158}
-        TrueState: Move Toward Target
+      - Decision: {fileID: 1544142004190206154}
+        TrueState: Drink
         FalseState: 
-      - Decision: {fileID: 1544142004190206153}
-        TrueState: 
-        FalseState: Move Toward Target
       - Decision: {fileID: 1544142004190206152}
+        TrueState: Seeking
+        FalseState: 
+      - Decision: {fileID: -3079650116469136196}
         TrueState: Seeking
         FalseState: 
   - StateName: Drink
     Actions:
       array:
-      - {fileID: 5645305931191275733}
+      - {fileID: 1544142004190206162}
     Transitions:
       array:
-      - Decision: {fileID: 1544142004190206154}
-        TrueState: 
-        FalseState: Move Toward Target
       - Decision: {fileID: 1544142004190206152}
+        TrueState: Seeking
+        FalseState: 
+      - Decision: {fileID: -3079650116469136196}
         TrueState: Seeking
         FalseState: 
   BrainActive: 1
   TimeInThisState: 0
   Target: {fileID: 0}
-  ActionsFrequency: 0
-  DecisionFrequency: 0
+  ActionsFrequency: 1
+  DecisionFrequency: 1
 --- !u!114 &1544142004190206162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,13 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Label: 
-  AvoidObstacles: 1
-  ObstacleCheckDistance: 2
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 2048
-  NumberOfRays: 5
-  AngleBetweenRays: 15
+  MinimumDistance: 0
 --- !u!114 &1544142004190206163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Label: 
-  Radius: 8
+  Radius: 4
   DetectionOffset: {x: 0, y: 0, z: 0}
   TargetLayer:
     serializedVersion: 2
@@ -549,4 +555,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: Plant
   RequiredTag: Plant
-  Range: 1
+  Range: 2
+--- !u!114 &-3079650116469136196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ea5a8b02b0e154fb678e63718046d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: 
+  AfterTimeMin: 2
+  AfterTimeMax: 2
+--- !u!114 &1545367859449002898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f6e63861b41b14c8b3259c477bbdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LifeTime: 0

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 412864439ca222849968969a467d3bfc, type: 3}
-  m_Name: WorldEventPlant
+  m_Name: WorldEventTardigrade
   m_EditorClassIdentifier: 
   Label: 
   GizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  DisplayDebug: 0
+  DisplayDebug: 1
   Delay: 0.5
-  MaxDistance: 12.6
-  MinDistanceFromSelf: 0
-  EventObject: {fileID: 6872852973678333564, guid: eb41e2b54b2e6414f84781c8a53e8d52, type: 3}
-  MinimumSpawn: 1
-  MaximumSpawn: 1
-  MinimumSpawnOffset: {x: -1, y: -1}
-  MaximumSpawnOffset: {x: 1, y: 1}
+  MaxDistance: 17.01
+  MinDistanceFromSelf: 1
+  EventObject: {fileID: 1544142004190206148, guid: 87546e1fe86625549a5849ae64b9b8b6, type: 3}
+  MinimumSpawn: 5
+  MaximumSpawn: 8
+  MinimumSpawnOffset: {x: -2, y: -2}
+  MaximumSpawnOffset: {x: 2, y: 2}

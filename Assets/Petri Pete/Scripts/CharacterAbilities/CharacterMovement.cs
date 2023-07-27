@@ -193,6 +193,24 @@ public class CharacterMovement : CharacterAbility
         _verticalMovement = value.y;
     }
 
+    /// <summary>
+    /// Sets the horizontal part of the movement
+    /// </summary>
+    /// <param name="value"></param>
+    public virtual void SetHorizontalMovement(float value)
+    {
+        _horizontalMovement = value;
+    }
+
+    /// <summary>
+    /// Sets the vertical part of the movement
+    /// </summary>
+    /// <param name="value"></param>
+    public virtual void SetVerticalMovement(float value)
+    {
+        _verticalMovement = value;
+    }
+
     #endregion
 
     /// <summary>
