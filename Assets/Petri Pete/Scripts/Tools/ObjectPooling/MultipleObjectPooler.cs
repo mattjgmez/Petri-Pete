@@ -228,19 +228,27 @@ namespace JadePhoenix.Tools
             }
             else
             {
-                // If we've not returned the object, that means the pool is empty (at least it means it doesn't contain any object of that specific type).
-                // If the pool is allowed to expand, we create a new game object of that type, add it to the pool for further use, and return it.
                 GameObject searchedObject = FindObject(searchedName, _pooledGameObjectsOriginalOrder);
+
                 if (searchedObject == null)
                 {
                     return null;
                 }
 
-                if (GetPoolObject(searchedObject).PoolCanExpand)
+                // Check if the key exists in the dictionary.
+                if (_objectPoolsByObjectType.ContainsKey(searchedObject))
                 {
-                    GameObject newGameObject = (GameObject)Instantiate(searchedObject);
-                    _objectPoolsByObjectType[searchedObject].PooledObjects.Add(newGameObject);
-                    return newGameObject;
+                    if (GetPoolObject(searchedObject).PoolCanExpand)
+                    {
+                        GameObject newGameObject = Instantiate(searchedObject);
+                        _objectPoolsByObjectType[searchedObject].PooledObjects.Add(newGameObject);
+                        return newGameObject;
+                    }
+                }
+                else
+                {
+                    // Handle the case where the searchedObject is not in the dictionary.
+                    Debug.LogError($"The object {searchedObject.name} is not in the _objectPoolsByObjectType dictionary.");
                 }
             }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DebuffSpawnOnKill", menuName = "ScriptableObjects/Debuff/SpawnOnKill", order = 1)]
+[CreateAssetMenu(fileName = "New DebuffSpawnOnKill", menuName = "ScriptableObjects/Debuff/SpawnOnKill", order = 1)]
 public class DebuffSpawnOnKill : Debuff, ICloneable<DebuffSpawnOnKill>
 {
     [Header("SpawnOnKill")]
@@ -17,16 +17,6 @@ public class DebuffSpawnOnKill : Debuff, ICloneable<DebuffSpawnOnKill>
     public GameObject ObjectToSpawn;
 
     protected Health _targetHealth;
-
-    public DebuffSpawnOnKill(DebuffSpawnOnKill debuff) : base(debuff)
-    {
-        MinimumSpawn = debuff.MinimumSpawn;
-        MaximumSpawn = debuff.MaximumSpawn;
-        MinimumSpawnOffset = debuff.MinimumSpawnOffset;
-        MaximumSpawnOffset = debuff.MaximumSpawnOffset;
-        DamagePerTick = debuff.DamagePerTick;
-        ObjectToSpawn = debuff.ObjectToSpawn;
-    }
 
     public new DebuffSpawnOnKill Clone()
     {

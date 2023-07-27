@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250eb4f8ea9a6c6418a917a175ce9d3d, type: 3}
+  m_Name: WorldEventVariedIron
+  m_EditorClassIdentifier: 
+  Label: 
+  GizmoColor: {r: 0, g: 1, b: 0, a: 1}
+  DisplayDebug: 0
+  Delay: 0.5
+  MaxDistance: 17
+  MinDistanceFromSelf: 10
+  EventObject: {fileID: 8907199426330243232, guid: 046e83ad96f1ca74dacf3a277feb2546, type: 3}
+  MinimumSpawn: 2
+  MaximumSpawn: 5
+  MinimumSpawnOffset: {x: -2, y: -2}
+  MaximumSpawnOffset: {x: 2, y: 2}
+  EventObjects:
+  - {fileID: 8907199426330243232, guid: 046e83ad96f1ca74dacf3a277feb2546, type: 3}
+  - {fileID: 5984678016879686630, guid: 73fc81b992cd6a2418064c45d8b8f9eb, type: 3}

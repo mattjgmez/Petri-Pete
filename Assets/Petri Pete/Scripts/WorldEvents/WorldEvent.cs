@@ -1,44 +1,91 @@
+using JadePhoenix.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WorldEvent : MonoBehaviour
+//[CreateAssetMenu(fileName = "New WorldEvent", menuName = "ScriptableObjects/WorldEvent")]
+public abstract class WorldEvent : ScriptableObject
 {
     public string Label;
+
+    [Header("Debug")]
     public Color GizmoColor = Color.green;
+    public bool DisplayDebug = true;
+
     public abstract void PerformWorldEvent();
+
+    [Header("Spawn Info")]
     public float Delay = 0.5f;
-    public float MaxDistance = 45f;
-    public Vector2 SpawnPosition = Vector2.zero;
+    public float MaxDistance = 20f;
+    public float MinDistanceFromSelf = 0f;
+    public const int MaxAttempts = 20;
 
     public GameObject EventObject;
 
-    protected virtual void Start()
+    protected Vector2 _spawnPosition = Vector2.zero;
+    protected Timer _delayTimer;
+    protected List<Vector2> previousSpawnPositions = new List<Vector2>();
+
+    public virtual void Initialization()
     {
-        Initialization();
+        _delayTimer = new Timer(Delay, null, StartEvent);
+        _delayTimer.StartTimer();
     }
 
-    protected virtual void Initialization()
+    protected virtual void StartEvent()
     {
         RandomizeSpawnPosition();
+        PerformWorldEvent();
     }
 
     protected virtual void RandomizeSpawnPosition()
     {
-        Vector2 newPosition = new Vector2(Random.Range(-MaxDistance, MaxDistance), Random.Range(-MaxDistance, MaxDistance));
+        Vector2 newPosition;
+        int attempts = 0;
 
-        while (Vector2.Distance(Vector2.zero, newPosition) > MaxDistance)
+        do
         {
             newPosition = new Vector2(Random.Range(-MaxDistance, MaxDistance), Random.Range(-MaxDistance, MaxDistance));
+            attempts++;
         }
+        while (!IsValidSpawnPosition(newPosition) && attempts < MaxAttempts);
 
-        SpawnPosition = newPosition;
+
+        previousSpawnPositions.Add(newPosition); // Store this new spawn position for future checks.
+        _spawnPosition = newPosition;
     }
 
-    protected virtual void OnDrawGizmos()
+    protected virtual bool IsValidSpawnPosition(Vector2 position)
     {
+        // Check if the distance from the origin is within the acceptable range.
+        if (Vector2.Distance(Vector2.zero, position) > MaxDistance)
+        {
+            return false;
+        }
+
+        // Check if the distance from previous spawn positions is acceptable.
+        foreach (Vector2 previousPosition in previousSpawnPositions)
+        {
+            if (Vector2.Distance(previousPosition, position) < MinDistanceFromSelf)
+            {
+                return false; // It's too close to a previously spawned position.
+            }
+        }
+
+        return true; // The position is valid.
+    }
+
+    public virtual void UpdateWorldEvent()
+    {
+        _delayTimer.UpdateTimer();
+    }
+
+    public virtual void DrawGizmos()
+    {
+        if (!DisplayDebug) { return; }
+
         Gizmos.color = GizmoColor;
-        Gizmos.DrawWireSphere(transform.position, MaxDistance);
-        Gizmos.DrawSphere(SpawnPosition, 0.5f);
+        Gizmos.DrawWireSphere(Vector3.zero, MaxDistance);
+        Gizmos.DrawSphere(_spawnPosition, 0.5f);
     }
 }

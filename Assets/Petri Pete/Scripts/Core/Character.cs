@@ -33,7 +33,7 @@ public class Character : MonoBehaviour
 
     [Header("Animator"), Tooltip("Assign this manually if the relevant animator is nested somewhere.")]
     public Animator CharacterAnimator;
-    public InputManager LinkedInputManager { get; protected set; }
+    public InputManager LinkedInputManager;
     public Animator Animator { get; protected set; }
     public List<int> AnimatorParameters { get; set; }
 

@@ -19,9 +19,12 @@ public class TopDownController : MonoBehaviour
     public Vector3 CurrentDirection;
     public float Friction;
     public Vector3 AddedForce;
+    public bool FreeMovement = true;
 
     [Header("Layer Masks")]
     public LayerMask ObstaclesLayerMask;
+
+    public SpriteRenderer SpriteRenderer { get { return _spriteRenderer; } }
 
     #endregion
 
@@ -66,7 +69,7 @@ public class TopDownController : MonoBehaviour
         {
             CurrentDirection = CurrentMovement.normalized;
 
-            if (_spriteRenderer != null && CurrentDirection.x != 0)
+            if (_spriteRenderer != null && CurrentDirection.x != 0 && FreeMovement)
             {
                 _spriteRenderer.flipX = CurrentDirection.x < 0;
             }
@@ -92,6 +95,8 @@ public class TopDownController : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         ApplyImpact();
+
+        if (!FreeMovement) { return; }
 
         if (Friction > 1)
         {

@@ -6,26 +6,21 @@ using UnityEngine;
 public class InputManager : Singleton<InputManager>
 {
     [Header("Status")]
-    // Set this to false to prevent input from being detected.
     public bool InputDetectionActive = true;
 
     [Header("Player Binding")]
-    // A string used to identify the target player. Must match the ID given to the player object exactly.
     public string PlayerID = "Player";
-    // The possible kinds of control used for movement.
     public enum ControlProfiles { Gamepad, Keyboard }
 
     [Header("Movement Settings")]
-    // If set to true, acceleration/deceleration will be active for player movement.
     public bool SmoothMovement = true;
-    /// the minimum horizontal and vertical value you need to reach to trigger movement on a gamepad
     public Vector2 Threshold = new Vector2(0.1f, 0.4f);
 
-    public JP_Input.Button FireButton { get; protected set; }
     public JP_Input.Button PauseButton { get; protected set; }
+    public JP_Input.Button DrinkButton { get; protected set; }
     public Vector2 PrimaryMovement { get { return _primaryMovement; } }
 
-    protected List<JP_Input.Button> ButtonList;
+    public List<JP_Input.Button> ButtonList;
     protected Vector2 _primaryMovement = Vector2.zero;
     protected string _axisHorizontal;
     protected string _axisVertical;
@@ -41,6 +36,7 @@ public class InputManager : Singleton<InputManager>
         ButtonList = new List<JP_Input.Button>
         {
             (PauseButton = new JP_Input.Button(PlayerID, "Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp)),
+            (DrinkButton = new JP_Input.Button(PlayerID, "Drink", DrinkButtonDown, DrinkButtonPressed, DrinkButtonUp)),
         };
     }
 
@@ -102,7 +98,6 @@ public class InputManager : Singleton<InputManager>
 
     public virtual void ProcessButtonStates()
     {
-        // for each button, if we were at ButtonDown this frame, we go to ButtonPressed. If we were at ButtonUp, we're now Off
         foreach (JP_Input.Button button in ButtonList)
         {
             if (button.State.CurrentState == JP_Input.ButtonStates.ButtonDown)
@@ -122,23 +117,21 @@ public class InputManager : Singleton<InputManager>
 
         if (ButtonList == null)
         {
-            Debug.Log($"{this.GetType()}.GetButtonFromList: ButtonList not found.", gameObject);
+            Debug.Log($"{this.GetType()}.GetButtonFromID: ButtonList not found.", gameObject);
             return null;
         }
 
         foreach (JP_Input.Button button in ButtonList)
         {
-            //Debug.Log($"{this.GetType()}.GetButtonFromList: Checking [{button.ButtonID}].", gameObject);
-
             if (button.ButtonID == $"{PlayerID}_{buttonID}")
             {
                 targetButton = button;
             }
         }
 
-        if ( targetButton == null )
+        if (targetButton == null)
         {
-            Debug.LogWarning($"{this.GetType()}.GetButtonFromList: [{PlayerID}_{buttonID}] not found.", gameObject);
+            Debug.LogWarning($"{this.GetType()}.GetButtonFromID: [{PlayerID}_{buttonID}] not found.", gameObject);
         }
 
         return targetButton;
@@ -146,9 +139,13 @@ public class InputManager : Singleton<InputManager>
 
     #region BUTTON EVENT METHODS
 
-    public virtual void PauseButtonDown()               { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonDown); }
-    public virtual void PauseButtonPressed()            { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonPressed); }
-    public virtual void PauseButtonUp()                 { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonUp); }
+    public virtual void PauseButtonDown() { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonDown); }
+    public virtual void PauseButtonPressed() { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonPressed); }
+    public virtual void PauseButtonUp() { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonUp); }
+
+    public virtual void DrinkButtonDown() { DrinkButton.State.ChangeState(JP_Input.ButtonStates.ButtonDown); }
+    public virtual void DrinkButtonPressed() { DrinkButton.State.ChangeState(JP_Input.ButtonStates.ButtonPressed); }
+    public virtual void DrinkButtonUp() { DrinkButton.State.ChangeState(JP_Input.ButtonStates.ButtonUp); }
 
     #endregion
 }

@@ -16,30 +16,15 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     public float Interval = 2f;
     public bool Stackable = false;
     /// Signals the relevant CharacterDebuffable to remove this debuff from the list.
-    public bool DebuffFinished = false;
-    public Character TargetCharacter;
-    public CharacterDebuffable TargetDebuffable;
+    public bool DebuffFinished { get; set; }
+    public Character TargetCharacter { get; set; }
+    public CharacterDebuffable TargetDebuffable { get; set; }
 
     protected Timer _debuffTimer;
     protected Timer _tickTimer;
 
-    public Debuff(float duration, bool stackable, Character targetCharacter, Timer debuffTimer)
-    {
-        Duration = duration;
-        Stackable = stackable;
-        TargetCharacter = targetCharacter;
-        _debuffTimer = debuffTimer;
-    }
-
-    public Debuff(Debuff debuff)
-    {
-        Duration = debuff.Duration;
-        Stackable = debuff.Stackable;
-        TargetCharacter = debuff.TargetCharacter;
-    }
-
     /// <summary>
-    /// This needs to be overwritten in every deriving class, replacing "Debuff" with the appropriate type.
+    /// This needs to be overwritten using the "new" keyword in every deriving class, replacing "Debuff" with the appropriate type.
     /// </summary>
     public virtual Debuff Clone() 
     {
@@ -98,10 +83,9 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     /// </summary>
     public virtual void RefreshDebuff()
     {
+        Debug.Log($"{this.GetType()}.RefreshDebuff: Refreshing debuff with base class on {TargetCharacter.name}.", TargetCharacter);
         _debuffTimer.ResetTimer();
         _debuffTimer.StartTimer();
-        _tickTimer.ResetTimer();
-        _tickTimer.StartTimer();
         OnActivated();
     }
 

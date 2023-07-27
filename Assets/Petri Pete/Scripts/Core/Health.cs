@@ -19,7 +19,6 @@ public class Health : MonoBehaviour
 
     [Header("Damage")]
     public bool ImmuneToKnockback = false;
-    public float DamageOverTimeInterval = 0.5f;
 
     [Header("Death")]
     public bool DestroyOnDeath = true;
@@ -67,7 +66,7 @@ public class Health : MonoBehaviour
             Model.SetActive(true);
         }
 
-        _controller = _character.TopDownController;
+        _controller = GetComponent<TopDownController>();
         _collider = GetComponent<Collider>();
 
         _initialPosition = transform.position;
@@ -243,12 +242,12 @@ public class Health : MonoBehaviour
     /// <summary>
     /// Called when the character gets health (from a stimpack for example)
     /// </summary>
-    /// <param name="health">The health the character gets.</param>
+    /// <param name="amountToHeal">The health the character gets.</param>
     /// <param name="instigator">The thing that gives the character health.</param>
-    public virtual void GetHealth(int health, GameObject instigator)
+    public virtual void Heal(int amountToHeal, GameObject instigator)
     {
         // this function adds health to the character's Health and prevents it to go above MaxHealth.
-        CurrentHealth = Mathf.Min(CurrentHealth + health, MaxHealth);
+        CurrentHealth = Mathf.Min(CurrentHealth + amountToHeal, MaxHealth);
         OnHealthChange?.Invoke();
     }
 

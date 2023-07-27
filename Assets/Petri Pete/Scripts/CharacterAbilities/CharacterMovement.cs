@@ -23,7 +23,7 @@ public class CharacterMovement : CharacterAbility
     /// the deceleration to apply to the current speed / 0f : no deceleration, instant stop
     public float Deceleration = 10f;
     public bool InterpolateMovementSpeed = false;
-    public float MovementSpeedMultiplier { get; set; }
+    public float MovementSpeedMultiplier;
 
     protected float _movementSpeed;
     protected float _horizontalMovement;

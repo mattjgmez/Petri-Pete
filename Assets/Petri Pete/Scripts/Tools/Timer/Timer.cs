@@ -42,16 +42,17 @@ namespace JadePhoenix.Tools
         }
 
         /// <summary>
-        /// Starts the timer.
+        /// Starts the timer without resetting its ElapsedTime.
         /// </summary>
-        public virtual void StartTimer()
+        public virtual void StartTimer(bool invokeStart = true)
         {
             if (IsRunning) { return; }
 
             //Debug.Log($"{this.GetType()}.StartTimer: Timer {Label} started.");
 
             IsRunning = true;
-            ElapsedTime = 0f;
+            //ElapsedTime = 0f;
+            if (!invokeStart) { return; }
             OnTimerStarted?.Invoke();
         }
 

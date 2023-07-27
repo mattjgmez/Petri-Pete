@@ -22,5 +22,6 @@ public class CharacterStates : MonoBehaviour
         Walking,
         Dashing,
         Attacking,
+        Drinking,
     }
 }

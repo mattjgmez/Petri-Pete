@@ -17,7 +17,7 @@ TagManager:
   - Sprite
   - Player
   - Obstacle
-  - 
+  - Environment
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Liquids
+    uniqueID: 436152619
+    locked: 0
+  - name: Characters
+    uniqueID: 406390501
     locked: 0

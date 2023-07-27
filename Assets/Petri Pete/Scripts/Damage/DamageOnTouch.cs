@@ -16,8 +16,6 @@ public class DamageOnTouch : MonoBehaviour
     [Header("DamageCaused")]
     public int BaseDamage = 10;
     public int DamageCaused;
-    public float DamageOverTimeDuration = 5f;
-    public float DamageDelay = 1f;
     public KnockbackStyles DamageCausedKnockbackType = KnockbackStyles.AddForce;
     public KnockbackDirections DamageCausedKnockbackDirection;
     public Vector3 DamageCausedKnockbackForce = new Vector3(10, 2, 0);

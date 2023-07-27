@@ -85,11 +85,11 @@ namespace JadePhoenix.Tools
         /// <param name="direction">The direction of the circle cast.</param>
         /// <param name="distance">The distance of the circle cast.</param>
         /// <param name="layerMask">The layer mask for collision checking.</param>
-        public static void DebugCircleCast2D(Vector2 origin, float radius, Vector2 direction, float distance = Mathf.Infinity, int layerMask = Physics2D.DefaultRaycastLayers)
+        public static void DebugCircleCast2D(Vector2 origin, float radius, Vector2 direction, float distance = Mathf.Infinity, int layerMask = Physics2D.DefaultRaycastLayers, int numSegments = 10)
         {
             Color gizmoColor = Color.red;
 
-            // Perform the circle cast
+            // Perform the initial circle cast
             RaycastHit2D hit = Physics2D.CircleCast(origin, radius, direction, distance, layerMask);
 
             if (hit.collider != null)
@@ -108,6 +108,34 @@ namespace JadePhoenix.Tools
             // Draw the circle cast Gizmo
             Gizmos.color = gizmoColor;
             Gizmos.DrawWireSphere(origin, radius);
+
+            // Draw the path of the circle cast
+            Gizmos.color = gizmoColor;
+            Vector2 previousPoint = origin;
+            float segmentDistance = distance / numSegments;
+
+            for (int i = 1; i <= numSegments; i++)
+            {
+                Vector2 segmentOrigin = origin + direction * (segmentDistance * i);
+                hit = Physics2D.CircleCast(segmentOrigin, radius, direction, 0f, layerMask);
+
+                if (hit.collider != null)
+                {
+                    Gizmos.DrawLine(previousPoint, hit.point);
+                    Gizmos.DrawSphere(hit.point, 0.1f);
+                    Gizmos.DrawLine(hit.point, hit.point + hit.normal);
+
+                    break; // Stop drawing if there's a hit along the path
+                }
+
+                Gizmos.DrawLine(previousPoint, segmentOrigin);
+                previousPoint = segmentOrigin;
+            }
+
+            // Draw the end point of the circle cast
+            Vector2 endPoint = origin + direction * distance;
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawWireSphere(endPoint, radius);
         }
     }
 }
