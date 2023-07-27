@@ -11,7 +11,7 @@ public abstract class EnvironmentBehavior : MonoBehaviour
 {
     /// Enums to track type properties across different states.
     public enum GasTypes { Oxygen, CarbonDioxide, }
-    public enum LiquidTypes { Water, Acid, }
+    public enum LiquidTypes { Water, Acid, Plant, }
     public enum SolidTypes { Iron }
 
     public GameObject Model;

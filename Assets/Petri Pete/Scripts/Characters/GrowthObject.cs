@@ -36,4 +36,12 @@ public class GrowthObject : MonoBehaviour
 
         CurrentGrowths.Remove(growth);
     }
+
+    public virtual void OnDisable()
+    {
+        if (GrowthHub != null)
+        {
+            GrowthHub.GetAbility<CharacterHandleGrowth>().RemoveActiveGrowthObject(this);
+        }
+    }
 }

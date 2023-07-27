@@ -58,8 +58,8 @@ public class CharacterHandleGrowth : CharacterAbility
         for (int i = 0; i < growthAmount; i++)
         {
             GrowthObject randomGrowthObject = _validGrowthObjects.GetRandom();
-
             Vector2 spawnPosition = randomGrowthObject.GrowthSpawnTransform.position;
+            _validGrowthObjects.Remove(randomGrowthObject);
 
             GameObject newObject = SpawnManager.Instance.SpawnAtPosition(spawnPosition, GrowthObject.name);
             newObject.transform.rotation = JP_Math.GetRandomRotationAwayFromPoint2D(spawnPosition, transform.position, 45f);
@@ -67,7 +67,6 @@ public class CharacterHandleGrowth : CharacterAbility
 
             GrowthObject newGrowth = newObject.GetComponent<GrowthObject>();
             ActiveGrowthObjects.Add(newGrowth);
-            _validGrowthObjects.Remove(randomGrowthObject);
         }
 
         GetValidGrowthObjects();
@@ -84,8 +83,8 @@ public class CharacterHandleGrowth : CharacterAbility
         for (int i = 0; i < growthAmount; i++)
         {
             GrowthObject randomGrowthObject = _validGrowthObjects.GetRandom();
-
             Vector2 spawnPosition = randomGrowthObject.GrowthSpawnTransform.position;
+            _validGrowthObjects.Remove(randomGrowthObject);
 
             GameObject newObject = SpawnManager.Instance.SpawnAtPosition(spawnPosition, GrowthObject.name);
             newObject.transform.rotation = JP_Math.GetRandomRotationAwayFromPoint2D(spawnPosition, transform.position, 45f);
@@ -93,7 +92,6 @@ public class CharacterHandleGrowth : CharacterAbility
 
             GrowthObject newGrowth = newObject.GetComponent<GrowthObject>();
             ActiveGrowthObjects.Add(newGrowth);
-            _validGrowthObjects.Remove(randomGrowthObject);
         }
 
         GetValidGrowthObjects();
@@ -113,5 +111,10 @@ public class CharacterHandleGrowth : CharacterAbility
             AvailableGrowthPoints += growthObject.MaxGrowths - growthObject.CurrentGrowths.Count;
             growthObject.SetGrowthHub(_character);
         }
+    }
+
+    public virtual void RemoveActiveGrowthObject(GrowthObject growthObject)
+    {
+        ActiveGrowthObjects.Remove(growthObject);
     }
 }
