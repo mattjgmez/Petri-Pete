@@ -10,6 +10,7 @@ public class ResizeWindow : DraggableWindow, IPointerUpHandler
     public bool KeepSquare = false;
 
     protected bool _didResizing = false;
+    protected const float _windowMinimum = 200f;
 
     /// <summary>
     /// Handles the drag event to resize the UI window while in full-screen mode or pass the event to the base class for regular dragging.
@@ -29,8 +30,8 @@ public class ResizeWindow : DraggableWindow, IPointerUpHandler
 
             // Calculate the new size based on the drag amount and clamp it within the canvas boundaries
             Vector2 dragDelta = eventData.delta;
-            float clampedX = Mathf.Clamp(dragDelta.x + _rectTransform.sizeDelta.x, 0f, _halfWidth * 2);
-            float clampedY = Mathf.Clamp(dragDelta.y + _rectTransform.sizeDelta.y, 0f, _halfHeight * 2);
+            float clampedX = Mathf.Clamp(dragDelta.x + _rectTransform.sizeDelta.x, _windowMinimum, _halfWidth * 2);
+            float clampedY = Mathf.Clamp(dragDelta.y + _rectTransform.sizeDelta.y, _windowMinimum, _halfHeight * 2);
             Vector2 newSize = new Vector2(clampedX, clampedY);
 
             // Resize the UI window
