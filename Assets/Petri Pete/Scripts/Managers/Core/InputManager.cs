@@ -1,10 +1,14 @@
 using JadePhoenix.Tools;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the inputs given by the player, processing button states and movement.
+/// </summary>
 public class InputManager : Singleton<InputManager>
 {
+    #region Fields and Properties
+
     [Header("Status")]
     public bool InputDetectionActive = true;
 
@@ -25,30 +29,14 @@ public class InputManager : Singleton<InputManager>
     protected string _axisHorizontal;
     protected string _axisVertical;
 
+    #endregion
+
+    #region Unity Lifecycle Methods
+
     protected virtual void Start()
     {
         InitializeButtons();
         InitializeAxis();
-    }
-
-    protected virtual void InitializeButtons()
-    {
-        ButtonList = new List<JP_Input.Button>
-        {
-            (PauseButton = new JP_Input.Button(PlayerID, "Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp)),
-            (DrinkButton = new JP_Input.Button(PlayerID, "Drink", DrinkButtonDown, DrinkButtonPressed, DrinkButtonUp)),
-        };
-    }
-
-    protected virtual void InitializeAxis()
-    {
-        _axisHorizontal = $"{PlayerID}_Horizontal";
-        _axisVertical = $"{PlayerID}_Vertical";
-    }
-
-    protected virtual void LateUpdate()
-    {
-        ProcessButtonStates();
     }
 
     protected virtual void Update()
@@ -59,6 +47,34 @@ public class InputManager : Singleton<InputManager>
             GetInputButtons();
         }
     }
+
+    protected virtual void LateUpdate()
+    {
+        ProcessButtonStates();
+    }
+
+    #endregion
+
+    #region Initialization Methods
+
+    protected virtual void InitializeButtons()
+    {
+        ButtonList = new List<JP_Input.Button>
+        {
+            (PauseButton = new JP_Input.Button(PlayerID, "Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp)),
+            (DrinkButton = new JP_Input.Button(PlayerID, "Drink", DrinkButtonDown, DrinkButtonPressed, DrinkButtonUp))
+        };
+    }
+
+    protected virtual void InitializeAxis()
+    {
+        _axisHorizontal = $"{PlayerID}_Horizontal";
+        _axisVertical = $"{PlayerID}_Vertical";
+    }
+
+    #endregion
+
+    #region Movement and Button Input Methods
 
     public virtual void SetMovement()
     {
@@ -96,6 +112,10 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
+    #endregion
+
+    #region Button State Management Methods
+
     public virtual void ProcessButtonStates()
     {
         foreach (JP_Input.Button button in ButtonList)
@@ -110,6 +130,10 @@ public class InputManager : Singleton<InputManager>
             }
         }
     }
+
+    #endregion
+
+    #region Public Methods
 
     public virtual JP_Input.Button GetButtonFromID(string buttonID)
     {
@@ -137,7 +161,9 @@ public class InputManager : Singleton<InputManager>
         return targetButton;
     }
 
-    #region BUTTON EVENT METHODS
+    #endregion
+
+    #region Button Event Methods
 
     public virtual void PauseButtonDown() { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonDown); }
     public virtual void PauseButtonPressed() { PauseButton.State.ChangeState(JP_Input.ButtonStates.ButtonPressed); }
