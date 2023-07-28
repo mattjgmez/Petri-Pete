@@ -49,5 +49,22 @@ namespace JadePhoenix.Tools
 
             return list[Random.Range(0, list.Count)];
         }
+
+        /// <summary>
+        /// Determines whether a list contains all of the elements of a specified sub-list.
+        /// </summary>
+        /// <param name="list">The main list.</param>
+        /// <param name="subList">The sub-list of elements to check against.</param>
+        /// <typeparam name="T">The type of items in the list.</typeparam>
+        /// <returns>Returns true if the main list contains all the elements in the sub-list, otherwise false.</returns>
+        public static bool ContainsRange<T>(this IList<T> list, IList<T> subList)
+        {
+            foreach (T item in subList)
+            {
+                if (!list.Contains(item))
+                    return false;
+            }
+            return true;
+        }
     }
 }

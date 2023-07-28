@@ -8,26 +8,47 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// Handles all UI effects and changes
+/// Handles all UI effects and changes.
 /// </summary>
 public class UIManager : Singleton<UIManager>
 {
     public Canvas MainCanvas;
     public GameObject HUD;
-    public Slider HealthBar;
+    public Image HealthBar;
+    public TextMeshProUGUI HealthText;
     public GameObject PauseScreen;
     public GameObject DeathScreen;
     public GameObject VictoryScreen;
     public TMP_Text PointsText;
+    public TMP_Text DebuffsText;
     public TMP_Text UpgradeTimer;
     public TMP_Text RemainingEnemies;
     public GameObject UpgradeSelectScreen;
+    public GameObject EventLocationMarker;
 
     protected virtual void Start()
     {
         SetPauseScreen(false);
         SetDeathScreen(false);
         SetVictoryScreen(false);
+    }
+
+    #region PUBLIC METHODS
+
+    /// <summary>
+    /// Loads the main menu via GameManager.
+    /// </summary>
+    public void LoadMainMenu()
+    {
+        GameManager.Instance.LoadMainMenu();
+    }
+
+    /// <summary>
+    /// Exits the game via GameManager.
+    /// </summary>
+    public void CloseGame()
+    {
+        GameManager.Instance.CloseGame();
     }
 
     /// <summary>
@@ -69,43 +90,48 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public virtual void ShowSpawnOnMinimap(Vector2 location)
+    {
+        if (EventLocationMarker == null) { return; }
+
+        Animator anim = EventLocationMarker.GetComponent<Animator>();
+
+        if (anim != null)
+        {
+            anim.SetTrigger("MarkEvent") ;
+        }
+
+        EventLocationMarker.transform.position = location;
+    }
+
     /// <summary>
-    /// Updates the health bar.
+    /// Updates the health bar based on current, min, and max health values.
     /// </summary>
-    /// <param name="currentHealth">Current health.</param>
-    /// <param name="minHealth">Minimum health.</param>
-    /// <param name="maxHealth">Max health.</param>
+    /// <param name="currentHealth">Current health value.</param>
+    /// <param name="minHealth">Minimum possible health.</param>
+    /// <param name="maxHealth">Maximum possible health.</param>
     public virtual void UpdateHealthBar(float currentHealth, float minHealth, float maxHealth)
     {
         if (HealthBar == null) { return; }
 
-        HealthBar.minValue = minHealth; 
-        HealthBar.maxValue = maxHealth;
-        HealthBar.value = currentHealth;
+        float newHealth = currentHealth / (maxHealth);
+
+        HealthBar.fillAmount = newHealth;
+        HealthText.text = currentHealth.ToString();
     }
 
-    public virtual void UpdateUpgradeTimer(float time)
+    public virtual void UpdateDebuffs(List<Debuff> debuffs)
     {
-        if (UpgradeTimer == null) { return; }
+        if (DebuffsText == null) { return; }
 
-        if (time >= 60)
+        string newText = debuffs.Count == 0 ? "None" : "";
+        foreach (var item in debuffs)
         {
-            int minutes = (int)time / 60;
-            UpgradeTimer.text = minutes.ToString("D") + "m";
+            newText += item.name + " ";
         }
-        else
-        {
-            UpgradeTimer.text = ((int)time).ToString();
-        }
+        DebuffsText.text = newText;
+
     }
 
-    public void LoadMainMenu()
-    {
-        GameManager.Instance.LoadMainMenu();
-    }
-
-    public void CloseGame()
-    {
-        GameManager.Instance.CloseGame();
-    }
+    #endregion
 }

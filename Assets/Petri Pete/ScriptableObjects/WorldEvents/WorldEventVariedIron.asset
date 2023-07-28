@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: 
   GizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  DisplayDebug: 0
+  DisplayDebug: 1
   Delay: 0.5
-  MaxDistance: 17
+  MaxDistance: 14
   MinDistanceFromSelf: 10
   EventObject: {fileID: 8907199426330243232, guid: 046e83ad96f1ca74dacf3a277feb2546, type: 3}
   MinimumSpawn: 2

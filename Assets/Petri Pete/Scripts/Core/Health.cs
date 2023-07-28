@@ -30,7 +30,7 @@ public class Health : MonoBehaviour
     public bool DisableCollisionsOnDeath = true;
 
     // hit delegate
-    public delegate void OnHitDelegate();
+    public delegate void OnHitDelegate(GameObject instigator);
     public OnHitDelegate OnHit;
 
     // respawn delegate
@@ -110,7 +110,7 @@ public class Health : MonoBehaviour
         CurrentHealth -= damage;
         OnHealthChange?.Invoke();
 
-        OnHit?.Invoke();
+        OnHit?.Invoke(instigator);
 
         if (CurrentHealth < 0)
         {
@@ -126,6 +126,11 @@ public class Health : MonoBehaviour
 
         // we trigger a damage taken event
         CharacterEvents.DamageTakenEvent.Trigger(_character, instigator, CurrentHealth, damage, previousHealth);
+
+        if (_character.CharacterType == Character.CharacterTypes.Player)
+        {
+            UIManager.Instance.UpdateHealthBar(CurrentHealth, InitialHealth, MaxHealth);
+        }
 
         // if health has reached zero
         if (CurrentHealth <= 0)
@@ -249,6 +254,11 @@ public class Health : MonoBehaviour
         // this function adds health to the character's Health and prevents it to go above MaxHealth.
         CurrentHealth = Mathf.Min(CurrentHealth + amountToHeal, MaxHealth);
         OnHealthChange?.Invoke();
+
+        if (_character.CharacterType == Character.CharacterTypes.Player)
+        {
+            UIManager.Instance.UpdateHealthBar(CurrentHealth, InitialHealth, MaxHealth);
+        }
     }
 
     /// <summary>

@@ -68,11 +68,6 @@ public class TopDownController : MonoBehaviour
         if (CurrentMovement != Vector3.zero)
         {
             CurrentDirection = CurrentMovement.normalized;
-
-            if (_spriteRenderer != null && CurrentDirection.x != 0 && FreeMovement)
-            {
-                _spriteRenderer.flipX = CurrentDirection.x < 0;
-            }
         }
     }
 

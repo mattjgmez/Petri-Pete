@@ -18,7 +18,7 @@ MonoBehaviour:
   Delay: 0.5
   MaxDistance: 12.6
   MinDistanceFromSelf: 0
-  EventObject: {fileID: 0}
+  EventObject: {fileID: 6872852973678333564, guid: eb41e2b54b2e6414f84781c8a53e8d52, type: 3}
   MinimumSpawn: 1
   MaximumSpawn: 1
   MinimumSpawnOffset: {x: -1, y: -1}

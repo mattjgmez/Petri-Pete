@@ -11,7 +11,6 @@ public abstract class Liquid : EnvironmentBehavior
     protected override void Start()
     {
         Initialization();
-        _poolableObject = GetComponent<PoolableObject>();
         UpdateScale();
     }
 
@@ -28,7 +27,7 @@ public abstract class Liquid : EnvironmentBehavior
         if (Charge <= 0)
         {
             Charge = 0;
-            Destroy(this.gameObject);
+            this.DestroyObject();
             return;
         }
         UpdateScale();
@@ -46,7 +45,7 @@ public abstract class Liquid : EnvironmentBehavior
         if (Charge <= 0)
         {
             Charge = 0;
-            Destroy(this.gameObject);
+            this.DestroyObject();
             return;
         }
         UpdateScale();

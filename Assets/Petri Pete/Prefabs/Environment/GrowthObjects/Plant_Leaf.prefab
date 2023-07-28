@@ -119,9 +119,10 @@ GameObject:
   - component: {fileID: 3407695484111409914}
   - component: {fileID: 6004537118144152557}
   - component: {fileID: -3396547785053632920}
-  m_Layer: 0
+  - component: {fileID: 6950013722263474430}
+  m_Layer: 12
   m_Name: Plant_Leaf
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -220,6 +221,20 @@ MonoBehaviour:
   OwnerCharacter: {fileID: 0}
   Debuffs:
   - {fileID: 11400000, guid: 57d1884875d637b4396c8961ed67c84e, type: 2}
+--- !u!114 &6950013722263474430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859476508873224387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ef1b8446b98394e8a1dc41c6c142b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Model: {fileID: 1859476507091255024}
+  Charge: 1
 --- !u!1 &6843740604552806161
 GameObject:
   m_ObjectHideFlags: 0

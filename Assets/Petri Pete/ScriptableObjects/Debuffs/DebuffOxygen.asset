@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 795483c71a2217145907443ff1335877, type: 3}
-  m_Name: OxygenDebuff
+  m_Name: DebuffOxygen
   m_EditorClassIdentifier: 
   Duration: 0.6
   Interval: 0.5

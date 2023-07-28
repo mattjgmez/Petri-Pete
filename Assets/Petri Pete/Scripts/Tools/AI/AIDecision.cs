@@ -9,6 +9,7 @@ namespace JadePhoenix.Tools
     {
         public abstract bool Decide();
         public string Label;
+        public string DefaultLabel { get { return GetType().Name; } }
         public bool DecisionInProgress { get; set; }
 
         protected AIBrain _brain;

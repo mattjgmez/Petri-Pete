@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5a6efe88d0c66a41bfa389bf35f9a92, type: 3}
-  m_Name: VirusDebuff
+  m_Name: DebuffVirus
   m_EditorClassIdentifier: 
   Duration: 10.1
   Interval: 1
