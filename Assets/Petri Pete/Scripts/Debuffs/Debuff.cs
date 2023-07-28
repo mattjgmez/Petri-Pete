@@ -4,38 +4,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Defines a clonable interface with a method to clone objects of a generic type.
+/// </summary>
+/// <typeparam name="T">Type of object to be cloned.</typeparam>
 public interface ICloneable<T>
 {
     T Clone();
 }
 
-//[CreateAssetMenu(fileName = "Debuff", menuName = "ScriptableObjects/Debuff", order = 0)]
+/// <summary>
+/// Represents a debuff that can be applied to a character. This class should be extended to create
+/// specific types of debuffs.
+/// </summary>
 public class Debuff : ScriptableObject, ICloneable<Debuff>
 {
+    public string Label = "";
     public float Duration = 6f;
     public float Interval = 2f;
     public bool Stackable = false;
-    /// Signals the relevant CharacterDebuffable to remove this debuff from the list.
+
+    /// <summary>
+    /// Indicates whether the debuff has finished its effect.
+    /// </summary>
     public bool DebuffFinished { get; set; }
+
+    /// <summary>
+    /// The character being affected by this debuff.
+    /// </summary>
     public Character TargetCharacter { get; set; }
+
+    /// <summary>
+    /// The CharacterDebuffable component associated with the target character.
+    /// </summary>
     public CharacterDebuffable TargetDebuffable { get; set; }
 
     protected Timer _debuffTimer;
     protected Timer _tickTimer;
 
     /// <summary>
-    /// This needs to be overwritten using the "new" keyword in every deriving class, replacing "Debuff" with the appropriate type.
+    /// Clones the current debuff instance.
+    /// Note: This should be overridden in child classes.
     /// </summary>
-    public virtual Debuff Clone() 
+    public virtual Debuff Clone()
     {
         return Instantiate(this);
     }
 
     /// <summary>
-    /// Initializes the debuff.
+    /// Sets up and starts the debuff timers.
     /// </summary>
     public virtual void Initialize()
     {
+        SetAndFormatLabel();
+
         _debuffTimer = new Timer("DebuffTimer", Duration, OnActivated, RemoveDebuff);
         _tickTimer = new Timer("TickTimer", Interval, null, DebuffTick);
         _debuffTimer.StartTimer();
@@ -43,7 +65,7 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     }
 
     /// <summary>
-    /// Method triggered by the TickTimer. Used to reset the timer and call ProcessDebuff.
+    /// Called at regular intervals to apply debuff effects and restart the tick timer.
     /// </summary>
     protected virtual void DebuffTick()
     {
@@ -53,22 +75,22 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     }
 
     /// <summary>
-    /// Effects triggered at the start of a Debuff's duration.
+    /// Effects applied when the debuff starts.
     /// </summary>
     protected virtual void OnActivated() { }
 
     /// <summary>
-    /// Effects triggered at the end of a Debuff's duration.
+    /// Effects applied when the debuff ends.
     /// </summary>
     protected virtual void OnDeactivated() { }
 
     /// <summary>
-    /// Effects triggered after each interval.
+    /// Contains the logic for the effects of the debuff. Called at regular intervals during the debuff's duration.
     /// </summary>
     protected virtual void ProcessDebuff() { }
 
     /// <summary>
-    /// Removes the debuff, triggering its OnDeactivated effect.
+    /// Removes the debuff and stops its timers.
     /// </summary>
     public virtual void RemoveDebuff()
     {
@@ -79,7 +101,7 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     }
 
     /// <summary>
-    /// Refreshes the debuff timer, triggering its OnActivated effect.
+    /// Resets and restarts the debuff timer, re-applying the debuff.
     /// </summary>
     public virtual void RefreshDebuff()
     {
@@ -90,7 +112,7 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     }
 
     /// <summary>
-    /// Called in the Update method of CharacterDebuffable.
+    /// Updates the timers of the debuff. This should be called in the Update method of CharacterDebuffable.
     /// </summary>
     public virtual void UpdateDebuff()
     {
@@ -98,9 +120,31 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
         _tickTimer.UpdateTimer();
     }
 
+    /// <summary>
+    /// Sets the target character and associated CharacterDebuffable component for this debuff.
+    /// </summary>
+    /// <param name="target">The CharacterDebuffable component of the target character.</param>
     public virtual void SetTargetCharacter(CharacterDebuffable target)
     {
         TargetCharacter = target.Character;
         TargetDebuffable = target;
+    }
+
+    /// <summary>
+    /// Sets and formats the label to the name of the ScriptableObject, removing "Debuff" from the start if it exists.
+    /// </summary>
+    public void SetAndFormatLabel()
+    {
+        // Get the type's name.
+        string name = GetType().Name;
+
+        // If the name starts with "Debuff", remove it.
+        if (name.StartsWith("Debuff"))
+        {
+            name = name.Substring(6);  // "Debuff" has 6 characters.
+        }
+
+        // Set the label.
+        Label = name;
     }
 }

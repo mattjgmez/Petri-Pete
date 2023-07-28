@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab5ac342c1e6847479008cb94f763ca9, type: 3}
-  m_Name: SlowMovement
+  m_Name: DebuffSlowMovement
   m_EditorClassIdentifier: 
   Duration: 1
   Interval: 2
