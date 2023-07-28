@@ -1668,8 +1668,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31829ac6bebd98b40bed52c3e8bf2221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BasicEnemyEvents: []
-  ObstacleEvents: []
+  BasicEnemyEvents:
+  - {fileID: 11400000, guid: 0ce4ae74d8e3dda43a2f6893eace3368, type: 2}
+  - {fileID: 11400000, guid: 3a371b8d11d37f14c9e5de32e72b63ea, type: 2}
+  ObstacleEvents:
+  - {fileID: 11400000, guid: 8dffa6c310d57fd4080b97f6cec66da2, type: 2}
+  - {fileID: 11400000, guid: 25c17db1f7837664f8e08dcc62106646, type: 2}
+  - {fileID: 11400000, guid: 072d222d5a2c4be4a930eb0e755a025e, type: 2}
+  - {fileID: 11400000, guid: 91615e50508cf624eb463998be597f02, type: 2}
+  - {fileID: 11400000, guid: 62aedc22dc342204aa4f7bfd9cb8e4ea, type: 2}
   BossEvents: []
   ActivatedWorldEvents: []
   MaxBasicEnemyEvents: 1

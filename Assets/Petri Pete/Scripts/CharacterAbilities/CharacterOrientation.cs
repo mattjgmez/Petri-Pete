@@ -155,7 +155,7 @@ public class CharacterOrientation : CharacterAbility
         // if we're not supposed to face our direction, we do nothing and exit
         if ((FacingMode != FacingModes.WeaponDirection) && (FacingMode != FacingModes.Both)) { return; }
 
-        Debug.Log($"{this.GetType()}.FlipToFaceWeaponDirection: WeaponAimComponent = {_characterWeaponHandler.WeaponAimComponent}.", gameObject);
+        //Debug.Log($"{this.GetType()}.FlipToFaceWeaponDirection: WeaponAimComponent = {_characterWeaponHandler.WeaponAimComponent}.", gameObject);
 
         if (_characterWeaponHandler.WeaponAimComponent != null)
         {

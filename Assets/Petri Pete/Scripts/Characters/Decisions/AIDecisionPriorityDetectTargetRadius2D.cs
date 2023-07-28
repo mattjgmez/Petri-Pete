@@ -27,7 +27,7 @@ public class AIDecisionPriorityDetectTargetRadius2D : AIDecision
     public override void Initialization()
     {
         _character = this.gameObject.GetComponent<Character>();
-        _spriteRenderer = _character.CharacterModel.AddComponent<SpriteRenderer>();
+        _spriteRenderer = _character.CharacterModel.GetComponent<SpriteRenderer>();
         _collider = this.gameObject.GetComponent<Collider2D>();
         _gizmoColor.a = 0.25f;
         _init = true;

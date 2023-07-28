@@ -87,10 +87,8 @@ public class AIActionShoot : AIAction
     /// </summary>
     protected virtual void TestFaceTarget()
     {
-        if (!FaceTarget)
-        {
-            return;
-        }
+        if (!FaceTarget) { return; }
+        if (_brain.Target == null) { return; }
 
         if (this.transform.position.x > _brain.Target.position.x)
         {
@@ -107,10 +105,8 @@ public class AIActionShoot : AIAction
     /// </summary>
     protected virtual void TestAimAtTarget()
     {
-        if (!AimAtTarget)
-        {
-            return;
-        }
+        if (!AimAtTarget) { return; }
+        if (_brain.Target == null) { return; }
 
         if (_characterWeaponHandler.CurrentWeapon != null)
         {
