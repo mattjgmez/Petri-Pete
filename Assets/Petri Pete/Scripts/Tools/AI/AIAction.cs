@@ -8,6 +8,7 @@ namespace JadePhoenix.Tools
     public abstract class AIAction : MonoBehaviour
     {
         public string Label;
+        public string DefaultLabel { get { return GetType().Name; } }
         public abstract void PerformAction();
         public bool ActionInProgress { get; set; }
         

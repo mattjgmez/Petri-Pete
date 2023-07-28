@@ -1,8 +1,10 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System;
 
-#if UNITY_EDITOR
 namespace JadePhoenix.Tools
 {
     [CustomPropertyDrawer(typeof(AIAction))]
@@ -12,38 +14,49 @@ namespace JadePhoenix.Tools
 
         public override void OnGUI(Rect rect, SerializedProperty prop, GUIContent label)
         {
-            var height = Mathf.Max(LineHeight, EditorGUI.GetPropertyHeight(prop));
+            // Get the currently selected GameObject in the Editor
+            GameObject selectedGO = Selection.activeGameObject;
+            if (selectedGO == null) return;
 
-            Rect position = rect;
+            // Fetch all AIAction components on the selected GameObject
+            AIAction[] actions = selectedGO.GetComponents<AIAction>();
+            if (actions.Length == 0) return;
 
-            position.height = height;
-            EditorGUI.PropertyField(position, prop); //, new GUIContent("Script"));
-            position.y += height;
+            // Create a list of action labels. If the Label is blank or null, use DefaultLabel.
+            string[] actionLabels = actions.Select(a => FormatActionLabel(a.DefaultLabel, a.Label)).ToArray();
 
-            AIAction @typedObject = prop.objectReferenceValue as AIAction;
-            if (@typedObject != null && !string.IsNullOrEmpty(@typedObject.Label))
+            // Current index
+            int currentIndex = Array.IndexOf(actions, prop.objectReferenceValue);
+
+            // Create the dropdown menu
+            currentIndex = EditorGUI.Popup(rect, "Select AI Action", currentIndex, actionLabels);
+
+            // Update the SerializedProperty to point to the selected AIAction
+            if (currentIndex >= 0)
             {
-                position.height = height;
-                EditorGUI.LabelField(position, "Label", @typedObject.Label);
-                position.y += height;
+                prop.objectReferenceValue = actions[currentIndex];
             }
-            else
+        }
+
+        private string FormatActionLabel(string defaultLabel, string customLabel)
+        {
+            string cleanDefaultLabel = SeparateCamelCase(defaultLabel);
+            if (!string.IsNullOrEmpty(customLabel))
             {
-                EditorGUIUtility.GetControlID(FocusType.Passive);
+                return $"{cleanDefaultLabel} (\"{customLabel}\")";
             }
+            return cleanDefaultLabel;
+        }
+
+        private string SeparateCamelCase(string input)
+        {
+            input = input.Replace("AIAction", ""); // Remove these substrings
+            return Regex.Replace(input, "([a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z]))", "$1 ");
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var h = Mathf.Max(LineHeight, EditorGUI.GetPropertyHeight(property));
-            float height = h;
-
-            AIAction @typedObject = property.objectReferenceValue as AIAction;
-            if (@typedObject != null && !string.IsNullOrEmpty(@typedObject.Label))
-            {
-                height += h;
-            }
-            return height;
+            return LineHeight;
         }
     }
 }
