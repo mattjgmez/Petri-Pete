@@ -16,6 +16,7 @@ public class WorldEventSpawnObject : WorldEvent
     public override void PerformWorldEvent()
     {
         SpawnObjects();
+        UIManager.Instance.ShowSpawnOnMinimap(_spawnPosition);
     }
 
     protected virtual void SpawnObjects()

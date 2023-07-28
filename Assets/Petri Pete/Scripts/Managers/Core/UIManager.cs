@@ -24,6 +24,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text UpgradeTimer;
     public TMP_Text RemainingEnemies;
     public GameObject UpgradeSelectScreen;
+    public GameObject EventLocationMarker;
 
     protected virtual void Start()
     {
@@ -87,6 +88,20 @@ public class UIManager : Singleton<UIManager>
             PauseManager.Instance.SetPause(state);
             EventSystem.current.sendNavigationEvents = state;
         }
+    }
+
+    public virtual void ShowSpawnOnMinimap(Vector2 location)
+    {
+        if (EventLocationMarker == null) { return; }
+
+        Animator anim = EventLocationMarker.GetComponent<Animator>();
+
+        if (anim != null)
+        {
+            anim.SetTrigger("MarkEvent") ;
+        }
+
+        EventLocationMarker.transform.position = location;
     }
 
     /// <summary>

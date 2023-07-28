@@ -10,7 +10,7 @@ public class ResizeWindow : DraggableWindow, IPointerUpHandler
     public bool KeepSquare = false;
 
     protected bool _didResizing = false;
-    protected const float _windowMinimum = 200f;
+    protected const float _windowMinimum = 400f;
 
     /// <summary>
     /// Handles the drag event to resize the UI window while in full-screen mode or pass the event to the base class for regular dragging.
