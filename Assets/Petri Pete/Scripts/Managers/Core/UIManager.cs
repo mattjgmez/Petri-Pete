@@ -14,11 +14,13 @@ public class UIManager : Singleton<UIManager>
 {
     public Canvas MainCanvas;
     public GameObject HUD;
-    public Slider HealthBar;
+    public Image HealthBar;
+    public TextMeshProUGUI HealthText;
     public GameObject PauseScreen;
     public GameObject DeathScreen;
     public GameObject VictoryScreen;
     public TMP_Text PointsText;
+    public TMP_Text DebuffsText;
     public TMP_Text UpgradeTimer;
     public TMP_Text RemainingEnemies;
     public GameObject UpgradeSelectScreen;
@@ -97,9 +99,23 @@ public class UIManager : Singleton<UIManager>
     {
         if (HealthBar == null) { return; }
 
-        HealthBar.minValue = minHealth;
-        HealthBar.maxValue = maxHealth;
-        HealthBar.value = currentHealth;
+        float newHealth = currentHealth / (maxHealth);
+
+        HealthBar.fillAmount = newHealth;
+        HealthText.text = currentHealth.ToString();
+    }
+
+    public virtual void UpdateDebuffs(List<Debuff> debuffs)
+    {
+        if (DebuffsText == null) { return; }
+
+        string newText = debuffs.Count == 0 ? "None" : "";
+        foreach (var item in debuffs)
+        {
+            newText += item.name + " ";
+        }
+        DebuffsText.text = newText;
+
     }
 
     /// <summary>

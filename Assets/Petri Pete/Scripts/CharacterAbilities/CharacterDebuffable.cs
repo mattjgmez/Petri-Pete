@@ -51,6 +51,7 @@ public class CharacterDebuffable : CharacterAbility
             ActiveDebuffs.Add(newDebuff);
             newDebuff.SetTargetCharacter(this);
             newDebuff.Initialize();
+            UIManager.Instance.UpdateDebuffs(ActiveDebuffs);
         }
     }
 

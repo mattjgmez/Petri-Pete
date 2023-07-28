@@ -127,6 +127,11 @@ public class Health : MonoBehaviour
         // we trigger a damage taken event
         CharacterEvents.DamageTakenEvent.Trigger(_character, instigator, CurrentHealth, damage, previousHealth);
 
+        if (_character.CharacterType == Character.CharacterTypes.Player)
+        {
+            UIManager.Instance.UpdateHealthBar(CurrentHealth, InitialHealth, MaxHealth);
+        }
+
         // if health has reached zero
         if (CurrentHealth <= 0)
         {
@@ -249,6 +254,11 @@ public class Health : MonoBehaviour
         // this function adds health to the character's Health and prevents it to go above MaxHealth.
         CurrentHealth = Mathf.Min(CurrentHealth + amountToHeal, MaxHealth);
         OnHealthChange?.Invoke();
+
+        if (_character.CharacterType == Character.CharacterTypes.Player)
+        {
+            UIManager.Instance.UpdateHealthBar(CurrentHealth, InitialHealth, MaxHealth);
+        }
     }
 
     /// <summary>
