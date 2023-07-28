@@ -175,7 +175,7 @@ public class CharacterAbility : MonoBehaviour
     /// <summary>
     /// Override this to describe what should happen to this ability when the character takes a hit
     /// </summary>
-    protected virtual void OnHit() { }
+    protected virtual void OnHit(GameObject instigator) { }
 
     /// <summary>
     /// Override this to describe what should happen to this ability when the character respawns

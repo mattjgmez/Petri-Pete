@@ -113,8 +113,10 @@ GameObject:
   - component: {fileID: 1544142004190206153}
   - component: {fileID: 1544142004190206154}
   - component: {fileID: -3079650116469136196}
+  - component: {fileID: 5757830317306311462}
+  - component: {fileID: 5982697532572272529}
   - component: {fileID: 1545367859449002898}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Tardigrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +311,7 @@ MonoBehaviour:
   AbilityStopSfx: {fileID: 0}
   DrinkableLiquids: 02000000
   HealAmount: 3
-  DrinkDuration: 1.5
+  DrinkDuration: 1.9
   DetectionActive: 0
   CastOffset: {x: 0, y: 0}
   CastRadius: 0.1
@@ -337,6 +339,9 @@ MonoBehaviour:
       - {fileID: 1544142004190206163}
     Transitions:
       array:
+      - Decision: {fileID: 5982697532572272529}
+        TrueState: Enrage
+        FalseState: 
       - Decision: {fileID: 1544142004190206157}
         TrueState: 
         FalseState: 
@@ -352,6 +357,12 @@ MonoBehaviour:
       - {fileID: 1544142004190206162}
     Transitions:
       array:
+      - Decision: {fileID: 5982697532572272529}
+        TrueState: Enrage
+        FalseState: 
+      - Decision: {fileID: 1544142004190206152}
+        TrueState: Seeking
+        FalseState: 
       - Decision: {fileID: 1544142004190206157}
         TrueState: 
         FalseState: 
@@ -361,23 +372,24 @@ MonoBehaviour:
       - Decision: {fileID: 1544142004190206154}
         TrueState: Drink
         FalseState: 
-      - Decision: {fileID: 1544142004190206152}
-        TrueState: Seeking
-        FalseState: 
   - StateName: Attack
     Actions:
       array:
       - {fileID: 1544142004190206162}
+      - {fileID: 1544142004190206156}
     Transitions:
       array:
+      - Decision: {fileID: 5982697532572272529}
+        TrueState: Enrage
+        FalseState: 
+      - Decision: {fileID: 1544142004190206152}
+        TrueState: Seeking
+        FalseState: 
       - Decision: {fileID: 1544142004190206157}
         TrueState: 
         FalseState: 
       - Decision: {fileID: 1544142004190206154}
         TrueState: Drink
-        FalseState: 
-      - Decision: {fileID: 1544142004190206152}
-        TrueState: Seeking
         FalseState: 
       - Decision: {fileID: -3079650116469136196}
         TrueState: Seeking
@@ -392,6 +404,19 @@ MonoBehaviour:
         TrueState: Seeking
         FalseState: 
       - Decision: {fileID: -3079650116469136196}
+        TrueState: Seeking
+        FalseState: 
+  - StateName: Enrage
+    Actions:
+      array:
+      - {fileID: 1544142004190206162}
+      - {fileID: 1544142004190206156}
+    Transitions:
+      array:
+      - Decision: {fileID: 1544142004190206152}
+        TrueState: Seeking
+        FalseState: 
+      - Decision: {fileID: 5757830317306311462}
         TrueState: Seeking
         FalseState: 
   BrainActive: 1
@@ -568,9 +593,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ea5a8b02b0e154fb678e63718046d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Label: 
+  Label: Attack and Drink
   AfterTimeMin: 2
   AfterTimeMax: 2
+--- !u!114 &5757830317306311462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ea5a8b02b0e154fb678e63718046d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: Enrage
+  AfterTimeMin: 5
+  AfterTimeMax: 8
+--- !u!114 &5982697532572272529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a442a594789e210458f9d4f0c211c762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: 
+  NumberOfHits: 1
 --- !u!114 &1545367859449002898
 MonoBehaviour:
   m_ObjectHideFlags: 0

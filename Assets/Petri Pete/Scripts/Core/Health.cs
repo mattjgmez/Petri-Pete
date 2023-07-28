@@ -30,7 +30,7 @@ public class Health : MonoBehaviour
     public bool DisableCollisionsOnDeath = true;
 
     // hit delegate
-    public delegate void OnHitDelegate();
+    public delegate void OnHitDelegate(GameObject instigator);
     public OnHitDelegate OnHit;
 
     // respawn delegate
@@ -110,7 +110,7 @@ public class Health : MonoBehaviour
         CurrentHealth -= damage;
         OnHealthChange?.Invoke();
 
-        OnHit?.Invoke();
+        OnHit?.Invoke(instigator);
 
         if (CurrentHealth < 0)
         {

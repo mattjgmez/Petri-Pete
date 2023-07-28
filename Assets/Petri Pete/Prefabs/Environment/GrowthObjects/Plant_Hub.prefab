@@ -216,9 +216,9 @@ MonoBehaviour:
   - {fileID: 6872852974544196500}
   - {fileID: 6872852973365715358}
   StartingGrowths: 5
-  GrowthInterval: 2
-  MinGrowthAmount: 3
-  MaxGrowthAmount: 6
+  GrowthInterval: 5
+  MinGrowthAmount: 1
+  MaxGrowthAmount: 3
 --- !u!114 &2924406942956602939
 MonoBehaviour:
   m_ObjectHideFlags: 0
