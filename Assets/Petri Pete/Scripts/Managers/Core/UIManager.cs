@@ -133,24 +133,5 @@ public class UIManager : Singleton<UIManager>
 
     }
 
-    /// <summary>
-    /// Updates the displayed upgrade timer.
-    /// </summary>
-    /// <param name="time">Time remaining for the next upgrade.</param>
-    public virtual void UpdateUpgradeTimer(float time)
-    {
-        if (UpgradeTimer == null) { return; }
-
-        if (time >= 60)
-        {
-            int minutes = (int)time / 60;
-            UpgradeTimer.text = minutes.ToString("D") + "m";
-        }
-        else
-        {
-            UpgradeTimer.text = ((int)time).ToString();
-        }
-    }
-
     #endregion
 }
