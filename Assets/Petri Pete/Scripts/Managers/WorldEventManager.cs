@@ -72,7 +72,7 @@ public class WorldEventManager : Singleton<WorldEventManager>
         for (int i = 0; i < amount; i++)
         {
             // Exit if no events in the category
-            if (eventCategory.Count == 0) { return; } 
+            if (eventCategory.Count <= 0) { return; } 
 
             int randomIndex = Random.Range(0, eventCategory.Count);
             WorldEvent triggeredEvent = eventCategory[randomIndex];
