@@ -1,0 +1,699 @@
+fileFormatVersion: 2
+guid: 4cec309e499ecb440bac2809066ae359
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 12010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ce4f00042ed2fc4f9c948d3b7e9f751
+      internalID: -1427088676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 12010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16c7427550a06c47843bded1872dfb2
+      internalID: -1941809925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 12010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13a2cfbb63c1205448b05172da8dbf45
+      internalID: 1049958626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 9000
+        y: 12010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d0e375362a01944694dc5bda7171750
+      internalID: -1571178109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 12000
+        y: 12010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5ed8596b67711046bc35a996da0c51d
+      internalID: -208934369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fc932d21c78adc42a3439ce20c12865
+      internalID: 289348369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 9010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e49b92ca80507a14ab8aa58b3507be4c
+      internalID: -1781607425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 9010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eebe2ac0f5b7cf45818ead276ac5765
+      internalID: 1716944570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 9000
+        y: 9010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 333a3310d843bca4f97463903942a467
+      internalID: 198393594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 12000
+        y: 9010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8a560ccf1d679740a4669646741ed87
+      internalID: 1754201194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d202b179d2d46a84aa8bd58fb1b393fd
+      internalID: -197474755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 6010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10cabc19fcd37c04891e3c7838de38a9
+      internalID: -414389671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 6010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3a44372e69d1e24dbc829bc6314b04d
+      internalID: -2065845162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 9000
+        y: 6010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 867d2c91f41ab8d4c9e86c6b349361ec
+      internalID: 2097028696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 12000
+        y: 6010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e2058d88d11cbf459952e9f655e9e1d
+      internalID: -652320459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d89ccad9042b3624686e724049889efa
+      internalID: 2012697507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 3010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c221500b87b9e7e48b4ecdf3568a25ef
+      internalID: -372929991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_17
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 3010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 252260c52ce93634cb916fc63073d1ca
+      internalID: -1925954073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_18
+      rect:
+        serializedVersion: 2
+        x: 9000
+        y: 3010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d416e2f6173e614884070498c8e9209
+      internalID: 868763644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_19
+      rect:
+        serializedVersion: 2
+        x: 12000
+        y: 3010
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72672e22c3dd6ad4e862551bbf0ad79e
+      internalID: -542176534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4df4c17037f58b4fbeb75bbc4bd5b97
+      internalID: -239275452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_21
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 10
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00ebe7cb366b2414092360cc6de2f9b4
+      internalID: -1365414787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_22
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 10
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 064be9a9c5f2d954f80cbecce1df4515
+      internalID: 34129849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tartigrade_Attack_SpriteSheet_23
+      rect:
+        serializedVersion: 2
+        x: 9000
+        y: 10
+        width: 3000
+        height: 3000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49b8221f888c66c40abd731b5ede7422
+      internalID: 1125954537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Tartigrade_Attack_SpriteSheet_18: 868763644
+      Tartigrade_Attack_SpriteSheet_8: 198393594
+      Tartigrade_Attack_SpriteSheet_7: 1716944570
+      Tartigrade_Attack_SpriteSheet_16: -372929991
+      Tartigrade_Attack_SpriteSheet_21: -1365414787
+      Tartigrade_Attack_SpriteSheet_15: 2012697507
+      Tartigrade_Attack_SpriteSheet_13: 2097028696
+      Tartigrade_Attack_SpriteSheet_19: -542176534
+      Tartigrade_Attack_SpriteSheet_14: -652320459
+      Tartigrade_Attack_SpriteSheet_10: -197474755
+      Tartigrade_Attack_SpriteSheet_11: -414389671
+      Tartigrade_Attack_SpriteSheet_0: -1427088676
+      Tartigrade_Attack_SpriteSheet_3: -1571178109
+      Tartigrade_Attack_SpriteSheet_6: -1781607425
+      Tartigrade_Attack_SpriteSheet_22: 34129849
+      Tartigrade_Attack_SpriteSheet_4: -208934369
+      Tartigrade_Attack_SpriteSheet_12: -2065845162
+      Tartigrade_Attack_SpriteSheet_9: 1754201194
+      Tartigrade_Attack_SpriteSheet_17: -1925954073
+      Tartigrade_Attack_SpriteSheet_20: -239275452
+      Tartigrade_Attack_SpriteSheet_23: 1125954537
+      Tartigrade_Attack_SpriteSheet_5: 289348369
+      Tartigrade_Attack_SpriteSheet_1: -1941809925
+      Tartigrade_Attack_SpriteSheet_2: 1049958626
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
