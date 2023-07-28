@@ -152,11 +152,11 @@ public class MeleeWeapon : Weapon
         switch (DamageAreaShape)
         {
             case MeleeDamageAreaShapes.Box:
-                Gizmos.DrawWireCube((Vector2)this.transform.position + AreaOffset, AreaSize);
+                Gizmos.DrawWireCube((Vector2)transform.position + AreaOffset, AreaSize);
                 break;
 
             case MeleeDamageAreaShapes.Circle:
-                Gizmos.DrawWireSphere((Vector2)this.transform.position + AreaOffset, AreaSize.x / 2);
+                Gizmos.DrawWireSphere((Vector2)transform.position + AreaOffset, AreaSize.x / 2);
                 break;
         }
     }

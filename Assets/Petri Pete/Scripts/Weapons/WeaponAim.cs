@@ -1,108 +1,94 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using JadePhoenix.Tools;
-using System;
-using static Cinemachine.CinemachineTargetGroup;
+using UnityEngine;
 
 [RequireComponent(typeof(Weapon))]
 public class WeaponAim : MonoBehaviour
 {
-    public enum AimControls { Off, Mouse, Script}
+    public enum AimControls { Off, Mouse, Script }
+
+    #region Variables
 
     [Header("Control Mode")]
+    [Tooltip("Determines the aiming control method.")]
     public AimControls AimControl = AimControls.Off;
 
     [Header("Weapon Rotation")]
+    [Tooltip("Speed of weapon rotation, 0 is instant.")]
     public float WeaponRotationSpeed = 1f;
+    [Tooltip("Minimum angle for weapon rotation.")]
     public float MinimumAngle = -180f;
+    [Tooltip("Maximum angle for weapon rotation.")]
     public float MaximumAngle = 180f;
-    public float MinimumMagnitude = 0.2f;
 
     [Header("CameraTarget")]
+    [Tooltip("Should the camera target move towards the reticle?")]
     public bool MoveCameraTargetTowardsReticle = false;
     [Range(0f, 1f)]
+    [Tooltip("Offset for the camera target.")]
     public float CameraTargetOffset = 0.3f;
+    [Tooltip("Maximum distance for the camera target.")]
     public float CameraTargetMaxDistance = 10f;
+    [Tooltip("Movement speed of the camera target.")]
     public float CameraTargetSpeed = 5f;
 
-    public float CurrentAngleAbsolute { get; protected set; }
-    public Quaternion CurrentRotation { get { return transform.rotation; } }
-    public Vector3 CurrentAim { get { return _currentAim; } }
-    /// the current angle the weapon is aiming at
-    public float CurrentAngle { get; protected set; }
-    /// the current angle the weapon is aiming at, adjusted to compensate for the current orientation of the character
-    public virtual float CurrentAngleRelative
-    {
-        get
-        {
-            if (_weapon != null)
-            {
-                if (_weapon.Owner != null)
-                {
-                    return CurrentAngle;
-                }
-            }
-            return 0;
-        }
-    }
+    public float CurrentAngleAbsolute { get; private set; }
+    public float CurrentAngle { get; private set; }
 
     protected Weapon _weapon;
-    protected Vector3 _currentAim = Vector3.zero;
+    protected Vector2 _currentAim = Vector2.zero;
     protected Quaternion _lookRotation;
-    protected Vector3 _direction;
+    protected Vector2 _direction;
     protected float _additionalAngle;
     protected Quaternion _initialRotation;
-    protected Plane _playerPlane;
-    protected Vector3 _reticlePosition;
-    protected Vector3 _newCamTargetPosition;
-    protected Vector3 _newCamTargetDirection;
+    protected Vector2 _reticlePosition;
+    protected Vector2 _newCamTargetPosition;
+    protected Vector2 _newCamTargetDirection;
     protected Vector2 _inputMovement;
     protected Camera _mainCamera;
+
+    #endregion
+
+    #region Unity Lifecycle
 
     protected virtual void Start()
     {
         Initialization();
     }
 
-    protected virtual void Initialization()
-    {
-        _weapon = GetComponent<Weapon>();
-
-        _initialRotation = transform.rotation;
-        _playerPlane = new Plane(Vector3.up, Vector3.zero);
-        _mainCamera = Camera.main;
-    }
-
-    /// <summary>
-    /// Aims the weapon towards a new point
-    /// </summary>
-    /// <param name="newAim">New aim.</param>
-    public virtual void SetCurrentAim(Vector3 newAim)
-    {
-        _currentAim = newAim;
-    }
-
     protected virtual void Update()
     {
         GetCurrentAim();
         DetermineWeaponRotation();
-        MoveTarget();
-        UpdatePlane();
+        MoveCameraTarget();
     }
 
-    #region CURRENT AIM METHODS
+    protected virtual void LateUpdate()
+    {
+        ResetAdditionalAngle();
+    }
 
+    #endregion
+
+    /// <summary>
+    /// Initializes necessary variables and references.
+    /// </summary>
+    protected virtual void Initialization()
+    {
+        _weapon = GetComponent<Weapon>();
+        _initialRotation = transform.rotation;
+        _mainCamera = Camera.main;
+    }
+
+    /// <summary>
+    /// Determines the current aiming direction based on the selected AimControl.
+    /// </summary>
     protected virtual void GetCurrentAim()
     {
         if (_weapon.Owner == null) { return; }
 
-        if ((_weapon.Owner.LinkedInputManager == null) && (_weapon.Owner.CharacterType == Character.CharacterTypes.Player)) { return; }
-
         switch (AimControl)
         {
             case AimControls.Off:
-                if (_weapon.Owner == null) { return; }
                 GetOffAim();
                 break;
 
@@ -111,67 +97,54 @@ public class WeaponAim : MonoBehaviour
                 break;
 
             case AimControls.Mouse:
-                if (_weapon.Owner == null)
-                {
-                    return;
-                }
                 GetMouseAim();
                 break;
         }
     }
 
+    /// <summary>
+    /// Sets the aiming direction to the right when the AimControl is set to 'Off'.
+    /// </summary>
     protected virtual void GetOffAim()
     {
-        _currentAim = Vector3.right;
-        _direction = Vector3.right;
+        _currentAim = Vector2.right;
+        _direction = Vector2.right;
     }
 
+    /// <summary>
+    /// Sets the aiming direction based on a given point in the script.
+    /// </summary>
     protected virtual void GetScriptAim()
     {
-        _direction = -(transform.position - _currentAim);
+        _direction = -(Vector2)transform.position - _currentAim;
     }
 
+    /// <summary>
+    /// Sets the aiming direction towards the mouse position.
+    /// </summary>
     protected virtual void GetMouseAim()
     {
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.yellow);
-        float distance;
-        if (_playerPlane.Raycast(ray, out distance))
-        {
-            Vector3 target = ray.GetPoint(distance);
-            _direction = target;
-        }
-
+        Vector2 mousePosition = new Vector2(ray.origin.x, ray.origin.y);
+        _direction = mousePosition;
         _reticlePosition = _direction;
-
-        _direction.y = transform.position.y;
-        _currentAim = _direction - transform.position;
+        _direction -= (Vector2)transform.position;
+        _currentAim = _direction;
     }
 
-    #endregion
-
     /// <summary>
-    /// Determines the weapon's rotation
+    /// Determines the rotation of the weapon based on the current aiming direction.
     /// </summary>
     protected virtual void DetermineWeaponRotation()
     {
-        if (_currentAim != Vector3.zero)
+        if (_currentAim != Vector2.zero)
         {
-            if (_direction != Vector3.zero)
-            {
-                CurrentAngle = Mathf.Atan2(_currentAim.z, _currentAim.x) * Mathf.Rad2Deg;
-
-                // we add our additional angle
-                CurrentAngle += _additionalAngle;
-
-                // we clamp the angle to the min/max values set in the inspector
-
-                CurrentAngle = Mathf.Clamp(CurrentAngle, MinimumAngle, MaximumAngle);
-                CurrentAngle = -CurrentAngle + 90f;
-
-                _lookRotation = Quaternion.Euler(CurrentAngle * Vector3.up);
-                RotateWeapon(_lookRotation);
-            }
+            CurrentAngle = Mathf.Atan2(_currentAim.y, _currentAim.x) * Mathf.Rad2Deg;
+            CurrentAngle += _additionalAngle;
+            CurrentAngle = Mathf.Clamp(CurrentAngle, MinimumAngle, MaximumAngle);
+            CurrentAngle = -CurrentAngle + 90f;
+            _lookRotation = Quaternion.Euler(0, CurrentAngle, 0);
+            RotateWeapon(_lookRotation);
         }
         else
         {
@@ -180,65 +153,55 @@ public class WeaponAim : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Rotates the weapon towards the desired direction.
+    /// </summary>
+    /// <param name="newRotation">The desired rotation for the weapon.</param>
     protected virtual void RotateWeapon(Quaternion newRotation)
     {
-        /// Placeholder for eventual GameManager
-        //if (GameManager.Instance.Paused)
-        //{
-        //    return;
-        //}
-
-        // if the rotation speed is == 0, we have instant rotation
-        if (WeaponRotationSpeed == 0)
-        {
-            transform.rotation = newRotation;
-        }
-        // otherwise we lerp the rotation
-        else
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, WeaponRotationSpeed * Time.deltaTime);
-        }
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, WeaponRotationSpeed * Time.deltaTime);
     }
 
-    protected virtual void MoveTarget()
+    /// <summary>
+    /// Moves the camera target towards the aiming reticle.
+    /// </summary>
+    protected virtual void MoveCameraTarget()
     {
         if (MoveCameraTargetTowardsReticle && (_weapon.Owner != null))
         {
             _newCamTargetPosition = _reticlePosition;
-            _newCamTargetDirection = _newCamTargetPosition - this.transform.position;
+            _newCamTargetDirection = _newCamTargetPosition - (Vector2)transform.position;
             if (_newCamTargetDirection.magnitude > CameraTargetMaxDistance)
             {
-                _newCamTargetDirection = _newCamTargetDirection.normalized * CameraTargetMaxDistance;
+                _newCamTargetDirection.Normalize();
+                _newCamTargetDirection *= CameraTargetMaxDistance;
             }
-            _newCamTargetPosition = this.transform.position + _newCamTargetDirection;
-
-            //Debug.Log($"{this.GetType()}.MoveTarget: _weapon.Owner: {_weapon.Owner} _newCamTargetPosition: {_newCamTargetPosition} CameraTargetOffset {CameraTargetOffset}.", gameObject);
-
-            _newCamTargetPosition = Vector3.Lerp(_weapon.Owner.CameraTarget.transform.position, 
-                                    Vector3.Lerp(this.transform.position, _newCamTargetPosition, CameraTargetOffset), Time.deltaTime * CameraTargetSpeed);
-
+            _newCamTargetPosition = (Vector2)transform.position + _newCamTargetDirection;
+            _newCamTargetPosition = Vector2.Lerp((Vector2)_weapon.Owner.CameraTarget.transform.position,
+                                                 Vector2.Lerp((Vector2)transform.position, _newCamTargetPosition, CameraTargetOffset),
+                                                 Time.deltaTime * CameraTargetSpeed);
             _weapon.Owner.CameraTarget.transform.position = _newCamTargetPosition;
         }
     }
 
-    protected virtual void UpdatePlane()
-    {
-        _playerPlane.SetNormalAndPosition(Vector3.up, this.transform.position);
-    }
-
     /// <summary>
-    /// On LateUpdate, resets any additional angle
-    /// </summary>
-    protected virtual void LateUpdate()
-    {
-        ResetAdditionalAngle();
-    }
-
-    /// <summary>
-    /// Resets the additional angle
+    /// Resets any additional angle applied to the weapon's rotation.
     /// </summary>
     protected virtual void ResetAdditionalAngle()
     {
         _additionalAngle = 0;
     }
+
+    #region Public Methods
+
+    /// <summary>
+    /// Sets the direction in which the weapon is aiming.
+    /// </summary>
+    /// <param name="newAim">New aim direction in 2D space.</param>
+    public void SetCurrentAim(Vector2 newAim)
+    {
+        _currentAim = newAim;
+    }
+
+    #endregion
 }

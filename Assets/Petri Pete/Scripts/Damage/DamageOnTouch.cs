@@ -327,13 +327,16 @@ public class DamageOnTouch : MonoBehaviour
 
         if (_circleCollider != null)
         {
+            // Rotate the circle offset by the transform's rotation
+            Vector2 rotatedOffset = this.transform.rotation * _circleCollider.offset;
+
             if (_circleCollider.enabled)
             {
-                Gizmos.DrawSphere(_circleCollider.offset, _circleCollider.radius);
+                Gizmos.DrawSphere((Vector2)this.transform.position + rotatedOffset, _circleCollider.radius);
             }
             else
             {
-                Gizmos.DrawWireSphere(_circleCollider.offset, _circleCollider.radius);
+                Gizmos.DrawWireSphere((Vector2)this.transform.position + rotatedOffset, _circleCollider.radius);
             }
         }
     }

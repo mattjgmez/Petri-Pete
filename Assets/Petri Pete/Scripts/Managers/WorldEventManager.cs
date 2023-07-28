@@ -10,6 +10,11 @@ public class WorldEventManager : Singleton<WorldEventManager>
     public List<WorldEvent> BossEvents;
     public List<WorldEvent> ActivatedWorldEvents;
 
+    [Header("Maximum Active Events")]
+    public int MaxBasicEnemyEvents = 1;
+    public int MaxObstacleEvents = 2;
+    public int MaxBossEvents = 1;
+
     [Header("Timer")]
     public Timer EventTriggerTimer;
     [Tooltip("Duration of the timer in seconds before the next event gets triggered.")]
@@ -17,8 +22,8 @@ public class WorldEventManager : Singleton<WorldEventManager>
     [Tooltip("Duration of the timer in seconds before boss events can be spawned.")]
     public float BossSpawnThreshold = 600;
 
-    protected List<WorldEvent> AvailableWorldEvents = new List<WorldEvent>();
-    protected float timeSinceStart = 0f;
+    protected List<WorldEvent> _availableWorldEvents = new List<WorldEvent>();
+    protected float _timeSinceStart = 0f;
 
     /// <summary>
     /// Initialization method called at the start.
@@ -29,8 +34,7 @@ public class WorldEventManager : Singleton<WorldEventManager>
 
         // Start the game with a random obstacle and two random basic enemies
         TriggerSpecificEvent(ObstacleEvents);
-        TriggerSpecificEvent(BasicEnemyEvents);
-        TriggerSpecificEvent(BasicEnemyEvents);
+        TriggerSpecificEvent(BasicEnemyEvents, 2);
     }
 
     /// <summary>
@@ -40,8 +44,8 @@ public class WorldEventManager : Singleton<WorldEventManager>
     {
         EventTriggerTimer = new Timer(EventTriggerTimerDuration, null, OnTimerCompleted);
         EventTriggerTimer.StartTimer();
-        AvailableWorldEvents.AddRange(BasicEnemyEvents);
-        AvailableWorldEvents.AddRange(ObstacleEvents);
+        _availableWorldEvents.AddRange(BasicEnemyEvents);
+        _availableWorldEvents.AddRange(ObstacleEvents);
     }
 
     /// <summary>
@@ -49,42 +53,115 @@ public class WorldEventManager : Singleton<WorldEventManager>
     /// </summary>
     protected virtual void OnTimerCompleted()
     {
-        if (timeSinceStart > BossSpawnThreshold && !AvailableWorldEvents.ContainsRange(BossEvents))
+        if (_timeSinceStart > BossSpawnThreshold && !_availableWorldEvents.ContainsRange(BossEvents))
         {
             // The boss can be included in the random pool once the threshold is reached.
-            AvailableWorldEvents.AddRange(BossEvents);
+            _availableWorldEvents.AddRange(BossEvents);
         }
 
         TriggerRandomEvent();
     }
 
     /// <summary>
-    /// Triggers a specific event from a given event category.
+    /// Triggers a specific number of events from a given event category.
     /// </summary>
-    public virtual void TriggerSpecificEvent(List<WorldEvent> eventCategory)
+    /// <param name="eventCategory">The category of events to select from.</param>
+    /// <param name="amount">The number of events to trigger.</param>
+    public virtual void TriggerSpecificEvent(List<WorldEvent> eventCategory, int amount = 1)
     {
-        int randomIndex = Random.Range(0, eventCategory.Count);
-        WorldEvent triggeredEvent = eventCategory[randomIndex];
+        for (int i = 0; i < amount; i++)
+        {
+            // Exit if no events in the category
+            if (eventCategory.Count == 0) { return; } 
 
-        ActivatedWorldEvents.Add(triggeredEvent);
-        eventCategory.RemoveAt(randomIndex);
+            int randomIndex = Random.Range(0, eventCategory.Count);
+            WorldEvent triggeredEvent = eventCategory[randomIndex];
 
-        triggeredEvent.Initialization();
+            ActivatedWorldEvents.Add(triggeredEvent);
+
+            triggeredEvent.Initialization();
+        }
     }
 
     /// <summary>
-    /// Selects and triggers a random event from the available events.
+    /// Selects and triggers a specific number of random events from the available events.
+    /// Will cancel if all Categories are at their maximum allowed spawns.
     /// </summary>
-    public virtual void TriggerRandomEvent()
+    /// <param name="amount">The number of events to trigger.</param>
+    public virtual void TriggerRandomEvent(int amount = 1)
     {
-        int randomIndex = Random.Range(0, AvailableWorldEvents.Count);
-        WorldEvent triggeredEvent = AvailableWorldEvents[randomIndex];
-        ActivatedWorldEvents.Add(triggeredEvent);
+        for (int i = 0; i < amount; i++)
+        {
+            // Exit if reached the maximum allowed events
+            if (ActivatedWorldEvents.Count >= (MaxBasicEnemyEvents + MaxObstacleEvents + MaxBossEvents)) { return; }
 
-        triggeredEvent.Initialization();
+            bool successfullyTriggered = false;
+            List<WorldEvent> checkedEvents = new List<WorldEvent>();
 
-        EventTriggerTimer.ResetTimer();
-        EventTriggerTimer.StartTimer();
+            // Keep trying to find a valid event to trigger
+            while (!successfullyTriggered && checkedEvents.Count < _availableWorldEvents.Count)
+            {
+                int randomIndex = Random.Range(0, _availableWorldEvents.Count);
+                WorldEvent triggeredEvent = _availableWorldEvents[randomIndex];
+
+                // Avoid checking the same event multiple times
+                if (checkedEvents.Contains(triggeredEvent)) { continue; }
+                checkedEvents.Add(triggeredEvent);
+
+                // Check if category has reached its limit
+                if ((BasicEnemyEvents.Contains(triggeredEvent) && GetCountOfCategoryInActivatedEvents(BasicEnemyEvents) >= MaxBasicEnemyEvents) ||
+                    (ObstacleEvents.Contains(triggeredEvent) && GetCountOfCategoryInActivatedEvents(ObstacleEvents) >= MaxObstacleEvents) ||
+                    (BossEvents.Contains(triggeredEvent) && GetCountOfCategoryInActivatedEvents(BossEvents) >= MaxBossEvents))
+                {
+                    continue;
+                }
+
+                // Activate the event
+                ActivatedWorldEvents.Add(triggeredEvent);
+                triggeredEvent.Initialization();
+                successfullyTriggered = true;
+
+                EventTriggerTimer.ResetTimer();
+                EventTriggerTimer.StartTimer();
+            }
+
+            // If all categories are maxed out
+            if (!successfullyTriggered) { return; }
+        }
+    }
+
+    /// <summary>
+    /// Removes a specified world event from the list of activated events.
+    /// </summary>
+    /// <param name="worldEvent">The world event to remove.</param>
+    public void RemoveActivatedEvent(WorldEvent worldEvent)
+    {
+        ActivatedWorldEvents.Remove(worldEvent);
+    }
+
+    /// <summary>
+    /// Sets the maximum number of activated events for a given category.
+    /// </summary>
+    /// <param name="category">The category of events.</param>
+    /// <param name="maxCount">The maximum number of events.</param>
+    public void SetMaxForCategory(List<WorldEvent> category, int maxCount)
+    {
+        if (category == BasicEnemyEvents) MaxBasicEnemyEvents = maxCount;
+        else if (category == ObstacleEvents) MaxObstacleEvents = maxCount;
+        else if (category == BossEvents) MaxBossEvents = maxCount;
+    }
+
+    /// <summary>
+    /// Helper method to get the count of a specific category in the activated events list.
+    /// </summary>
+    private int GetCountOfCategoryInActivatedEvents(List<WorldEvent> category)
+    {
+        int count = 0;
+        foreach (var ev in ActivatedWorldEvents)
+        {
+            if (category.Contains(ev)) count++;
+        }
+        return count;
     }
 
     /// <summary>
@@ -92,7 +169,7 @@ public class WorldEventManager : Singleton<WorldEventManager>
     /// </summary>
     protected virtual void Update()
     {
-        timeSinceStart += Time.deltaTime;
+        _timeSinceStart += Time.deltaTime;
 
         if (EventTriggerTimer == null) return;
         EventTriggerTimer.UpdateTimer();
