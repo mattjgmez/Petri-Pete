@@ -65,6 +65,8 @@ public class CharacterDrink : CharacterAbility
 
         _movement.ChangeState(CharacterStates.MovementStates.Idle);
         _controller.FreeMovement = true;
+
+        LogDrink(_targetLiquid);
     }
 
     protected virtual void FinishDrink()
@@ -76,6 +78,11 @@ public class CharacterDrink : CharacterAbility
 
         _targetLiquid.ProcessDrinkEffect();
         EndDrink();
+    }
+
+    public virtual void LogDrink(Liquid liquidToLog)
+    {
+        UIManager.Instance.UpdateJournal(liquidToLog.GetType().ToString());
     }
 
     public override void ProcessAbility()

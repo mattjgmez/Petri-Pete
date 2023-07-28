@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Petri Pete/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Petri Pete/Scenes/HappySceneOld.unity
+    path: Assets/Petri Pete/Scenes/HappySceneVeryOld.unity
     guid: f0c943d498b49b949bcbc1f65fbe10c2
   - enabled: 0
     path: Assets/Petri Pete/Scenes/HappySceneOld.unity

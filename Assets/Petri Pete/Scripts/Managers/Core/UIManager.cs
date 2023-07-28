@@ -20,7 +20,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject DeathScreen;
     public GameObject VictoryScreen;
     public TMP_Text PointsText;
-    public TMP_Text DebuffsText;
+    public TMP_Text JournalText;
     public TMP_Text UpgradeTimer;
     public TMP_Text RemainingEnemies;
     public GameObject UpgradeSelectScreen;
@@ -120,17 +120,11 @@ public class UIManager : Singleton<UIManager>
         HealthText.text = currentHealth.ToString();
     }
 
-    public virtual void UpdateDebuffs(List<Debuff> debuffs)
+    public virtual void UpdateJournal(string lookupString)
     {
-        if (DebuffsText == null) { return; }
+        if (JournalText == null) { return; }
 
-        string newText = debuffs.Count == 0 ? "None" : "";
-        foreach (var item in debuffs)
-        {
-            newText += item.name + " ";
-        }
-        DebuffsText.text = newText;
-
+        JournalText.text += "\n" + lookupString;//JournalEntries.Entries[lookupString];
     }
 
     #endregion

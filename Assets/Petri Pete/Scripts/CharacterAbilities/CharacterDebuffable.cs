@@ -32,7 +32,7 @@ public class CharacterDebuffable : CharacterAbility
         // Remove the debuffs that were marked for removal.
         foreach (Debuff debuffToRemove in debuffsToRemove)
         {
-            ActiveDebuffs.Remove(debuffToRemove);
+            RemoveDebuff(debuffToRemove);
         }
     }
 
@@ -51,13 +51,18 @@ public class CharacterDebuffable : CharacterAbility
             ActiveDebuffs.Add(newDebuff);
             newDebuff.SetTargetCharacter(this);
             newDebuff.Initialize();
-
-            UIManager.Instance.UpdateDebuffs(ActiveDebuffs);
+            LogDebuff(debuff, true);
         }
     }
 
     public virtual void RemoveDebuff(Debuff debuffToRemove) 
     {
         ActiveDebuffs.Remove(debuffToRemove);
+        LogDebuff(debuffToRemove, false);
+    }
+
+    public virtual void LogDebuff(Debuff debuffToLog, bool isAdded)
+    {
+        UIManager.Instance.UpdateJournal(debuffToLog.GetType() + (isAdded ? JournalEntries.DebuffAdd : JournalEntries.DebuffRemove));
     }
 }

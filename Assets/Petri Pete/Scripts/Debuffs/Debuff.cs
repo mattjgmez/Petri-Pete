@@ -105,7 +105,7 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     /// </summary>
     public virtual void RefreshDebuff()
     {
-        Debug.Log($"{this.GetType()}.RefreshDebuff: Refreshing debuff with base class on {TargetCharacter.name}.", TargetCharacter);
+        //Debug.Log($"{this.GetType()}.RefreshDebuff: Refreshing debuff with base class on {TargetCharacter.name}.", TargetCharacter);
         _debuffTimer.ResetTimer();
         _debuffTimer.StartTimer();
         OnActivated();
@@ -136,15 +136,9 @@ public class Debuff : ScriptableObject, ICloneable<Debuff>
     public void SetAndFormatLabel()
     {
         // Get the type's name.
-        string name = GetType().Name;
-
-        // If the name starts with "Debuff", remove it.
-        if (name.StartsWith("Debuff"))
-        {
-            name = name.Substring(6);  // "Debuff" has 6 characters.
-        }
+        string typeName = GetType().Name;
 
         // Set the label.
-        Label = name;
+        Label = typeName;
     }
 }
