@@ -22,6 +22,7 @@ public class InputManager : Singleton<InputManager>
 
     public JP_Input.Button PauseButton { get; protected set; }
     public JP_Input.Button DrinkButton { get; protected set; }
+    public JP_Input.Button ShootButton { get; protected set; } // Added ShootButton
     public Vector2 PrimaryMovement { get { return _primaryMovement; } }
 
     public List<JP_Input.Button> ButtonList;
@@ -62,7 +63,8 @@ public class InputManager : Singleton<InputManager>
         ButtonList = new List<JP_Input.Button>
         {
             (PauseButton = new JP_Input.Button(PlayerID, "Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp)),
-            (DrinkButton = new JP_Input.Button(PlayerID, "Drink", DrinkButtonDown, DrinkButtonPressed, DrinkButtonUp))
+            (DrinkButton = new JP_Input.Button(PlayerID, "Drink", DrinkButtonDown, DrinkButtonPressed, DrinkButtonUp)),
+            (ShootButton = new JP_Input.Button(PlayerID, "Shoot", ShootButtonDown, ShootButtonPressed, ShootButtonUp)) // Added ShootButton
         };
     }
 
@@ -172,6 +174,10 @@ public class InputManager : Singleton<InputManager>
     public virtual void DrinkButtonDown() { DrinkButton.State.ChangeState(JP_Input.ButtonStates.ButtonDown); }
     public virtual void DrinkButtonPressed() { DrinkButton.State.ChangeState(JP_Input.ButtonStates.ButtonPressed); }
     public virtual void DrinkButtonUp() { DrinkButton.State.ChangeState(JP_Input.ButtonStates.ButtonUp); }
+
+    public virtual void ShootButtonDown() { ShootButton.State.ChangeState(JP_Input.ButtonStates.ButtonDown); } // Added ShootButton Methods
+    public virtual void ShootButtonPressed() { ShootButton.State.ChangeState(JP_Input.ButtonStates.ButtonPressed); }
+    public virtual void ShootButtonUp() { ShootButton.State.ChangeState(JP_Input.ButtonStates.ButtonUp); }
 
     #endregion
 }

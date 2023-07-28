@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 414275864718329693}
   - component: {fileID: 3925761187026857475}
   - component: {fileID: 1820020270}
+  - component: {fileID: 2664725404775763071}
   m_Layer: 10
   m_Name: Pete
   m_TagString: Player
@@ -253,6 +254,29 @@ MonoBehaviour:
   CastLayerMask:
     serializedVersion: 2
     m_Bits: 4096
+--- !u!114 &2664725404775763071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414275864718329690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e33182dee14a7e4db2345ad239c3fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityStartSfx: {fileID: 0}
+  AbilityInProgressSfx: {fileID: 0}
+  AbilityStopSfx: {fileID: 0}
+  ContinuousPress: 0
+  GettingHitInterruptsAttack: 0
+  BufferInput: 0
+  NewInputExtendsBuffer: 0
+  MaxBufferDuration: 0.25
+  ProjectileSpawn: {fileID: 0}
+  CurrentWeapon: {fileID: 8463574061649724568}
+  WeaponID: 1
 --- !u!1 &414275865277048884
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,8 +289,9 @@ GameObject:
   - component: {fileID: 414275865277048890}
   - component: {fileID: 679883201}
   - component: {fileID: 959120712}
+  - component: {fileID: 8463574061649724568}
   m_Layer: 9
-  m_Name: Sprite
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,3 +400,42 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8463574061649724568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414275865277048884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc0d7f50b660de428e6513e592911d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TriggerMode: 1
+  DelayBeforeUse: 0
+  DelayBeforeUseReleaseInterruption: 1
+  TimeBetweenUses: 1
+  TimeBetweenUsesReleaseInterruption: 1
+  MagazineBased: 0
+  MagazineSize: 30
+  ReloadTime: 2
+  AmmoConsumedPerShot: 1
+  CurrentAmmoLoaded: 0
+  RecoilForce: 0
+  InitializeOnStart: 0
+  Interruptable: 0
+  DamageAreaShape: 1
+  AreaSize: {x: 1, y: 1}
+  AreaOffset: {x: 1, y: 0}
+  InitialDelay: 0
+  BaseActiveDuration: 0.5
+  ActiveDuration: 0
+  TargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 14336
+  DamageCaused: 10
+  Knockback: 0
+  KnockbackForce: {x: 10, y: 2}
+  InvincibilityDuration: 0.5
+  CanDamageOwner: 0

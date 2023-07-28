@@ -95,42 +95,6 @@ public class DamageOnTouch : MonoBehaviour
     }
 
     /// <summary>
-    /// When a collision with the player is triggered, we give damage to the player and knock it back
-    /// </summary>
-    /// <param name="collider">what's colliding with the object.</param>
-    public virtual void OnTriggerStay2D(Collider2D collider)
-    {
-        Colliding(collider.gameObject);
-    }
-
-    /// <summary>
-    /// On trigger enter 2D, we call our colliding endpoint
-    /// </summary>
-    /// <param name="collider"></param>S
-    public virtual void OnTriggerEnter2D(Collider2D collider)
-    {
-        Colliding(collider.gameObject);
-    }
-
-    /// <summary>
-    /// On trigger stay, we call our colliding endpoint
-    /// </summary>
-    /// <param name="collider"></param>
-    public virtual void OnTriggerStay(Collider collider)
-    {
-        Colliding(collider.gameObject);
-    }
-
-    /// <summary>
-    /// On trigger enter, we call our colliding endpoint
-    /// </summary>
-    /// <param name="collider"></param>
-    public virtual void OnTriggerEnter(Collider collider)
-    {
-        Colliding(collider.gameObject);
-    }
-
-    /// <summary>
     /// When colliding, we apply damage
     /// </summary>
     protected virtual void Colliding(GameObject collision)
@@ -278,6 +242,58 @@ public class DamageOnTouch : MonoBehaviour
     public void StopIgnoringObject(GameObject ignoredGameObject)
     {
         _ignoredGameObjects.Remove(ignoredGameObject);
+    }
+
+    public virtual void SetGizmoSize(Vector3 newGizmoSize)
+    {
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _circleCollider = GetComponent<CircleCollider2D>();
+        _gizmoSize = newGizmoSize;
+    }
+
+    public virtual void SetGizmoOffset(Vector3 newOffset)
+    {
+        _gizmoOffset = newOffset;
+    }
+
+    #endregion
+
+    #region COLLISION METHODS
+
+    /// <summary>
+    /// When a collision with the player is triggered, we give damage to the player and knock it back
+    /// </summary>
+    /// <param name="collider">what's colliding with the object.</param>
+    public virtual void OnTriggerStay2D(Collider2D collider)
+    {
+        Colliding(collider.gameObject);
+    }
+
+    /// <summary>
+    /// On trigger enter 2D, we call our colliding endpoint
+    /// </summary>
+    /// <param name="collider"></param>S
+    public virtual void OnTriggerEnter2D(Collider2D collider)
+    {
+        Colliding(collider.gameObject);
+    }
+
+    /// <summary>
+    /// On trigger stay, we call our colliding endpoint
+    /// </summary>
+    /// <param name="collider"></param>
+    public virtual void OnTriggerStay(Collider collider)
+    {
+        Colliding(collider.gameObject);
+    }
+
+    /// <summary>
+    /// On trigger enter, we call our colliding endpoint
+    /// </summary>
+    /// <param name="collider"></param>
+    public virtual void OnTriggerEnter(Collider collider)
+    {
+        Colliding(collider.gameObject);
     }
 
     #endregion
