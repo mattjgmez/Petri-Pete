@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIDecisionDetectTargetRadius2D : AIDecision
+public class AIDecisionDetectTargetRadius : AIDecision
 {
     public float Radius = 3f;
     public Vector3 DetectionOffset = Vector3.zero;

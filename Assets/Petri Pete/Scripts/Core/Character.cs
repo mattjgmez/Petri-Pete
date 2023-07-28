@@ -224,7 +224,7 @@ public class Character : MonoBehaviour
     {
         foreach (CharacterAbility ability in _characterAbilities)
         {
-            if (ability.enabled && ability.AbilityInitialized)
+            if (ability.enabled && ability.AbilityInitialized && ability.AbilityPermitted)
             {
                 ability.EarlyProcessAbility();
             }
@@ -238,7 +238,7 @@ public class Character : MonoBehaviour
     {
         foreach (CharacterAbility ability in _characterAbilities)
         {
-            if (ability.enabled && ability.AbilityInitialized)
+            if (ability.enabled && ability.AbilityInitialized && ability.AbilityPermitted)
             {
                 ability.ProcessAbility();
             }
@@ -252,7 +252,7 @@ public class Character : MonoBehaviour
     {
         foreach (CharacterAbility ability in _characterAbilities)
         {
-            if (ability.enabled && ability.AbilityInitialized)
+            if (ability.enabled && ability.AbilityInitialized && ability.AbilityPermitted)
             {
                 ability.LateProcessAbility();
             }
@@ -269,10 +269,21 @@ public class Character : MonoBehaviour
             AnimatorExtensions.UpdateAnimatorBool(Animator, _idleAnimationParameter, (MovementState.CurrentState == CharacterStates.MovementStates.Idle), AnimatorParameters);
             foreach (CharacterAbility ability in _characterAbilities)
             {
-                if (ability.enabled && ability.AbilityInitialized)
+                if (ability.enabled && ability.AbilityInitialized && ability.AbilityPermitted)
                 {
                     ability.UpdateAnimator();
                 }
+            }
+        }
+    }
+
+    public virtual void FlipAllAbilities()
+    {
+        foreach (CharacterAbility ability in _characterAbilities)
+        {
+            if (ability.enabled)
+            {
+                ability.Flip();
             }
         }
     }

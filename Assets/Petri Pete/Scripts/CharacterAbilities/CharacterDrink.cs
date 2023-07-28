@@ -25,6 +25,7 @@ public class CharacterDrink : CharacterAbility
 
     protected const string _drinkingAnimationParameterName = "Drinking";
     protected int _drinkingAnimationParameter;
+    protected int _currentDirection = 1;
 
     protected override void Initialization()
     {
@@ -94,8 +95,8 @@ public class CharacterDrink : CharacterAbility
         if (_controller.SpriteRenderer == null) { return; }
         if (!DetectionActive) { return; }
 
-        Vector2 castOffsetCalculated = new(CastOffset.x * (_controller.SpriteRenderer.flipX ? -1 : 1), CastOffset.y);
-        Vector2 castDirectionCalculated = new(CastDirection.x * (_controller.SpriteRenderer.flipX ? -1 : 1), CastDirection.y);
+        Vector2 castOffsetCalculated = new(CastOffset.x * _currentDirection, CastOffset.y);
+        Vector2 castDirectionCalculated = new(CastDirection.x * _currentDirection, CastDirection.y);
 
         RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + castOffsetCalculated,
                                                 CastRadius,
@@ -167,13 +168,18 @@ public class CharacterDrink : CharacterAbility
         AnimatorExtensions.UpdateAnimatorBool(_animator, _drinkingAnimationParameter, (_movement.CurrentState == CharacterStates.MovementStates.Drinking), _character.AnimatorParameters);
     }
 
+    public override void Flip()
+    {
+        _currentDirection = _currentDirection == 1 ? -1 : 1;
+    }
+
     public virtual void OnDrawGizmos()
     {
         if (_controller == null) { return; }
         if (_controller.SpriteRenderer == null) { return; }
 
-        Vector2 castOffsetCalculated = new(CastOffset.x * (_controller.SpriteRenderer.flipX ? -1 : 1), CastOffset.y);
-        Vector2 castDirectionCalculated = new(CastDirection.x * (_controller.SpriteRenderer.flipX ? -1 : 1), CastDirection.y);
+        Vector2 castOffsetCalculated = new(CastOffset.x * _currentDirection, CastOffset.y);
+        Vector2 castDirectionCalculated = new(CastDirection.x * _currentDirection, CastDirection.y);
 
         JP_Debug.DebugCircleCast2D((Vector2)transform.position + castOffsetCalculated,
                                                 CastRadius,

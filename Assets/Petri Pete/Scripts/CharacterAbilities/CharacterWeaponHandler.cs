@@ -54,7 +54,10 @@ public class CharacterWeaponHandler : CharacterAbility
         _character = GetComponent<Character>();
         _movement.ChangeState(CharacterStates.MovementStates.Idle);
 
-        if (CurrentWeapon == null) { return; }
+        if (CurrentWeapon == null)
+        {
+            CurrentWeapon = transform.Find("Weapon").GetComponent<Weapon>();
+        }
 
         CurrentWeapon.SetOwner(_character, this);
         _weaponAim = CurrentWeapon.gameObject.GetComponent<WeaponAim>();
@@ -82,7 +85,6 @@ public class CharacterWeaponHandler : CharacterAbility
 
         if (_inputManager.ShootButton.State.CurrentState == JP_Input.ButtonStates.ButtonDown)
         {
-            //Debug.Log($"{this.GetType()}.HandleInput: Got button down, ShootStart called.", gameObject);
             ShootStart();
         }
 

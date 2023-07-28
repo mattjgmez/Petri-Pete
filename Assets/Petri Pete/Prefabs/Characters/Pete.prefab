@@ -182,6 +182,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   InputAuthorized: 1
   WalkSpeed: 6
   ShouldSetMovement: 1
@@ -230,6 +231,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   ActiveDebuffs: []
 --- !u!114 &1820020270
 MonoBehaviour:
@@ -246,6 +248,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   DrinkableLiquids: 00000000
   HealAmount: 5
   DrinkDuration: 1
@@ -272,6 +275,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   ContinuousPress: 0
   GettingHitInterruptsAttack: 0
   BufferInput: 0
@@ -295,6 +299,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   RotationSpeed: 10
   OverrideModel: {fileID: 5134848197105888168}
 --- !u!114 &1901299923
@@ -312,7 +317,18 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
-  RotateTowardsMouse: 0
+  AbilityPermitted: 1
+  FacingMode: 1
+  ModelShouldFlip: 1
+  ModelFlipValueLeft: {x: -1, y: 1, z: 1}
+  ModelFlipValueRight: {x: 1, y: 1, z: 1}
+  ModelShouldRotate: 0
+  ModelRotationValueLeft: {x: 0, y: 180, z: 0}
+  ModelRotationValueRight: {x: 0, y: 0, z: 0}
+  ModelRotationSpeed: 0
+  AbsoluteThresholdMovement: 0.5
+  AbsoluteThresholdWeapon: 0.5
+  IsFacingRight: 1
 --- !u!1 &414275865277048884
 GameObject:
   m_ObjectHideFlags: 0

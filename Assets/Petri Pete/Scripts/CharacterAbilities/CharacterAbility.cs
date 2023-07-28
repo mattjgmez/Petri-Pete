@@ -15,11 +15,15 @@ public class CharacterAbility : MonoBehaviour
     /// the sound fx to play when the ability stops
     public AudioClip AbilityStopSfx;
 
-    /// whether or not this ability has been initialized
-    public bool AbilityInitialized { get { return _abilityInitialized; } }
     public Character Character { get { return _character; } }
     public StateMachine<CharacterStates.MovementStates> Movement { get { return _movement; } }
     public StateMachine<CharacterStates.CharacterConditions> Condition { get { return _condition; } }
+
+    [Header("Permission")]
+    [Tooltip("If true, this ability can perform as usual, if not, it'll be ignored. You can use this to unlock abilities over time for example.")]
+    public bool AbilityPermitted = true;
+    /// whether or not this ability has been initialized
+    public bool AbilityInitialized { get { return _abilityInitialized; } }
 
     protected Character _character;
     protected TopDownController _controller;
@@ -126,6 +130,37 @@ public class CharacterAbility : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// On enable, we bind our respawn delegate
+    /// </summary>
+    protected virtual void OnEnable()
+    {
+        if (_health == null)
+        {
+            _health = GetComponent<Health>();
+        }
+
+        if (_health != null)
+        {
+            _health.OnRevive += OnRespawn;
+            _health.OnDeath += OnDeath;
+            _health.OnHit += OnHit;
+        }
+    }
+
+    /// <summary>
+    /// On disable, we unbind our respawn delegate
+    /// </summary>
+    protected virtual void OnDisable()
+    {
+        if (_health != null)
+        {
+            _health.OnRevive -= OnRespawn;
+            _health.OnDeath -= OnDeath;
+            _health.OnHit -= OnHit;
+        }
+    }
+
     #region PLACEHOLDER METHODS
 
     protected virtual void InitializeAnimatorParameters() { }
@@ -134,6 +169,25 @@ public class CharacterAbility : MonoBehaviour
     /// Called at the very start of the ability's cycle, and intended to be overridden, looks for input and calls methods if conditions are met
     /// </summary>
     protected virtual void HandleInput() { }
+
+    /// <summary>
+    /// Override this to describe what should happen to this ability when the character takes a hit
+    /// </summary>
+    protected virtual void OnHit(GameObject instigator) { }
+
+    /// <summary>
+    /// Override this to describe what should happen to this ability when the character respawns
+    /// </summary>
+    protected virtual void OnDeath() { }
+
+    /// <summary>
+    /// Override this to describe what should happen to this ability when the character respawns
+    /// </summary>
+    protected virtual void OnRespawn() { }
+
+    #endregion
+
+    #region PUBLIC METHODS
 
     /// <summary>
     /// Resets all input for this ability. Can be overridden for ability specific directives
@@ -168,55 +222,23 @@ public class CharacterAbility : MonoBehaviour
     public virtual void UpdateAnimator() { }
 
     /// <summary>
+    /// Changes the status of the ability's permission
+    /// </summary>
+    /// <param name="abilityPermitted">If set to <c>true</c> ability permitted.</param>
+    public virtual void PermitAbility(bool abilityPermitted)
+    {
+        AbilityPermitted = abilityPermitted;
+    }
+
+    /// <summary>
+    /// Override this to specify what should happen in this ability when the character flips
+    /// </summary>
+    public virtual void Flip() { }
+
+    /// <summary>
     /// Override this to reset this ability's parameters. It'll be automatically called when the character gets killed, in anticipation for its respawn.
     /// </summary>
     public virtual void ResetAbility() { }
 
-    /// <summary>
-    /// Override this to describe what should happen to this ability when the character takes a hit
-    /// </summary>
-    protected virtual void OnHit(GameObject instigator) { }
-
-    /// <summary>
-    /// Override this to describe what should happen to this ability when the character respawns
-    /// </summary>
-    protected virtual void OnDeath() { }
-
-    /// <summary>
-    /// Override this to describe what should happen to this ability when the character respawns
-    /// </summary>
-    protected virtual void OnRespawn() { }
-
     #endregion
-
-    /// <summary>
-    /// On enable, we bind our respawn delegate
-    /// </summary>
-    protected virtual void OnEnable()
-    {
-        if (_health == null)
-        {
-            _health = GetComponent<Health>();
-        }
-
-        if (_health != null)
-        {
-            _health.OnRevive += OnRespawn;
-            _health.OnDeath += OnDeath;
-            _health.OnHit += OnHit;
-        }
-    }
-
-    /// <summary>
-    /// On disable, we unbind our respawn delegate
-    /// </summary>
-    protected virtual void OnDisable()
-    {
-        if (_health != null)
-        {
-            _health.OnRevive -= OnRespawn;
-            _health.OnDeath -= OnDeath;
-            _health.OnHit -= OnHit;
-        }
-    }
 }

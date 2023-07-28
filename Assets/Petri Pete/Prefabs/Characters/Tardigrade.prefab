@@ -101,11 +101,14 @@ GameObject:
   - component: {fileID: 1544142004190206167}
   - component: {fileID: 1544142004190206160}
   - component: {fileID: 2028046926586130737}
+  - component: {fileID: 7424330907337739480}
   - component: {fileID: 1544142004190206161}
   - component: {fileID: 1544142004190206162}
   - component: {fileID: 1544142004190206163}
   - component: {fileID: 1544142004190206156}
   - component: {fileID: 5645305931191275733}
+  - component: {fileID: 4064891384998401715}
+  - component: {fileID: 5554032488564478609}
   - component: {fileID: 1544142004190206157}
   - component: {fileID: 1544142004190206158}
   - component: {fileID: 1544142004190206159}
@@ -116,6 +119,7 @@ GameObject:
   - component: {fileID: 5757830317306311462}
   - component: {fileID: 5982697532572272529}
   - component: {fileID: 1545367859449002898}
+  - component: {fileID: 7964128406308320766}
   m_Layer: 13
   m_Name: Tardigrade
   m_TagString: Untagged
@@ -136,6 +140,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1544142003836298532}
+  - {fileID: 5242669303771642274}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -245,6 +250,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   InputAuthorized: 1
   WalkSpeed: 2
   ShouldSetMovement: 1
@@ -293,6 +299,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   ActiveDebuffs: []
 --- !u!114 &2028046926586130737
 MonoBehaviour:
@@ -309,6 +316,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   DrinkableLiquids: 02000000
   HealAmount: 3
   DrinkDuration: 1.9
@@ -320,6 +328,30 @@ MonoBehaviour:
   CastLayerMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &7424330907337739480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e33182dee14a7e4db2345ad239c3fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityStartSfx: {fileID: 0}
+  AbilityInProgressSfx: {fileID: 0}
+  AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
+  ContinuousPress: 0
+  GettingHitInterruptsAttack: 0
+  BufferInput: 0
+  NewInputExtendsBuffer: 0
+  MaxBufferDuration: 0.25
+  ProjectileSpawn: {fileID: 0}
+  CurrentWeapon: {fileID: 0}
+  WeaponID: 1
 --- !u!114 &1544142004190206161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +408,8 @@ MonoBehaviour:
     Actions:
       array:
       - {fileID: 1544142004190206162}
-      - {fileID: 1544142004190206156}
+      - {fileID: 4064891384998401715}
+      - {fileID: 5554032488564478609}
     Transitions:
       array:
       - Decision: {fileID: 5982697532572272529}
@@ -410,7 +443,8 @@ MonoBehaviour:
     Actions:
       array:
       - {fileID: 1544142004190206162}
-      - {fileID: 1544142004190206156}
+      - {fileID: 4064891384998401715}
+      - {fileID: 5554032488564478609}
     Transitions:
       array:
       - Decision: {fileID: 1544142004190206152}
@@ -485,6 +519,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Label: 
+--- !u!114 &4064891384998401715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a996718cc06ce1b41b0353f0da59ecb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: 
+--- !u!114 &5554032488564478609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f393ded2afa3084f99b8e95f9a6427a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: 
+  FaceTarget: 1
+  AimAtTarget: 1
 --- !u!114 &1544142004190206157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,3 +700,122 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LifeTime: 0
+--- !u!114 &7964128406308320766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142004190206148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf4a13f456b663438aa8d9efbf4a475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityStartSfx: {fileID: 0}
+  AbilityInProgressSfx: {fileID: 0}
+  AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
+  FacingMode: 2
+  ModelShouldFlip: 1
+  ModelFlipValueLeft: {x: -1, y: 1, z: 1}
+  ModelFlipValueRight: {x: 1, y: 1, z: 1}
+  ModelShouldRotate: 0
+  ModelRotationValueLeft: {x: 0, y: 180, z: 0}
+  ModelRotationValueRight: {x: 0, y: 0, z: 0}
+  ModelRotationSpeed: 0
+  AbsoluteThresholdMovement: 0.5
+  AbsoluteThresholdWeapon: 0.5
+  IsFacingRight: 1
+--- !u!1 &5177579461895837290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5242669303771642274}
+  - component: {fileID: 1142022756921877404}
+  - component: {fileID: 3028446092842600920}
+  m_Layer: 13
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5242669303771642274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5177579461895837290}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1544142004190206155}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1142022756921877404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5177579461895837290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc0d7f50b660de428e6513e592911d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TriggerMode: 1
+  DelayBeforeUse: 0
+  DelayBeforeUseReleaseInterruption: 1
+  TimeBetweenUses: 2
+  TimeBetweenUsesReleaseInterruption: 1
+  MagazineBased: 0
+  MagazineSize: 30
+  ReloadTime: 2
+  AmmoConsumedPerShot: 1
+  CurrentAmmoLoaded: 0
+  RecoilForce: 0
+  InitializeOnStart: 0
+  Interruptable: 0
+  DamageAreaShape: 1
+  AreaSize: {x: 1, y: 1}
+  AreaOffset: {x: 1, y: 0}
+  InitialDelay: 0.5
+  BaseActiveDuration: 1.5
+  ActiveDuration: 0
+  TargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  DamageCaused: 10
+  Knockback: 0
+  KnockbackForce: {x: 10, y: 2}
+  InvincibilityDuration: 0.5
+  CanDamageOwner: 0
+--- !u!114 &3028446092842600920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5177579461895837290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d325b23b4bde48c45a6d37d55652ba4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AimControl: 2
+  WeaponRotationSpeed: 0
+  MinimumAngle: -180
+  MaximumAngle: 180
+  MoveCameraTargetTowardsReticle: 0
+  CameraTargetOffset: 0.3
+  CameraTargetMaxDistance: 10
+  CameraTargetSpeed: 5
