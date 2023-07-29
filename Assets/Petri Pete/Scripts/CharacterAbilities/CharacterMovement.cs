@@ -224,12 +224,16 @@ public class CharacterMovement : CharacterAbility
 
     protected override void InitializeAnimatorParameters()
     {
+        //Debug.Log($"{this.GetType()}.InitializeAnimatorParameters: Initializing Movement parameters.", gameObject);
+
         RegisterAnimatorParameter(_walkingAnimationParameterName, AnimatorControllerParameterType.Bool, out _walkingAnimationParameter);
         RegisterAnimatorParameter(_idleAnimationParameterName, AnimatorControllerParameterType.Bool, out _idleAnimationParameter);
     }
 
     public override void UpdateAnimator()
     {
+        Debug.Log($"{this.GetType()}.UpdateAnimator: Updating Animator. Walking = [{_movement.CurrentState == CharacterStates.MovementStates.Walking}]", gameObject);
+
         AnimatorExtensions.UpdateAnimatorBool(_animator, _walkingAnimationParameter, _movement.CurrentState == CharacterStates.MovementStates.Walking, _character.AnimatorParameters);
         AnimatorExtensions.UpdateAnimatorBool(_animator, _idleAnimationParameter, _movement.CurrentState == CharacterStates.MovementStates.Idle, _character.AnimatorParameters);
     }

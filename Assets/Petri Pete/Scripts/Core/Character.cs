@@ -190,10 +190,8 @@ public class Character : MonoBehaviour
     /// </summary>
     public virtual void AssignAnimator()
     {
-        if (_animatorInitialized)
-        {
-            return;
-        }
+        if (_animatorInitialized) { return; }
+
         AnimatorParameters = new List<int>();
 
         if (CharacterAnimator != null)
@@ -202,7 +200,7 @@ public class Character : MonoBehaviour
         }
         else
         {
-            Animator = GetComponent<Animator>();
+            Animator = transform.Find("Model").GetComponent<Animator>();
         }
 
         if (Animator != null)

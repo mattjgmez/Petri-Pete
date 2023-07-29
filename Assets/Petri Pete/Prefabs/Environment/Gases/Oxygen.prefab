@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 156219096329136254}
   - component: {fileID: 156219096329136193}
   - component: {fileID: 5231006618792606128}
-  - component: {fileID: 8666049166859848858}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -102,26 +101,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.02}
   serializedVersion: 2
   m_Radius: 0.25
---- !u!95 &8666049166859848858
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156219096329136255}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 21a3cde3132e77d4b8d25710bca7d1d3, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &156219096626560049
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +248,7 @@ MonoBehaviour:
   AbilityStartSfx: {fileID: 0}
   AbilityInProgressSfx: {fileID: 0}
   AbilityStopSfx: {fileID: 0}
+  AbilityPermitted: 1
   InputAuthorized: 1
   WalkSpeed: 4
   ShouldSetMovement: 1
@@ -276,6 +256,7 @@ MonoBehaviour:
   Acceleration: 1
   Deceleration: 1
   InterpolateMovementSpeed: 0
+  MovementSpeedMultiplier: 0
 --- !u!114 &156219096626560051
 MonoBehaviour:
   m_ObjectHideFlags: 0
