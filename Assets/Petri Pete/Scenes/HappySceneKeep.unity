@@ -1573,8 +1573,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 871085825}
   m_HandleRect: {fileID: 871085824}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999976
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4472,7 +4472,7 @@ Transform:
   - {fileID: 1432643818}
   - {fileID: 1623051412}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1820020262 stripped
 MonoBehaviour:
@@ -4966,7 +4966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 414275864718329691, guid: db87891facc57934f85d33d80c197e44, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 414275864718329691, guid: db87891facc57934f85d33d80c197e44, type: 3}
       propertyPath: m_LocalPosition.x
