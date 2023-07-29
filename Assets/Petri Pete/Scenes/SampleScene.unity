@@ -2293,10 +2293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3d11494a4eaf4459b74646cf89234f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DesiredWidth: 960
-  DesiredHeight: 960
+  DesiredWidth: 300
+  DesiredHeight: 300
   WindowTitle: Minimap
-  displayMaterial: {fileID: 2100000, guid: 6744da13ecca9f34faa70eb488eb7cd2, type: 2}
+  cameraRenderTexture: {fileID: 8400000, guid: af431296cc70729488fea7746d0ccc37, type: 2}
 --- !u!1 &652786011
 GameObject:
   m_ObjectHideFlags: 0

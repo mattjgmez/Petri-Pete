@@ -19,13 +19,12 @@ public class ExternalWindowRenderer : MonoBehaviour
 
     private const string SHARED_MEMORY_NAME = "Local\\MySharedMemory";
 
-    // Texture and Buffer
+    // Settings
     public int DesiredWidth = 300;
     public int DesiredHeight = 300;
     public string WindowTitle = "New Window";
-    private Texture2D sharedMemoryTexture;
 
-    public Material displayMaterial;
+    public RenderTexture cameraRenderTexture; // Assign this from Unity editor
 
     private MemoryMappedFile memoryMappedFile;
     private MemoryMappedViewAccessor accessor;
@@ -35,10 +34,6 @@ public class ExternalWindowRenderer : MonoBehaviour
 
     void Start()
     {
-        sharedMemoryTexture = new Texture2D(DesiredWidth, DesiredHeight, TextureFormat.RGBA32, false);
-
-        displayMaterial.mainTexture = sharedMemoryTexture;
-
         if (!InitializeSharedMemory())
         {
             Debug.LogError("Failed to initialize shared memory. Disabling ExternalWindowRenderer.", gameObject);
@@ -62,26 +57,33 @@ public class ExternalWindowRenderer : MonoBehaviour
 
     void Update()
     {
-        RenderTexture currentRT = RenderTexture.active;
-        RenderTexture renderTexture = RenderTexture.GetTemporary(DesiredWidth, DesiredHeight, 24);
-        Graphics.Blit(null, renderTexture);
-        RenderTexture.active = renderTexture;
-
-        sharedMemoryTexture.ReadPixels(new Rect(0, 0, DesiredWidth, DesiredHeight), 0, 0);
-        sharedMemoryTexture.Apply();
-        byte[] imageData = sharedMemoryTexture.GetRawTextureData();
-
-        RenderTexture.active = currentRT;
-        RenderTexture.ReleaseTemporary(renderTexture);
+        Texture2D texture2D = RenderTextureToTexture2D(cameraRenderTexture);
+        byte[] imageData = texture2D.GetRawTextureData();
 
         if (imageData != null && imageData.Length == DesiredWidth * DesiredHeight * 4)
         {
-            SendImageDataToSecondaryWindow(imageData, imageData.Length, DesiredWidth, DesiredHeight);
+            byte[] widthBytes = BitConverter.GetBytes(DesiredWidth);
+            byte[] heightBytes = BitConverter.GetBytes(DesiredHeight);
+
+            accessor.WriteArray<byte>(0, widthBytes, 0, widthBytes.Length);
+            accessor.WriteArray<byte>(4, heightBytes, 0, heightBytes.Length);
+            accessor.WriteArray<byte>(8, imageData, 0, imageData.Length);
         }
         else
         {
             Debug.LogError("Image data is invalid.", gameObject);
         }
+
+        Destroy(texture2D); // Cleanup to prevent memory leaks
+    }
+
+    private Texture2D RenderTextureToTexture2D(RenderTexture renderTexture)
+    {
+        Texture2D texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+        RenderTexture.active = renderTexture;
+        texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        texture2D.Apply();
+        return texture2D;
     }
 
     void OnDestroy()
@@ -97,21 +99,23 @@ public class ExternalWindowRenderer : MonoBehaviour
         {
             try
             {
-                // Try to open the existing shared memory
-                memoryMappedFile = MemoryMappedFile.OpenExisting(SHARED_MEMORY_NAME);
+                // Calculate capacity with 8 bytes added for width and height storage.
+                long capacity = 8 + (DesiredWidth * DesiredHeight * 4); // Assuming RGBA32 format
+
+                // Check if shared memory exists, if not create one
+                memoryMappedFile = MemoryMappedFile.CreateOrOpen(SHARED_MEMORY_NAME, capacity);
+
+                if (memoryMappedFile == null)
+                {
+                    Debug.LogError("memoryMappedFile is null after trying to open existing shared memory.", gameObject);
+                }
 
                 // If successfully opened, break out of the loop
                 break;
             }
-            catch (FileNotFoundException)
-            {
-                // If it doesn't exist, create it
-                long capacity = DesiredWidth * DesiredHeight * 4; // Assuming RGBA32 format
-                memoryMappedFile = MemoryMappedFile.CreateNew(SHARED_MEMORY_NAME, capacity);
-            }
             catch (Exception e)
             {
-                // If any other exception occurs, log it
+                // If any exception occurs, log it
                 Debug.LogError("Attempt " + (retry + 1) + ": Error initializing shared memory: " + e.Message, gameObject);
 
                 // If this wasn't the last retry, wait before the next attempt
