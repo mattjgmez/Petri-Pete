@@ -4,13 +4,12 @@ using System;
 using System.IO.MemoryMappedFiles;
 using System.IO;
 
-[RequireComponent(typeof(CaptureCameraView))]
 public class ExternalWindowRenderer : MonoBehaviour
 {
     // DLL Import
     [DllImport("SecondaryWindowPlugin")]
     private static extern IntPtr CreateNewWindow(string windowName, int width, int height);
-    private IntPtr windowHandle;  // Variable to store the window handle
+    private IntPtr windowHandle;
 
     [DllImport("SecondaryWindowPlugin")]
     private static extern void DestroySecondaryWindow(IntPtr hwnd);
@@ -21,45 +20,32 @@ public class ExternalWindowRenderer : MonoBehaviour
     private const string SHARED_MEMORY_NAME = "Local\\MySharedMemory";
 
     // Texture and Buffer
-    public CaptureCameraView CameraView;
-    public int DesiredWidth = 1920;  // Adjust as needed
-    public int DesiredHeight = 1080; // Adjust as needed
+    public int DesiredWidth = 300;
+    public int DesiredHeight = 300;
     public string WindowTitle = "New Window";
     private Texture2D sharedMemoryTexture;
-    private byte[] textureBuffer;
 
-    public Material displayMaterial; // Assign in inspector
+    public Material displayMaterial;
 
     private MemoryMappedFile memoryMappedFile;
     private MemoryMappedViewAccessor accessor;
 
-    // Initializing Shared Memory retry constants:
     private const int RETRY_COUNT = 3;
     private const int RETRY_DELAY = 1000; // milliseconds
 
-
     void Start()
     {
-        // Initialize window resolution
-        CameraView = GetComponent<CaptureCameraView>();
-        DesiredWidth = CameraView.Width; 
-        DesiredHeight = CameraView.Height;
-
-        // Initialize texture and buffer
         sharedMemoryTexture = new Texture2D(DesiredWidth, DesiredHeight, TextureFormat.RGBA32, false);
-        textureBuffer = new byte[DesiredWidth * DesiredHeight * 4];
 
         displayMaterial.mainTexture = sharedMemoryTexture;
 
-        // Initialize shared memory
         if (!InitializeSharedMemory())
         {
             Debug.LogError("Failed to initialize shared memory. Disabling ExternalWindowRenderer.", gameObject);
-            this.enabled = false; // Disable this component
+            this.enabled = false;
             return;
         }
 
-        // Assuming you want to create a new window on start:
         try
         {
             windowHandle = CreateNewWindow(WindowTitle, DesiredWidth, DesiredHeight);
@@ -76,37 +62,31 @@ public class ExternalWindowRenderer : MonoBehaviour
 
     void Update()
     {
-        // Update texture with shared memory data
-        ReadSharedMemoryIntoBuffer(textureBuffer);
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture renderTexture = RenderTexture.GetTemporary(DesiredWidth, DesiredHeight, 24);
+        Graphics.Blit(null, renderTexture);
+        RenderTexture.active = renderTexture;
 
-        sharedMemoryTexture.LoadRawTextureData(textureBuffer);
+        sharedMemoryTexture.ReadPixels(new Rect(0, 0, DesiredWidth, DesiredHeight), 0, 0);
         sharedMemoryTexture.Apply();
-
         byte[] imageData = sharedMemoryTexture.GetRawTextureData();
+
+        RenderTexture.active = currentRT;
+        RenderTexture.ReleaseTemporary(renderTexture);
 
         if (imageData != null && imageData.Length == DesiredWidth * DesiredHeight * 4)
         {
-            Debug.Log("Image data is being sent to Secondary Window.", gameObject);
             SendImageDataToSecondaryWindow(imageData, imageData.Length, DesiredWidth, DesiredHeight);
         }
-        else 
+        else
         {
-            if (imageData == null) 
-            {
-                Debug.LogError("Image data is null.", gameObject);
-            }
-
-            if (imageData.Length == DesiredWidth * DesiredHeight * 4) 
-            {
-                Debug.LogError("Image length is not as expected.", gameObject);
-            }
+            Debug.LogError("Image data is invalid.", gameObject);
         }
     }
 
     void OnDestroy()
     {
         DestroySecondaryWindow(windowHandle);
-
         accessor?.Dispose();
         memoryMappedFile?.Dispose();
     }
@@ -164,23 +144,5 @@ public class ExternalWindowRenderer : MonoBehaviour
         }
 
         return true;
-    }
-
-    private void ReadSharedMemoryIntoBuffer(byte[] buffer)
-    {
-        if (accessor == null)
-        {
-            Debug.LogError("Shared memory accessor is not initialized.", gameObject);
-            return;
-        }
-
-        try
-        {
-            accessor.ReadArray<byte>(0, buffer, 0, buffer.Length);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error reading from shared memory: " + e.Message, gameObject);
-        }
     }
 }

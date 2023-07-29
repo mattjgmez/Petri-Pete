@@ -316,7 +316,6 @@ GameObject:
   m_Component:
   - component: {fileID: 63424768}
   - component: {fileID: 63424769}
-  - component: {fileID: 63424770}
   m_Layer: 0
   m_Name: Journal
   m_TagString: Untagged
@@ -383,21 +382,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &63424770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63424767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9fb893455361f458022c3c3cecee24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CaptureCamera: {fileID: 0}
-  Width: 960
-  Height: 540
 --- !u!1 &175642881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,7 +2215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 638978064}
   - component: {fileID: 638978066}
-  - component: {fileID: 638978067}
   - component: {fileID: 638978068}
   m_Layer: 0
   m_Name: Minimap
@@ -2298,21 +2281,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &638978067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 638978063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9fb893455361f458022c3c3cecee24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CaptureCamera: {fileID: 638978066}
-  Width: 300
-  Height: 300
 --- !u!114 &638978068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2325,7 +2293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3d11494a4eaf4459b74646cf89234f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraView: {fileID: 0}
   DesiredWidth: 960
   DesiredHeight: 960
   WindowTitle: Minimap
@@ -2793,10 +2760,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60.4
-  m_fontSizeBase: 36
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -3502,8 +3469,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580939154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -20}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -40, z: -20}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3786,7 +3753,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1796347538}
   - component: {fileID: 1796347539}
-  - component: {fileID: 1796347540}
   m_Layer: 0
   m_Name: HealthChart
   m_TagString: Untagged
@@ -3820,7 +3786,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.40557137, g: 0.47531244, b: 0.5849056, a: 0}
+  m_BackGroundColor: {r: 0.42274833, g: 0.5378828, b: 0.7169812, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3853,21 +3819,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1796347540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1796347537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db9fb893455361f458022c3c3cecee24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CaptureCamera: {fileID: 0}
-  Width: 960
-  Height: 540
 --- !u!114 &1820020262 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 414275864718329694, guid: db87891facc57934f85d33d80c197e44, type: 3}
@@ -4043,10 +3994,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 36
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
