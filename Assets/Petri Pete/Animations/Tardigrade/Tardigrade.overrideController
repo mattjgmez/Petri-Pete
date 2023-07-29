@@ -7,5 +7,13 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Tardigrade
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: cb9b1ad2061c1414393bd6ea334d0e99, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 90aae618e9eac3c4eb07499951a0363f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4b22c77c42699c144a79a7c57357d419, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 34f043326ac504549a804b673f543d89, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dc54749b70d3bd74b899ac423a5d6bc2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 998310b62f364e540a30576f6324056f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3a0465fe6a62e8e43a71e92d8fc3b1d1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 370d0e0acd26eb34a87a1cee8ce3d181, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dcfe4718dd3b3f84b8f2e987e8697d59, type: 2}

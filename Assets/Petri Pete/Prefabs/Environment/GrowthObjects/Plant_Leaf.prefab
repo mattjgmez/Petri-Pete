@@ -209,7 +209,7 @@ MonoBehaviour:
   DamageCausedKnockbackType: 0
   DamageCausedKnockbackDirection: 0
   DamageCausedKnockbackForce: {x: 10, y: 2, z: 0}
-  InvincibilityDuration: 0.5
+  InvincibilityDuration: 0
   DamageTakenEveryTime: 0
   DamageTakenDamageable: 0
   DamageTakenNonDamageable: 0

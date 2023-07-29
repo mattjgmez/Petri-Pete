@@ -16,6 +16,7 @@ public class Health : MonoBehaviour
     [Header("Health")]
     public int MaxHealth;
     public int InitialHealth;
+    public float HealthPercentage { get { return CurrentHealth / MaxHealth * 100f; } }
 
     [Header("Damage")]
     public bool ImmuneToKnockback = false;
@@ -129,7 +130,7 @@ public class Health : MonoBehaviour
 
         if (_character.CharacterType == Character.CharacterTypes.Player)
         {
-            UIManager.Instance.UpdateHealthBar(CurrentHealth, InitialHealth, MaxHealth);
+            UIManager.Instance.UpdateHealthBar(HealthPercentage);
         }
 
         // if health has reached zero
@@ -153,11 +154,14 @@ public class Health : MonoBehaviour
             _character.ConditionState.ChangeState(CharacterStates.CharacterConditions.Dead);
             _character.Reset();
 
+            UIManager.Instance.AddJournalEntryWithID($"{this.gameObject.name}Slain");
+
             if (_character.CharacterType == Character.CharacterTypes.Player)
             {
                 //GameManager.Instance.TriggerGameOver(false);
             }
         }
+
         CurrentHealth = 0;
         OnHealthChange?.Invoke();
 
@@ -257,7 +261,7 @@ public class Health : MonoBehaviour
 
         if (_character.CharacterType == Character.CharacterTypes.Player)
         {
-            UIManager.Instance.UpdateHealthBar(CurrentHealth, InitialHealth, MaxHealth);
+            UIManager.Instance.UpdateHealthBar(HealthPercentage);
         }
     }
 

@@ -255,7 +255,7 @@ MonoBehaviour:
   ImmuneToKnockback: 0
   DestroyOnDeath: 1
   DelayBeforeDestruction: 1
-  PointsWhenDestroyed: 0
+  PointsWhenDestroyed: 10
   RespawnAtInitialLocation: 0
   DisableControllerOnDeath: 1
   DisableModelOnDeath: 1

@@ -36,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - WindowUI
   - 
   m_SortingLayers:
   - name: Default

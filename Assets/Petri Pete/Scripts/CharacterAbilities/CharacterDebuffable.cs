@@ -51,18 +51,16 @@ public class CharacterDebuffable : CharacterAbility
             ActiveDebuffs.Add(newDebuff);
             newDebuff.SetTargetCharacter(this);
             newDebuff.Initialize();
-            LogDebuff(debuff, true);
+
+            if (_character.PlayerID == "Player" && UIManager.Instance != null)
+            {
+                UIManager.Instance.AddJournalEntryWithID(newDebuff.Label);
+            }            
         }
     }
 
     public virtual void RemoveDebuff(Debuff debuffToRemove) 
     {
         ActiveDebuffs.Remove(debuffToRemove);
-        LogDebuff(debuffToRemove, false);
-    }
-
-    public virtual void LogDebuff(Debuff debuffToLog, bool isAdded)
-    {
-        UIManager.Instance.UpdateJournal(debuffToLog.GetType() + (isAdded ? JournalEntries.DebuffAdd : JournalEntries.DebuffRemove));
     }
 }

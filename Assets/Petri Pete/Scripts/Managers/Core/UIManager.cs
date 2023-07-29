@@ -14,17 +14,22 @@ public class UIManager : Singleton<UIManager>
 {
     public Canvas MainCanvas;
     public GameObject HUD;
-    public Image HealthBar;
-    public TextMeshProUGUI HealthText;
+
+    public Image HealthSegment;
+    public Image DamageSegment;
+
     public GameObject PauseScreen;
     public GameObject DeathScreen;
     public GameObject VictoryScreen;
+
     public TMP_Text PointsText;
+
     public TMP_Text JournalText;
-    public TMP_Text UpgradeTimer;
-    public TMP_Text RemainingEnemies;
-    public GameObject UpgradeSelectScreen;
+
     public GameObject EventLocationMarker;
+
+    public GameObject LogMessagePrefab;
+    public Transform LogbookContentTransform;
 
     protected virtual void Start()
     {
@@ -92,16 +97,16 @@ public class UIManager : Singleton<UIManager>
 
     public virtual void ShowSpawnOnMinimap(Vector2 location)
     {
-        if (EventLocationMarker == null) { return; }
+        //if (EventLocationMarker == null) { return; }
 
-        Animator anim = EventLocationMarker.GetComponent<Animator>();
+        //Animator anim = EventLocationMarker.GetComponent<Animator>();
 
-        if (anim != null)
-        {
-            anim.SetTrigger("MarkEvent") ;
-        }
+        //if (anim != null)
+        //{
+        //    anim.SetTrigger("MarkEvent") ;
+        //}
 
-        EventLocationMarker.transform.position = location;
+        //EventLocationMarker.transform.position = location;
     }
 
     /// <summary>
@@ -110,21 +115,37 @@ public class UIManager : Singleton<UIManager>
     /// <param name="currentHealth">Current health value.</param>
     /// <param name="minHealth">Minimum possible health.</param>
     /// <param name="maxHealth">Maximum possible health.</param>
-    public virtual void UpdateHealthBar(float currentHealth, float minHealth, float maxHealth)
+    public virtual void UpdateHealthBar(float healthPercentage)
     {
-        if (HealthBar == null) { return; }
+        healthPercentage = Mathf.Clamp01(healthPercentage);  // Ensure it's between 0 and 1
+        HealthSegment.fillAmount = healthPercentage;
 
-        float newHealth = currentHealth / (maxHealth);
-
-        HealthBar.fillAmount = newHealth;
-        HealthText.text = currentHealth.ToString();
+        float damageTaken = 1.0f - healthPercentage;
+        DamageSegment.fillAmount = damageTaken;
     }
 
-    public virtual void UpdateJournal(string lookupString)
+    public void AddJournalEntryWithID(string ID)
     {
-        if (JournalText == null) { return; }
+        string logMessage = JournalEntries.GetEntry(ID);
+        if (logMessage == null) { return; }
+        AddLogMessage(logMessage);
+    }
 
-        JournalText.text += "\n" + lookupString;//JournalEntries.Entries[lookupString];
+    /// <summary>
+    /// Creates a LogMessagePrefab as a child of the Logbook.
+    /// </summary>
+    /// <param name="message">The message to be entered as text.</param>
+    public void AddLogMessage(string message)
+    {
+        if (LogMessagePrefab == null) { return; }
+        if (LogbookContentTransform == null) { return; }
+
+        GameObject newLog = Instantiate(LogMessagePrefab, LogbookContentTransform);
+        newLog.GetComponent<TMP_Text>().text = message;
+
+        // Scroll to the bottom
+        Canvas.ForceUpdateCanvases(); // Update the Canvas immediately
+        LogbookContentTransform.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
     }
 
     #endregion
