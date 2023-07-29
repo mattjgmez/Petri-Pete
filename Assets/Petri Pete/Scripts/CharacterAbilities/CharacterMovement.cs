@@ -232,7 +232,7 @@ public class CharacterMovement : CharacterAbility
 
     public override void UpdateAnimator()
     {
-        Debug.Log($"{this.GetType()}.UpdateAnimator: Updating Animator. Walking = [{_movement.CurrentState == CharacterStates.MovementStates.Walking}]", gameObject);
+        //Debug.Log($"{this.GetType()}.UpdateAnimator: Updating Animator. Walking = [{_movement.CurrentState == CharacterStates.MovementStates.Walking}]", gameObject);
 
         AnimatorExtensions.UpdateAnimatorBool(_animator, _walkingAnimationParameter, _movement.CurrentState == CharacterStates.MovementStates.Walking, _character.AnimatorParameters);
         AnimatorExtensions.UpdateAnimatorBool(_animator, _idleAnimationParameter, _movement.CurrentState == CharacterStates.MovementStates.Idle, _character.AnimatorParameters);

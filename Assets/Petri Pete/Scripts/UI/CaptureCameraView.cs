@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 public class CaptureCameraView : MonoBehaviour
 {
-    public Camera captureCamera;
-    public int width = 960;
-    public int height = 540;
+    public Camera CaptureCamera;
+    public int Width = 960;
+    public int Height = 540;
 
     private RenderTexture rt;
     private Texture2D tex;
@@ -14,16 +14,17 @@ public class CaptureCameraView : MonoBehaviour
     [DllImport("SecondaryWindowPlugin")]
     private static extern void SendImageDataToSecondaryWindow(byte[] data, int length, int width, int height);
 
-    void Start()
+    void Awake()
     {
-        if (captureCamera == null)
+        CaptureCamera = GetComponent<Camera>();
+        if (CaptureCamera == null)
         {
             Debug.LogError("Capture camera is not assigned!");
             return;
         }
 
-        rt = new RenderTexture(width, height, 24);
-        captureCamera.targetTexture = rt;
+        rt = new RenderTexture(Width, Height, 24);
+        CaptureCamera.targetTexture = rt;
 
         tex = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false);
     }

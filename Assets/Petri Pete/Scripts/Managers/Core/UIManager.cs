@@ -117,6 +117,9 @@ public class UIManager : Singleton<UIManager>
     /// <param name="maxHealth">Maximum possible health.</param>
     public virtual void UpdateHealthBar(float healthPercentage)
     {
+        if (HealthSegment == null) { return; }
+        if (DamageSegment == null) { return; }
+
         healthPercentage = Mathf.Clamp01(healthPercentage);  // Ensure it's between 0 and 1
         HealthSegment.fillAmount = healthPercentage;
 
