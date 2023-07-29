@@ -18,7 +18,7 @@ public class ExternalWindowRenderer : MonoBehaviour
     [DllImport("SecondaryWindowPlugin")]
     private static extern void SendImageDataToSecondaryWindow(byte[] data, int length, int width, int height);
 
-    private const string SHARED_MEMORY_NAME = "Local\\MySharedMemory";
+    private const string SHARED_MEMORY_NAME = "Local\\UnityWindowPluginSharedMemory";
 
     // Settings
     public int DesiredWidth = 300;
@@ -63,40 +63,22 @@ public class ExternalWindowRenderer : MonoBehaviour
 
         if (imageData != null && imageData.Length == DesiredWidth * DesiredHeight * 4)
         {
+            // Set the "ready" flag to 0 (not ready)
+            accessor.Write(0, (byte)0);
+
+            // Now, you're going to adjust the offset of the width, height, and image data due to the inclusion of the ready flag.
             byte[] widthBytes = BitConverter.GetBytes(DesiredWidth);
             byte[] heightBytes = BitConverter.GetBytes(DesiredHeight);
 
-            accessor.WriteArray<byte>(0, widthBytes, 0, widthBytes.Length);
-            accessor.WriteArray<byte>(4, heightBytes, 0, heightBytes.Length);
-            accessor.WriteArray<byte>(8, imageData, 0, imageData.Length);
+            accessor.WriteArray<byte>(1, widthBytes, 0, widthBytes.Length);
+            accessor.WriteArray<byte>(5, heightBytes, 0, heightBytes.Length);
+            accessor.WriteArray<byte>(9, imageData, 0, imageData.Length);
 
-#if UNITY_EDITOR
-            byte[] writtenWidthBytes = new byte[4];
-            byte[] writtenHeightBytes = new byte[4];
-            byte[] writtenImageData = new byte[DesiredWidth * DesiredHeight * 4];
-
-            accessor.ReadArray<byte>(0, writtenWidthBytes, 0, writtenWidthBytes.Length);
-            accessor.ReadArray<byte>(4, writtenHeightBytes, 0, writtenHeightBytes.Length);
-            accessor.ReadArray<byte>(8, writtenImageData, 0, writtenImageData.Length);
-
-            if (!widthBytes.SequenceEqual(writtenWidthBytes) 
-            || !heightBytes.SequenceEqual(writtenHeightBytes) 
-            || !imageData.SequenceEqual(writtenImageData))
-            {
-                Debug.LogError($"{this.GetType()}.Update: Written data in shared memory does not match the original data.", gameObject);
-            }
-#endif
+            // Set the "ready" flag to 1 (ready)
+            accessor.Write(0, (byte)1);
 
             // Additional logging for debugging purposes
             Debug.Log($"{this.GetType()}.Update: Successfully wrote image data to shared memory.", gameObject);
-
-#if UNITY_EDITOR
-            // Save the image for visual validation
-            byte[] pngBytes = texture2D.EncodeToPNG();
-            string path = System.IO.Path.Combine(Application.persistentDataPath, "debugImage.png");
-            System.IO.File.WriteAllBytes(path, pngBytes);
-            Debug.Log($"{this.GetType()}.Update: Image saved to: {path}", gameObject);
-#endif
         }
         else
         {
@@ -128,24 +110,31 @@ public class ExternalWindowRenderer : MonoBehaviour
         {
             try
             {
-                // Calculate capacity with 8 bytes added for width and height storage.
-                long capacity = 8 + (DesiredWidth * DesiredHeight * 4); // Assuming RGBA32 format
+                // Adding 1 byte for the "ready" flag.
+                long capacity = 9 + (DesiredWidth * DesiredHeight * 4); // Assuming RGBA32 format
                 Debug.Log($"{this.GetType()}.InitializeSharedMemory: Calculating capacity. Capacity = {capacity}.", gameObject);
 
-                // Check if shared memory exists, if not create one
-                memoryMappedFile = MemoryMappedFile.CreateOrOpen(SHARED_MEMORY_NAME, capacity);
+                // Always try to create a new shared memory segment
+                memoryMappedFile = MemoryMappedFile.CreateNew(SHARED_MEMORY_NAME, capacity);
 
                 if (memoryMappedFile == null)
                 {
-                    Debug.LogError($"{this.GetType()}.InitializeSharedMemory: memoryMappedFile is null after trying to open existing shared memory.", gameObject);
+                    Debug.LogError($"{this.GetType()}.InitializeSharedMemory: memoryMappedFile is null after trying to create new shared memory.", gameObject);
                 }
 
                 // If successfully opened, break out of the loop
                 break;
             }
+            catch (IOException)
+            {
+                // If shared memory already exists, let's try to dispose of it and recreate
+                memoryMappedFile?.Dispose();
+
+                Debug.LogWarning($"{this.GetType()}.InitializeSharedMemory: Shared memory already exists. Attempting to recreate it.", gameObject);
+            }
             catch (Exception e)
             {
-                // If any exception occurs, log it
+                // If any other exception occurs, log it
                 Debug.LogError($"{this.GetType()}.InitializeSharedMemory: Attempt " + (retry + 1) + $": Error initializing shared memory: {e.Message}", gameObject);
 
                 // If this wasn't the last retry, wait before the next attempt
