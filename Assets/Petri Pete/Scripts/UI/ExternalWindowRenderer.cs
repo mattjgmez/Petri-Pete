@@ -3,6 +3,7 @@ using System.Runtime.InteropServices; // For DLLImport
 using System;
 using System.IO.MemoryMappedFiles;
 using System.IO;
+using System.Linq;
 
 public class ExternalWindowRenderer : MonoBehaviour
 {
@@ -68,10 +69,38 @@ public class ExternalWindowRenderer : MonoBehaviour
             accessor.WriteArray<byte>(0, widthBytes, 0, widthBytes.Length);
             accessor.WriteArray<byte>(4, heightBytes, 0, heightBytes.Length);
             accessor.WriteArray<byte>(8, imageData, 0, imageData.Length);
+
+#if UNITY_EDITOR
+            byte[] writtenWidthBytes = new byte[4];
+            byte[] writtenHeightBytes = new byte[4];
+            byte[] writtenImageData = new byte[DesiredWidth * DesiredHeight * 4];
+
+            accessor.ReadArray<byte>(0, writtenWidthBytes, 0, writtenWidthBytes.Length);
+            accessor.ReadArray<byte>(4, writtenHeightBytes, 0, writtenHeightBytes.Length);
+            accessor.ReadArray<byte>(8, writtenImageData, 0, writtenImageData.Length);
+
+            if (!widthBytes.SequenceEqual(writtenWidthBytes) 
+            || !heightBytes.SequenceEqual(writtenHeightBytes) 
+            || !imageData.SequenceEqual(writtenImageData))
+            {
+                Debug.LogError($"{this.GetType()}.Update: Written data in shared memory does not match the original data.", gameObject);
+            }
+#endif
+
+            // Additional logging for debugging purposes
+            Debug.Log($"{this.GetType()}.Update: Successfully wrote image data to shared memory.", gameObject);
+
+#if UNITY_EDITOR
+            // Save the image for visual validation
+            byte[] pngBytes = texture2D.EncodeToPNG();
+            string path = System.IO.Path.Combine(Application.persistentDataPath, "debugImage.png");
+            System.IO.File.WriteAllBytes(path, pngBytes);
+            Debug.Log($"{this.GetType()}.Update: Image saved to: {path}", gameObject);
+#endif
         }
         else
         {
-            Debug.LogError("Image data is invalid.", gameObject);
+            Debug.LogError($"{this.GetType()}.Update: Image data is invalid. Length: {imageData?.Length}, Expected: {DesiredWidth * DesiredHeight * 4}", gameObject);
         }
 
         Destroy(texture2D); // Cleanup to prevent memory leaks
@@ -101,13 +130,14 @@ public class ExternalWindowRenderer : MonoBehaviour
             {
                 // Calculate capacity with 8 bytes added for width and height storage.
                 long capacity = 8 + (DesiredWidth * DesiredHeight * 4); // Assuming RGBA32 format
+                Debug.Log($"{this.GetType()}.InitializeSharedMemory: Calculating capacity. Capacity = {capacity}.", gameObject);
 
                 // Check if shared memory exists, if not create one
                 memoryMappedFile = MemoryMappedFile.CreateOrOpen(SHARED_MEMORY_NAME, capacity);
 
                 if (memoryMappedFile == null)
                 {
-                    Debug.LogError("memoryMappedFile is null after trying to open existing shared memory.", gameObject);
+                    Debug.LogError($"{this.GetType()}.InitializeSharedMemory: memoryMappedFile is null after trying to open existing shared memory.", gameObject);
                 }
 
                 // If successfully opened, break out of the loop
@@ -116,7 +146,7 @@ public class ExternalWindowRenderer : MonoBehaviour
             catch (Exception e)
             {
                 // If any exception occurs, log it
-                Debug.LogError("Attempt " + (retry + 1) + ": Error initializing shared memory: " + e.Message, gameObject);
+                Debug.LogError($"{this.GetType()}.InitializeSharedMemory: Attempt " + (retry + 1) + $": Error initializing shared memory: {e.Message}", gameObject);
 
                 // If this wasn't the last retry, wait before the next attempt
                 if (retry < RETRY_COUNT - 1)
@@ -137,16 +167,17 @@ public class ExternalWindowRenderer : MonoBehaviour
 
             if (accessor == null)
             {
-                Debug.LogError("Failed to create view accessor for shared memory.", gameObject);
+                Debug.LogError($"{this.GetType()}.InitializeSharedMemory: Failed to create view accessor for shared memory.", gameObject);
                 return false;
             }
         }
         catch (Exception e)
         {
-            Debug.LogError("Error creating view accessor: " + e.Message, gameObject);
+            Debug.LogError($"{this.GetType()}.InitializeSharedMemory: Error creating view accessor: " + e.Message, gameObject);
             return false;
         }
 
+        Debug.Log($"{this.GetType()}.InitializeSharedMemory: Shared Memory successfully Initialized after {RETRY_COUNT + 1} total attempts.", gameObject);
         return true;
     }
 }
