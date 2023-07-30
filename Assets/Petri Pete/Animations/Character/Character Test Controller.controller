@@ -274,7 +274,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 709b6c3769508ad4780377a0d7ed08bc, type: 2}
+  m_Motion: {fileID: 7400000, guid: 04aea1ddd1074f147ac28cfcb848255d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -484,7 +484,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Character
+  m_Name: Character Test Controller
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Alive
@@ -563,7 +563,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 998310b62f364e540a30576f6324056f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4fd7c8715f1e87e49beecc4c2469d6e7, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

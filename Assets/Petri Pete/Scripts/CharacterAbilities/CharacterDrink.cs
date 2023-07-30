@@ -22,10 +22,12 @@ public class CharacterDrink : CharacterAbility
     protected Liquid _targetLiquid;
     protected float _initialCharge;
     protected float _targetCharge;
-
-    protected const string _drinkingAnimationParameterName = "Drinking";
-    protected int _drinkingAnimationParameter;
     protected int _currentDirection = 1;
+
+    protected const string _drinkStartAnimationParameterName = "DrinkStart";
+    protected const string _drinkingAnimationParameterName = "Drinking";
+    protected int _drinkStartAnimationParameter;
+    protected int _drinkingAnimationParameter;
 
     protected override void Initialization()
     {
@@ -57,6 +59,8 @@ public class CharacterDrink : CharacterAbility
         _drinkTimer.StartTimer();
 
         _controller.FreeMovement = false;
+
+        AnimatorExtensions.UpdateAnimatorTrigger(_animator, _drinkStartAnimationParameter, _character.AnimatorParameters);
     }
 
     public virtual void EndDrink()
@@ -162,6 +166,7 @@ public class CharacterDrink : CharacterAbility
     /// </summary>
     protected override void InitializeAnimatorParameters()
     {
+        RegisterAnimatorParameter(_drinkStartAnimationParameterName, AnimatorControllerParameterType.Trigger, out _drinkStartAnimationParameter);
         RegisterAnimatorParameter(_drinkingAnimationParameterName, AnimatorControllerParameterType.Bool, out _drinkingAnimationParameter);
     }
 

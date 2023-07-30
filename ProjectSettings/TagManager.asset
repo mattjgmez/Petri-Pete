@@ -48,3 +48,6 @@ TagManager:
   - name: Characters
     uniqueID: 406390501
     locked: 0
+  - name: UIWindows
+    uniqueID: 133052295
+    locked: 0

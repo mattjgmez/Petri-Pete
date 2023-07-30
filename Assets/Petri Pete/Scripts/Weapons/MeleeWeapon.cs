@@ -25,6 +25,9 @@ public class MeleeWeapon : Weapon
     public float InvincibilityDuration = 0.5f;
     public bool CanDamageOwner = false;
 
+    [Header("Attack Animator")]
+    public AnimatorOverrideController AttackOverrideController;
+
     public DamageOnTouch DamageOnTouch { get { return _damageOnTouch; } }
 
     protected Collider2D _damageAreaCollider2D;
@@ -61,6 +64,12 @@ public class MeleeWeapon : Weapon
         _damageArea.transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
         _damageArea.transform.SetParent(this.transform);
         _damageArea.layer = this.gameObject.layer;
+
+        if (AttackOverrideController != null)
+        {
+            Animator animator = _damageArea.AddComponent<Animator>();
+            animator.runtimeAnimatorController = AttackOverrideController;
+        }
 
         if (DamageAreaShape == MeleeDamageAreaShapes.Box)
         {

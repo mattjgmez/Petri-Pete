@@ -157,6 +157,8 @@ public class CharacterWeaponHandler : CharacterAbility
         }
 
         _movement.ChangeState(CharacterStates.MovementStates.Attacking);
+        AnimatorExtensions.UpdateAnimatorTrigger(_animator, _attackAnimationParameter, _character.AnimatorParameters);
+
         CurrentWeapon.WeaponInputStart();
     }
 
@@ -241,6 +243,7 @@ public class CharacterWeaponHandler : CharacterAbility
         RegisterAnimatorParameter(_aliveAnimationParameterName, AnimatorControllerParameterType.Bool, out _aliveAnimationParameter);
         RegisterAnimatorParameter(_idleAnimationParameterName, AnimatorControllerParameterType.Bool, out _idleAnimationParameter);
         RegisterAnimatorParameter(_attackAnimationParameterName + WeaponID, AnimatorControllerParameterType.Bool, out _attackAnimationParameter);
+        RegisterAnimatorParameter(_attackAnimationParameterName + WeaponID, AnimatorControllerParameterType.Trigger, out _attackAnimationParameter);
     }
 
     public override void UpdateAnimator()
