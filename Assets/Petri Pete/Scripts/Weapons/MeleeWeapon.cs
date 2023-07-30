@@ -1,7 +1,9 @@
+using JadePhoenix.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class MeleeWeapon : Weapon
 {
@@ -40,6 +42,12 @@ public class MeleeWeapon : Weapon
     protected DamageOnTouch _damageOnTouch;
     protected GameObject _damageArea;
 
+    protected Animator _attackAnimator;
+    protected List<int> _animatorParameters = new List<int>();
+
+    protected const string _attackAnimationParameterName = "Attack1";
+    protected int _attackAnimationParameter;
+
     public override void Initialization()
     {
         base.Initialization();
@@ -67,8 +75,16 @@ public class MeleeWeapon : Weapon
 
         if (AttackOverrideController != null)
         {
-            Animator animator = _damageArea.AddComponent<Animator>();
-            animator.runtimeAnimatorController = AttackOverrideController;
+            GameObject animatorHolder = new GameObject();
+            animatorHolder.name = $"{this.name}DamageAreaAnimatorHolder";
+            animatorHolder.transform.SetPositionAndRotation((Vector2)_damageArea.transform.position + AreaOffset, _damageArea.transform.rotation);
+            animatorHolder.transform.SetParent(_damageArea.transform);
+
+            animatorHolder.AddComponent<SpriteRenderer>();
+            _attackAnimator = animatorHolder.AddComponent<Animator>();
+            _attackAnimator.runtimeAnimatorController = AttackOverrideController;
+
+            RegisterAnimatorParameter(_attackAnimationParameterName, AnimatorControllerParameterType.Trigger, out _attackAnimationParameter);
         }
 
         if (DamageAreaShape == MeleeDamageAreaShapes.Box)
@@ -112,6 +128,7 @@ public class MeleeWeapon : Weapon
         if (_damageAreaCollider2D != null)
         {
             _damageAreaCollider2D.enabled = true;
+            AnimatorExtensions.UpdateAnimatorTrigger(_attackAnimator, _attackAnimationParameter, _animatorParameters);
         }
     }
 
@@ -167,6 +184,20 @@ public class MeleeWeapon : Weapon
             case MeleeDamageAreaShapes.Circle:
                 Gizmos.DrawWireSphere((Vector2)transform.position + AreaOffset, AreaSize.x / 2);
                 break;
+        }
+    }
+
+    protected virtual void RegisterAnimatorParameter(string parameterName, AnimatorControllerParameterType parameterType, out int parameter)
+    {
+        parameter = Animator.StringToHash(parameterName);
+
+        if (_attackAnimator == null)
+        {
+            return;
+        }
+        if (_attackAnimator.HasParameterOfType(parameterName, parameterType))
+        {
+            _animatorParameters.Add(parameter);
         }
     }
 }

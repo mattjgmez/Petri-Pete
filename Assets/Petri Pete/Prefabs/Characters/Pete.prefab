@@ -497,15 +497,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TriggerMode: 1
-  DelayBeforeUse: 0
-  DelayBeforeUseReleaseInterruption: 1
-  TimeBetweenUses: 1
-  TimeBetweenUsesReleaseInterruption: 1
+  DelayBeforeUse: 0.25
+  DelayBeforeUseReleaseInterruption: 0
+  TimeBetweenUses: 0.73
+  TimeBetweenUsesReleaseInterruption: 0
   MagazineBased: 0
   MagazineSize: 30
   ReloadTime: 2
   AmmoConsumedPerShot: 1
-  CurrentAmmoLoaded: 0
+  CurrentAmmoLoaded: 30
   RecoilForce: 0
   InitializeOnStart: 0
   Interruptable: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
   AreaOffset: {x: 1, y: 0}
   InitialDelay: 0
   BaseActiveDuration: 0.5
-  ActiveDuration: 0
+  ActiveDuration: 0.5
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 14336
