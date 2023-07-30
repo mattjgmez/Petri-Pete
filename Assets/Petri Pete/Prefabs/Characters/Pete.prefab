@@ -441,7 +441,7 @@ Animator:
   m_GameObject: {fileID: 414275865277048884}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cb9b1ad2061c1414393bd6ea334d0e99, type: 2}
+  m_Controller: {fileID: 22100000, guid: 30925e21b204743489d49ba05d52bbf9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -523,6 +523,7 @@ MonoBehaviour:
   KnockbackForce: {x: 10, y: 2}
   InvincibilityDuration: 0.5
   CanDamageOwner: 0
+  AttackOverrideController: {fileID: 22100000, guid: 978d9796d0ee42049a26fc57fc6ff575, type: 2}
 --- !u!114 &2712394349117575137
 MonoBehaviour:
   m_ObjectHideFlags: 0

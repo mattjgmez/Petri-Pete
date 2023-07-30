@@ -12,8 +12,9 @@ using TMPro;
 /// </summary>
 public class UIManager : Singleton<UIManager>
 {
-    public Canvas MainCanvas;
-    public GameObject HUD;
+    // Unused currently
+    //public Canvas MainCanvas;
+    //public GameObject HUD;
 
     public Image HealthSegment;
     public Image DamageSegment;
@@ -23,8 +24,6 @@ public class UIManager : Singleton<UIManager>
     public GameObject VictoryScreen;
 
     public TMP_Text PointsText;
-
-    public TMP_Text JournalText;
 
     public GameObject EventLocationMarker;
 
