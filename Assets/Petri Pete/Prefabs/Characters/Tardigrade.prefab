@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1544142003836298532}
   - component: {fileID: 1544142003836298539}
   - component: {fileID: 1027060688498394895}
+  - component: {fileID: 240913884798686119}
+  - component: {fileID: 1826472532509311906}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -105,6 +107,120 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!82 &240913884798686119
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142003836298533}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1826472532509311906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544142003836298533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b793a6c4c98a44a83d452aec037b32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 66bebdfb78a4e87458b6151855c231c5, type: 3}
+  - {fileID: 8300000, guid: 4e4d6dd2542e71c47bcc1b0786ba5160, type: 3}
+  - {fileID: 8300000, guid: ab3f495fdb51ba7438a983cc618d2b35, type: 3}
+  - {fileID: 8300000, guid: 164028829d95bae4f8d7440deada22b3, type: 3}
+  - {fileID: 8300000, guid: a8fe3f5e222e1714eb3c8f855392295a, type: 3}
 --- !u!1 &1544142004190206148
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,9 +384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371bfc735606593498e5387e4595c7f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   InputAuthorized: 1
   WalkSpeed: 2
@@ -317,9 +430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd8b6b13a784ca4b9f02f40454a0ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   ActiveDebuffs: []
 --- !u!114 &2028046926586130737
@@ -334,9 +444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05678adb355cffc44abe868e43383ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   DrinkableLiquids: 02000000
   HealAmount: 3
@@ -361,9 +468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e33182dee14a7e4db2345ad239c3fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   ContinuousPress: 0
   GettingHitInterruptsAttack: 0
@@ -733,21 +837,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf4a13f456b663438aa8d9efbf4a475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
-  FacingMode: 2
+  FacingMode: 1
   ModelShouldFlip: 1
-  ModelFlipValueLeft: {x: -1, y: 1, z: 1}
-  ModelFlipValueRight: {x: 1, y: 1, z: 1}
+  ModelFlipValueLeft: {x: 1, y: 1, z: 1}
+  ModelFlipValueRight: {x: -1, y: 1, z: 1}
   ModelShouldRotate: 0
   ModelRotationValueLeft: {x: 0, y: 180, z: 0}
   ModelRotationValueRight: {x: 0, y: 0, z: 0}
   ModelRotationSpeed: 0
   AbsoluteThresholdMovement: 0.5
   AbsoluteThresholdWeapon: 0.5
-  IsFacingRight: 1
+  IsFacingRight: 0
 --- !u!1 &5177579461895837290
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,12 +915,13 @@ MonoBehaviour:
   ActiveDuration: 0
   TargetLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   DamageCaused: 10
   Knockback: 0
   KnockbackForce: {x: 10, y: 2}
   InvincibilityDuration: 0.5
   CanDamageOwner: 0
+  AttackOverrideController: {fileID: 22100000, guid: 7d44047e2698e71488594048b7e411f3, type: 2}
 --- !u!114 &3028446092842600920
 MonoBehaviour:
   m_ObjectHideFlags: 0

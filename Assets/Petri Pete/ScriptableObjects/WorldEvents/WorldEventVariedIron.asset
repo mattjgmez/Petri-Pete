@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: 
   GizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  DisplayDebug: 1
+  DisplayDebug: 0
   Delay: 0.5
   MaxDistance: 14
   MinDistanceFromSelf: 10

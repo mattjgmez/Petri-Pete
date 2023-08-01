@@ -29,7 +29,7 @@ public static class JournalEntries
         }
         else
         {
-            Debug.LogWarning($"JournalEntries.GetEntry: $\"Log with identifier {{id}} not found.\".");
+            Debug.LogWarning($"JournalEntries.GetEntry: Log with identifier [{id}] not found.");
 
             return null;  // Return null if the ID is not found.
         }

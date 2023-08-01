@@ -179,9 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371bfc735606593498e5387e4595c7f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   InputAuthorized: 1
   WalkSpeed: 6
@@ -203,18 +200,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7312a3c467950c4cb22276e2433179b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Model: {fileID: 0}
+  Model: {fileID: 414275865277048884}
   CurrentHealth: 0
   Invulnerable: 0
   MaxHealth: 100
   InitialHealth: 100
   ImmuneToKnockback: 0
-  DestroyOnDeath: 1
-  DelayBeforeDestruction: 0
+  DestroyOnDeath: 0
+  DelayBeforeDestruction: 1
   PointsWhenDestroyed: 0
   RespawnAtInitialLocation: 0
   DisableControllerOnDeath: 1
-  DisableModelOnDeath: 1
+  DisableModelOnDeath: 0
   DisableCollisionsOnDeath: 1
 --- !u!114 &3925761187026857475
 MonoBehaviour:
@@ -228,9 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd8b6b13a784ca4b9f02f40454a0ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   ActiveDebuffs: []
 --- !u!114 &1820020270
@@ -245,9 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05678adb355cffc44abe868e43383ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   DrinkableLiquids: 00000000
   HealAmount: 5
@@ -272,9 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e33182dee14a7e4db2345ad239c3fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   ContinuousPress: 0
   GettingHitInterruptsAttack: 0
@@ -296,9 +284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4d3d1f0efc90a46aec5f82f12e1036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   RotationSpeed: 10
   OverrideModel: {fileID: 5134848197105888168}
@@ -314,9 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf4a13f456b663438aa8d9efbf4a475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AbilityStartSfx: {fileID: 0}
-  AbilityInProgressSfx: {fileID: 0}
-  AbilityStopSfx: {fileID: 0}
   AbilityPermitted: 1
   FacingMode: 1
   ModelShouldFlip: 1
@@ -341,6 +323,8 @@ GameObject:
   - component: {fileID: 414275865277048890}
   - component: {fileID: 679883201}
   - component: {fileID: 959120712}
+  - component: {fileID: 7500113860923501570}
+  - component: {fileID: 2172984250416983979}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -451,6 +435,120 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!82 &7500113860923501570
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414275865277048884}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &2172984250416983979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414275865277048884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b793a6c4c98a44a83d452aec037b32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 9f075491f36627642a28ff4816efe111, type: 3}
+  - {fileID: 8300000, guid: 1469fc25b2fc5f942a553edabfe37323, type: 3}
+  - {fileID: 8300000, guid: 2cd6155bc8187ed44bf05f8b0cfefabe, type: 3}
+  - {fileID: 8300000, guid: 71bfdf00fa6f1aa44b57b2779b627a1c, type: 3}
+  - {fileID: 8300000, guid: 85f56437717c4654d84eab28896de1bb, type: 3}
 --- !u!1 &5134848197105888168
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +615,7 @@ MonoBehaviour:
   ActiveDuration: 0.5
   TargetLayerMask:
     serializedVersion: 2
-    m_Bits: 14336
+    m_Bits: 30720
   DamageCaused: 10
   Knockback: 0
   KnockbackForce: {x: 10, y: 2}

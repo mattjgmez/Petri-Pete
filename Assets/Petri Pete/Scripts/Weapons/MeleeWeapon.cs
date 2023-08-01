@@ -80,7 +80,7 @@ public class MeleeWeapon : Weapon
             animatorHolder.transform.SetPositionAndRotation((Vector2)_damageArea.transform.position + AreaOffset, _damageArea.transform.rotation);
             animatorHolder.transform.SetParent(_damageArea.transform);
 
-            animatorHolder.AddComponent<SpriteRenderer>();
+            animatorHolder.AddComponent<SpriteRenderer>().sortingLayerName = "VFX";
             _attackAnimator = animatorHolder.AddComponent<Animator>();
             _attackAnimator.runtimeAnimatorController = AttackOverrideController;
 

@@ -8,13 +8,6 @@ public class CharacterAbility : MonoBehaviour
 {
     #region VARIABLES
 
-    /// the sound fx to play when the ability starts
-    public AudioClip AbilityStartSfx;
-    /// the sound fx to play while the ability is running
-    public AudioClip AbilityInProgressSfx;
-    /// the sound fx to play when the ability stops
-    public AudioClip AbilityStopSfx;
-
     public Character Character { get { return _character; } }
     public StateMachine<CharacterStates.MovementStates> Movement { get { return _movement; } }
     public StateMachine<CharacterStates.CharacterConditions> Condition { get { return _condition; } }

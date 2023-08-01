@@ -49,6 +49,7 @@ public class CharacterDrink : CharacterAbility
     public virtual void StartDrink()
     {
         if (_targetLiquid == null) { return; }
+        if (!DrinkableLiquids.Contains(_targetLiquid.LiquidType)) { return; }
 
         _movement.ChangeState(CharacterStates.MovementStates.Drinking);
 

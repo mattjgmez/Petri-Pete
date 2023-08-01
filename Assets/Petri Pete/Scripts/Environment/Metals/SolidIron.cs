@@ -27,6 +27,11 @@ public class SolidIron : Solid
         SolidType = SolidTypes.Iron;
     }
 
+    public override void ProcessBehavior()
+    {
+        _rustTimer.UpdateTimer();
+    }
+
     protected virtual void Colliding(GameObject collision)
     {
         Liquid collidedLiquid = collision.GetComponent<Liquid>();
@@ -41,9 +46,12 @@ public class SolidIron : Solid
             return; 
         }
 
-        _rustTimer.StartTimer();
-        float lerpValue = _rustTimer.ElapsedTime / _rustTimer.Duration;
+        if (!_rustTimer.IsRunning)
+        {
+            _rustTimer.StartTimer();
+        }
 
+        float lerpValue = _rustTimer.ElapsedTime / _rustTimer.Duration;
         _spriteRenderer.color = Color.Lerp(_initialColor, RustColor, lerpValue);
     }
 

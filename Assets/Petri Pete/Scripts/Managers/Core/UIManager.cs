@@ -22,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject PauseScreen;
     public GameObject DeathScreen;
     public GameObject VictoryScreen;
+    public GameObject CreditsScreen;
 
     public TMP_Text PointsText;
 
@@ -39,12 +40,14 @@ public class UIManager : Singleton<UIManager>
 
     #region PUBLIC METHODS
 
+    #region CORE METHODS
+
     /// <summary>
     /// Loads the main menu via GameManager.
     /// </summary>
     public void LoadMainMenu()
     {
-        GameManager.Instance.LoadMainMenu();
+        GameManager.Instance.LoadScene("MainMenu");
     }
 
     /// <summary>
@@ -60,7 +63,7 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     public virtual void SetPauseScreen(bool state)
     {
-        if (PauseScreen != null)
+        if (PauseScreen != null && PauseManager.Instance != null)
         {
             PauseScreen.SetActive(state);
             PauseManager.Instance.SetPause(state);
@@ -94,6 +97,24 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    /// <summary>
+    /// Sets the victory screen on or off.
+    /// </summary>
+    public virtual void SetCreditsScreen(bool state)
+    {
+        if (CreditsScreen != null)
+        {
+            CreditsScreen.SetActive(state);
+        }
+    }
+
+    public virtual void LoadSceneInt(int sceneBuildIndex)
+    {
+        GameManager.Instance.LoadScene(sceneBuildIndex);
+    }
+
+    #endregion
+
     public virtual void ShowSpawnOnMinimap(Vector2 location)
     {
         //if (EventLocationMarker == null) { return; }
@@ -119,7 +140,12 @@ public class UIManager : Singleton<UIManager>
         if (HealthSegment == null) { return; }
         if (DamageSegment == null) { return; }
 
+        Debug.Log($"{this.GetType()}.UpdateHealthBar: Health % before clamp = {healthPercentage}.", gameObject);
+
         healthPercentage = Mathf.Clamp01(healthPercentage);  // Ensure it's between 0 and 1
+
+        Debug.Log($"{this.GetType()}.UpdateHealthBar: Health % after clamp = {healthPercentage}.", gameObject);
+
         HealthSegment.fillAmount = healthPercentage;
 
         float damageTaken = 1.0f - healthPercentage;
@@ -129,7 +155,7 @@ public class UIManager : Singleton<UIManager>
     public void AddJournalEntryWithID(string ID)
     {
         string logMessage = JournalEntries.GetEntry(ID);
-        if (logMessage == null) { return; }
+        if (logMessage == "" || logMessage == null) { return; }
         AddLogMessage(logMessage);
     }
 
@@ -147,7 +173,13 @@ public class UIManager : Singleton<UIManager>
 
         // Scroll to the bottom
         Canvas.ForceUpdateCanvases(); // Update the Canvas immediately
-        LogbookContentTransform.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+        LogbookContentTransform.GetComponentInParent<ScrollRect>().verticalNormalizedPosition = 0;
+    }
+
+    public void SetPoints(int points)
+    {
+        if (PointsText == null) { return; }
+        PointsText.text = $"Points: {points.ToString("N0")}";
     }
 
     #endregion

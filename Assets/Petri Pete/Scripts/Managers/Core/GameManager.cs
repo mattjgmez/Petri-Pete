@@ -11,6 +11,7 @@ public class GameManager : PersistentSingleton<GameManager>
 {
     // Current scene's index in the build settings.
     public int CurrentSceneIndex = 0;
+    public int CurrentPoints = 0;
 
     protected virtual void OnEnable()
     {
@@ -27,13 +28,18 @@ public class GameManager : PersistentSingleton<GameManager>
     // Called when a new scene is loaded.
     protected virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Initialization();
+        Initialization(scene);
     }
 
     // Initialize necessary components or settings after a scene is loaded.
-    protected virtual void Initialization()
+    protected virtual void Initialization(Scene scene)
     {
         CurrentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (scene.name == "MainMenu")
+        {
+            CurrentPoints = 0;
+        }
     }
 
     #region PUBLIC METHODS
@@ -53,12 +59,14 @@ public class GameManager : PersistentSingleton<GameManager>
         SceneManager.LoadScene(CurrentSceneIndex);
     }
 
-    /// <summary>
-    /// Load the main menu scene.
-    /// </summary>
-    public virtual void LoadMainMenu()
+    public virtual void LoadScene(int sceneBuildIndex)
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(sceneBuildIndex);
+    }
+
+    public virtual void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     /// <summary>
@@ -72,8 +80,8 @@ public class GameManager : PersistentSingleton<GameManager>
     /// <summary>
     /// Trigger game over behavior, displaying either victory or defeat UI.
     /// </summary>
-    /// <param name="victory">If true, trigger victory. Otherwise, trigger defeat.</param>
-    public virtual void TriggerGameOver(bool victory)
+    /// <param name="victory">If true, trigger victory. Otherwise and by default, trigger defeat.</param>
+    public virtual void TriggerGameOver(bool victory = false)
     {
         if (PauseManager.Instance != null)
         {
@@ -90,6 +98,15 @@ public class GameManager : PersistentSingleton<GameManager>
         else
         {
             UIManager.Instance.SetDeathScreen(true);
+        }
+    }
+
+    public virtual void GainPoints(int amount)
+    {
+        CurrentPoints += amount;
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.SetPoints(CurrentPoints);
         }
     }
 

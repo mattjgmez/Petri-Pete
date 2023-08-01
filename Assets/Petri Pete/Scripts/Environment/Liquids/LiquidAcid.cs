@@ -31,7 +31,7 @@ public class LiquidAcid : Liquid
         //_particleShape.scale = spriteWorldSize;
     }
 
-    protected virtual void Update()
+    public override void ProcessBehavior()
     {
         RaiseCharge(Time.deltaTime * ExpansionRate);
     }

@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
     [Header("Health")]
     public int MaxHealth;
     public int InitialHealth;
-    public float HealthPercentage { get { return CurrentHealth / MaxHealth * 100f; } }
+    public float HealthPercentage { get { return ((float)CurrentHealth / (float)MaxHealth); } }
 
     [Header("Damage")]
     public bool ImmuneToKnockback = false;
@@ -158,7 +158,14 @@ public class Health : MonoBehaviour
 
             if (_character.CharacterType == Character.CharacterTypes.Player)
             {
-                //GameManager.Instance.TriggerGameOver(false);
+                if (DelayBeforeDestruction > 0f)
+                {
+                    Invoke(nameof(TriggerGameOver), DelayBeforeDestruction);
+                }
+                else
+                {
+                    TriggerGameOver();
+                }
             }
         }
 
@@ -199,13 +206,21 @@ public class Health : MonoBehaviour
 
         if (DelayBeforeDestruction > 0f)
         {
-            Invoke("DestroyObject", DelayBeforeDestruction);
+            Invoke(nameof(DestroyObject), DelayBeforeDestruction);
         }
         else
         {
             // finally we destroy the object
             DestroyObject();
         }
+    }
+
+    /// <summary>
+    /// Helper method to delay game over in Kill method.
+    /// </summary>
+    protected virtual void TriggerGameOver()
+    {
+        GameManager.Instance.TriggerGameOver();
     }
 
     /// <summary>

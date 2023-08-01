@@ -4957,8 +4957,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 8942491709902203646}
-  Charge: 0.25
-  ExpansionRate: 0.01
+  Charge: 1
+  ExpansionRate: -0.005
   ParticleSystem: {fileID: 0}
   ParticleScaleCompensation: {x: 0, y: 0}
 --- !u!50 &6248612125352247370

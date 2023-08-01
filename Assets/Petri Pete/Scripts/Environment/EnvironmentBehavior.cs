@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,13 @@ public abstract class EnvironmentBehavior : MonoBehaviour
         Initialization();
         _poolableObject = GetComponent<PoolableObject>();
     }
+
+    protected virtual void Update()
+    {
+        ProcessBehavior();
+    }
+
+    public virtual void ProcessBehavior() { }
 
     public virtual void DestroyObject()
     {

@@ -17,8 +17,9 @@ MonoBehaviour:
   DisplayDebug: 0
   Delay: 0.5
   MaxDistance: 16
+  MinDistanceFromSelf: 0
   EventObject: {fileID: 5382721564946750537, guid: 44370627e05bbd24aaba2132ee6a7044, type: 3}
-  MinimumSpawn: 10
-  MaximumSpawn: 15
+  MinimumSpawn: 20
+  MaximumSpawn: 25
   MinimumSpawnOffset: {x: -1, y: -1}
   MaximumSpawnOffset: {x: 1, y: 1}
